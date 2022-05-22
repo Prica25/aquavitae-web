@@ -7,7 +7,7 @@ export default [
   {
     text: 'Consultas',
     icon: 'fa-solid fa-calendar-days',
-    href: 'apointment',
+    href: 'appointment',
   },
   {
     text: 'Pacientes',

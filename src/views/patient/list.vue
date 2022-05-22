@@ -1,6 +1,6 @@
 <template>
   <div class="q-gutter-sm">
-    <h4 style="color: #646464">Consulta</h4>
+    <h4 style="color: #646464">Pacientes</h4>
   </div>
 </template>
 <script lang="ts">

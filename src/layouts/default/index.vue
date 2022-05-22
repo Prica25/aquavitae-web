@@ -61,16 +61,13 @@
           </template>
           <q-list>
             <q-item clickable v-close-popup>
-              <q-item-section>New tab</q-item-section>
+              <q-item-section class="text-center">Preferências</q-item-section>
+            </q-item>
+            <q-separator style="margin: 0 16px" />
+            <q-item class="text-center" clickable v-close-popup>
+              <q-item-section>Terminar Sessão</q-item-section>
             </q-item>
             <q-separator />
-            <q-item clickable v-close-popup>
-              <q-item-section>New incognito tab</q-item-section>
-            </q-item>
-            <q-separator />
-            <q-item clickable v-close-popup>
-              <q-item-section>Recent tabs</q-item-section>
-            </q-item>
           </q-list>
         </q-btn-dropdown>
       </q-header>
@@ -92,9 +89,6 @@ export default defineComponent({
       menuOpen: false,
       search: '',
     }
-  },
-  mounted() {
-    console.log(MenuItems, this.menuItems)
   },
 })
 </script>
