@@ -1,0 +1,221 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: #fff;
+  padding: 6px 14px;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+.sidebar.open {
+  width: 250px;
+}
+.sidebar .logo-details {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.sidebar.open .logo-details {
+  border-bottom: 1px solid #f5f7f9;
+}
+.sidebar .logo-details .icon {
+  opacity: 0;
+  transition: all 0.5s ease;
+  color: var(--q-primary);
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .logo-details .logo_name {
+  color: var(--q-primary);
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details .icon,
+.sidebar.open .logo-details .logo_name {
+  opacity: 1;
+}
+.sidebar .logo-details #btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details #btn {
+  text-align: right;
+}
+.sidebar i:not(.icon) {
+  color: #b9b9b9;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .q-list {
+  margin-top: 20px;
+  height: 100%;
+}
+.sidebar .q-item {
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+.sidebar .q-item .tooltip {
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.sidebar .q-item:hover .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translate(10%, -50%);
+}
+.sidebar.open .q-item .tooltip {
+  display: none;
+}
+.sidebar .q-item .q-item__section {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #fff;
+  justify-content: start;
+  flex-direction: initial;
+  flex-wrap: initial;
+}
+.sidebar .q-item .q-item__section:hover {
+  background: var(--q-primary);
+}
+.sidebar .q-item .q-item__section .links_name {
+  color: #646464;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.sidebar.open .q-item .q-item__section .links_name {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sidebar .q-item .q-item__section:hover .links_name,
+.sidebar .q-item .q-item__section:hover i {
+  transition: all 0.5s ease;
+  color: #fff;
+}
+.sidebar .q-item i {
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+.sidebar .q-item img {
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+.home-section {
+  position: relative;
+  background: #f5f5f5;
+  min-height: 100vh;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+.sidebar.open ~ .home-section {
+  left: 250px;
+  width: calc(100% - 250px);
+}
+@media (max-width: 420px) {
+  .sidebar .q-item .tooltip {
+    display: none;
+  }
+}
+
+/* HEADER */
+
+.header {
+  background: #fff;
+  color: #646464;
+  border-left: 1px solid #f5f7f9;
+  border-bottom: 1px solid #f5f7f9;
+  height: 66px;
+  padding: 6px 14px;
+}
+.search-box :deep(.q-field__native) {
+  color: #646464;
+}
+.search-box :deep(.q-field__control:before),
+.search-box :deep(.q-field__control:after) {
+  content: unset !important;
+}
+.search-box {
+  width: 20%;
+  min-width: 200px;
+}
+.search-box .q-icon {
+  color: #b9b9b9;
+}
+.header :deep(.q-btn) {
+  width: 42px;
+  height: 42px;
+}
+.header :deep(.q-btn .q-badge--floating) {
+  top: 6px;
+  right: 6px;
+  outline: 2px solid white;
+}
+.header :deep(.q-icon) {
+  color: #b9b9b9;
+}
+.header .q-separator {
+  margin: 4px 12px;
+}
+
+/* PAGE CONTENT */
+
+.page-content {
+  padding: 10px;
+}

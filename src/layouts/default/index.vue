@@ -1,40 +1,84 @@
 <template>
-  <q-layout view="hHr lpR lfr">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-btn dense flat round icon="fa fa-bars" @click="toggleLeftDrawer" />
-        <q-icon class="q-ml-sm" name="fa fa-weight-scale" size="26px" />
-        <q-toolbar-title> Nutrition App </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <!-- drawer content -->
-    </q-drawer>
-    <q-page-container>
-      <router-view />
+  <q-layout id="app">
+    <div :class="{ sidebar: true, open: menuOpen }">
+      <div class="logo-details">
+        <q-icon name="fa-solid fa-droplet" class="icon" />
+        <div class="logo_name">Aquavitae</div>
+        <q-icon
+          :name="`fa-solid fa-${menuOpen ? 'bars-staggered' : 'bars'}`"
+          id="btn"
+          @click="menuOpen = !menuOpen"
+        />
+      </div>
+      <q-list>
+        <q-item v-for="item in menuItems" :key="item.href" clickable v-ripple>
+          <q-item-section>
+            <q-icon :name="item.icon" />
+            <span class="links_name">{{ item.text }}</span>
+          </q-item-section>
+          <span class="tooltip">{{ item.text }}</span>
+        </q-item>
+      </q-list>
+    </div>
+    <q-page-container class="home-section">
+      <q-header class="header row items-center">
+        <q-input
+          class="search-box"
+          v-model="search"
+          placeholder="Procurar por pacientes"
+        >
+          <template v-slot:prepend>
+            <q-icon size="18px" name="fa-solid fa-magnifying-glass" />
+          </template>
+        </q-input>
+        <q-space />
+        <q-btn dense flat round icon="fa-solid fa-bell">
+          <q-badge floating color="red" rounded style="width: 12px" />
+        </q-btn>
+        <q-separator vertical inset />
+        <q-btn flat label="Content">
+          <q-menu>
+            <q-list style="min-width: 200px">
+              <q-item inset clickable>
+                <q-item-section>New tab</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item inset clickable>
+                <q-item-section>New incognito tab</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item inset clickable>
+                <q-item-section>Recent tabs</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </q-header>
+      <div class="page-content">
+        <router-view />
+      </div>
     </q-page-container>
-    <q-footer class="text-black" style="background-color: #f5f5f5">
-      Asd Asd
-    </q-footer>
   </q-layout>
 </template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
+import MenuItems from './menu'
+
 export default defineComponent({
   data() {
     return {
-      leftDrawerOpen: false,
+      menuItems: MenuItems,
+      menuOpen: false,
+      search: '',
     }
   },
-  methods: {
-    toggleLeftDrawer() {
-      this.leftDrawerOpen = !this.leftDrawerOpen
-    },
+  mounted() {
+    console.log(MenuItems, this.menuItems)
   },
 })
 </script>
-<style>
-#app {
-  background-color: #f5f5f5;
-}
+
+<style scoped>
+@import './default.css';
 </style>

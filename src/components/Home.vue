@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn color="primary" label="Home" />
+  <div class="q-gutter-sm">
+    <h4 style="color: #646464">Alimentos</h4>
   </div>
 </template>
 <script lang="ts">
