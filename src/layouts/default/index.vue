@@ -12,10 +12,17 @@
       </div>
       <q-list>
         <q-item v-for="item in menuItems" :key="item.href" clickable v-ripple>
-          <q-item-section>
-            <q-icon :name="item.icon" />
-            <span class="links_name">{{ item.text }}</span>
-          </q-item-section>
+          <router-link
+            :to="{ name: item.href }"
+            custom
+            v-slot="{ navigate, isActive }"
+          >
+            <q-item-section :class="{ active: isActive }" @click="navigate">
+              <q-icon :name="item.icon" />
+              <span class="links_name">{{ item.text }}</span>
+            </q-item-section>
+          </router-link>
+
           <span class="tooltip">{{ item.text }}</span>
         </q-item>
       </q-list>
@@ -32,27 +39,40 @@
           </template>
         </q-input>
         <q-space />
-        <q-btn dense flat round icon="fa-solid fa-bell">
-          <q-badge floating color="red" rounded style="width: 12px" />
+        <q-btn class="notification-btn" flat round icon="fa-solid fa-bell">
+          <q-badge floating color="warning" rounded style="width: 12px" />
         </q-btn>
         <q-separator vertical inset />
-        <q-btn flat label="Content">
-          <q-menu>
-            <q-list style="min-width: 200px">
-              <q-item inset clickable>
-                <q-item-section>New tab</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item inset clickable>
-                <q-item-section>New incognito tab</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item inset clickable>
-                <q-item-section>Recent tabs</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
+        <q-btn-dropdown
+          class="header-menu"
+          flat
+          dropdown-icon="fa-solid fa-chevron-down"
+        >
+          <template v-slot:label>
+            <div class="row items-center no-wrap">
+              <div class="text-center">Paulo Pereira</div>
+              <q-avatar
+                color="transparent"
+                text-color="white"
+                size="36px"
+                icon="fa-solid fa-user-circle"
+              />
+            </div>
+          </template>
+          <q-list>
+            <q-item clickable v-close-popup>
+              <q-item-section>New tab</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable v-close-popup>
+              <q-item-section>New incognito tab</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable v-close-popup>
+              <q-item-section>Recent tabs</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-header>
       <div class="page-content">
         <router-view />

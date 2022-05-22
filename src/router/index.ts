@@ -1,19 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import AboutView from '@/views/AboutView.vue'
+import DashboardView from '@/views/dashboard/index.vue'
+import ApointmentView from '@/views/dashboard/index.vue'
+import PatientView from '@/views/dashboard/index.vue'
+import FoodView from '@/views/food/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: AboutView,
+      path: '/apointment',
+      name: 'apointment',
+      component: ApointmentView,
+    },
+    {
+      path: '/patient',
+      name: 'patient',
+      component: PatientView,
+    },
+    {
+      path: '/food',
+      name: 'food',
+      component: FoodView,
     },
   ],
 })

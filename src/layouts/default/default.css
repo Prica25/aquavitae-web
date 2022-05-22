@@ -10,9 +10,9 @@
   left: 0;
   top: 0;
   height: 100%;
-  width: 78px;
+  width: 66px;
   background: #fff;
-  padding: 6px 14px;
+  padding: 6px 0;
   z-index: 99;
   transition: all 0.5s ease;
 }
@@ -52,7 +52,7 @@
 .sidebar .logo-details #btn {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 8px;
   transform: translateY(-50%);
   font-size: 22px;
   transition: all 0.4s ease;
@@ -102,7 +102,7 @@
   pointer-events: auto;
   transition: all 0.4s ease;
   top: 50%;
-  transform: translate(10%, -50%);
+  transform: translateY(-50%);
 }
 .sidebar.open .q-item .tooltip {
   display: none;
@@ -111,14 +111,19 @@
   display: flex;
   height: 100%;
   width: 100%;
-  border-radius: 12px;
   align-items: center;
   text-decoration: none;
-  transition: all 0.4s ease;
+
   background: #fff;
   justify-content: start;
   flex-direction: initial;
   flex-wrap: initial;
+  padding-left: 8px;
+}
+.sidebar .q-item .q-item__section.active {
+  border-left: 4px solid var(--q-primary);
+  padding-left: 4px;
+  background: #f5f7f9;
 }
 .sidebar .q-item .q-item__section:hover {
   background: var(--q-primary);
@@ -159,8 +164,8 @@
   background: #f5f5f5;
   min-height: 100vh;
   top: 0;
-  left: 78px;
-  width: calc(100% - 78px);
+  left: 66px;
+  width: calc(100% - 66px);
   transition: all 0.5s ease;
   z-index: 2;
 }
@@ -175,7 +180,6 @@
 }
 
 /* HEADER */
-
 .header {
   background: #fff;
   color: #646464;
@@ -183,6 +187,11 @@
   border-bottom: 1px solid #f5f7f9;
   height: 66px;
   padding: 6px 14px;
+}
+@media (max-width: 600px) {
+  .search-box {
+    display: none;
+  }
 }
 .search-box :deep(.q-field__native) {
   color: #646464;
@@ -198,24 +207,34 @@
 .search-box .q-icon {
   color: #b9b9b9;
 }
-.header :deep(.q-btn) {
+.notification-btn {
   width: 42px;
   height: 42px;
 }
-.header :deep(.q-btn .q-badge--floating) {
+.notification-btn :deep(.q-badge--floating) {
   top: 6px;
   right: 6px;
   outline: 2px solid white;
 }
-.header :deep(.q-icon) {
+.notification-btn {
   color: #b9b9b9;
 }
 .header .q-separator {
   margin: 4px 12px;
 }
+.header-menu {
+  height: 42px;
+  padding: 3px 9px;
+}
+.header-menu :deep(.q-avatar) {
+  margin-left: 8px;
+  color: #b9b9b9 !important;
+}
+.header-menu :deep(.q-btn-dropdown__arrow) {
+  font-size: inherit;
+}
 
 /* PAGE CONTENT */
-
 .page-content {
   padding: 10px;
 }

@@ -2,21 +2,21 @@ export default [
   {
     text: 'Dashboard',
     icon: 'fa-solid fa-chart-simple',
-    href: 'a',
+    href: 'dashboard',
   },
   {
     text: 'Consultas',
     icon: 'fa-solid fa-calendar-days',
-    href: 'b',
+    href: 'apointment',
   },
   {
     text: 'Pacientes',
     icon: 'fa-solid fa-users',
-    href: 'c',
+    href: 'patient',
   },
   {
     text: 'Alimentos',
     icon: 'fa-solid fa-apple-whole',
-    href: 'd',
+    href: 'food',
   },
 ]
