@@ -236,5 +236,8 @@
 
 /* PAGE CONTENT */
 .page-content {
-  padding: 10px;
+  padding: 25px;
+  height: calc(100vh - 66px);
+  display: flex;
+  flex-direction: column;
 }
