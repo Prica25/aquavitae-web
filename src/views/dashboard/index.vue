@@ -1,7 +1,5 @@
 <template>
-  <div class="q-gutter-sm">
-    <h4 style="color: #646464">Dashboard</h4>
-  </div>
+  <base-page title="Dashboard"> </base-page>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
