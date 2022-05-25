@@ -4,7 +4,7 @@
     <div class="q-space"></div>
     <slot name="right-header"></slot>
   </div>
-  <div>
+  <div class="content-slot">
     <slot name="content"></slot>
   </div>
 </template>
@@ -27,5 +27,8 @@ export default defineComponent({
 }
 .content-header {
   margin-bottom: 16px;
+}
+.content-slot {
+  flex: 1 1 auto;
 }
 </style>
