@@ -1,11 +1,12 @@
 <template>
   <base-page title="Alimentos">
     <template v-slot:right-header>
-      <q-input class="search" filled v-model="search" placeholder="Procurar">
-        <template v-slot:prepend>
-          <q-icon size="16px" name="fa-solid fa-magnifying-glass" />
-        </template>
-      </q-input>
+      <search
+        v-model="search"
+        @click-button="add"
+        add-button
+        button-text="Adicionar Alimento"
+      ></search>
     </template>
     <template v-slot:content>
       <div
@@ -13,14 +14,15 @@
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
         <q-card class="q-pa-xl table-card">
-          <q-btn color="primary" label="Adicionar alimento" />
-          <q-separator class="q-my-md" />
           <q-table
-            class="header-table"
+            table-header-class="header-table"
             :rows="rows"
             :columns="columns"
             row-key="name"
             v-model:pagination="pagination"
+            :filter="search"
+            no-data-label="Sem dados"
+            no-results-label="Sem resultados para a pesquisa"
             hide-pagination
           />
           <q-separator class="q-my-md" />
@@ -193,19 +195,17 @@ export default defineComponent({
       return Math.ceil(this.rows.length / this.pagination.rowsPerPage)
     },
   },
+  methods: {
+    add() {
+      console.log('add new food')
+    },
+  },
 })
 </script>
 <style scoped>
-.search :deep(.q-field__control),
-.search :deep(.q-field__control::before) {
-  background: white !important;
-}
-.search {
-  width: 25%;
-  min-width: 200px;
-}
-.header-table :deep(thead tr:first-child th) {
-  background-color: #f5f7f9;
+:deep(.header-table) {
+  background: var(--q-primary);
+  color: white;
 }
 
 .q-pagination :deep(.q-btn-item.q-btn--flat) {

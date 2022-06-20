@@ -12,11 +12,13 @@ import 'quasar/src/css/index.sass'
 
 import App from './App.vue'
 import router from './router'
-import Base from './components/Base.vue'
+import Base from './components/base.vue'
+import Search from './components/search.vue'
 
 const app = createApp(App)
 
 app.component('BasePage', Base)
+app.component('Search', Search)
 
 app.use(Quasar, {
   plugins: {},

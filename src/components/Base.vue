@@ -30,5 +30,7 @@ export default defineComponent({
 }
 .content-slot {
   flex: 1 1 auto;
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
