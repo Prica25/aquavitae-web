@@ -52,7 +52,12 @@
               <q-item-section class="text-center">Preferências</q-item-section>
             </q-item>
             <q-separator style="margin: 0 16px" />
-            <q-item class="text-center" clickable v-close-popup>
+            <q-item
+              class="text-center"
+              clickable
+              @click="$router.push('/login')"
+              v-close-popup
+            >
               <q-item-section>Terminar Sessão</q-item-section>
             </q-item>
             <q-separator />
