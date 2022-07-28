@@ -1,9 +1,8 @@
 <template>
   <q-layout id="app">
-    <q-page-container class="home-section">
-      <div class="page-content">
-        <router-view />
-      </div>
-    </q-page-container>
+    <router-view />
   </q-layout>
 </template>
+<style scoped>
+@import "./clean.css";
+</style>

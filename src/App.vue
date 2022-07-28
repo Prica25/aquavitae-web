@@ -3,21 +3,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
-import Default from "@/layouts/default/index.vue";
-import Clean from "@/layouts/clean/index.vue";
-// import UserService from "@/services/UserService";
+import Default from '@/layouts/default/index.vue'
+import Clean from '@/layouts/clean/index.vue'
+
+import { useUserStore } from '@/stores/user'
 
 export default defineComponent({
   components: {
     Default,
     Clean,
   },
-  async mounted() {
-    // console.log(await UserService.login("prica_@outlook.pt", "12345678"));
+  data() {
+    return {
+      store: useUserStore(),
+    }
   },
-});
+  created() {
+    if (!this.store.getToken) this.$router.push('/login')
+  },
+})
 </script>
 
 <style>

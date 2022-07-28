@@ -12,7 +12,11 @@
       </div>
       <q-list>
         <q-item v-for="item in menuItems" :key="item.href" clickable v-ripple>
-          <router-link :to="{ name: item.href }" custom v-slot="{ navigate, isActive }">
+          <router-link
+            :to="{ name: item.href }"
+            custom
+            v-slot="{ navigate, isActive }"
+          >
             <q-item-section :class="{ active: isActive }" @click="navigate">
               <q-icon :name="item.icon" />
               <span class="links_name">{{ item.text }}</span>
@@ -25,7 +29,11 @@
     </div>
     <q-page-container class="home-section">
       <q-header class="header row items-center">
-        <q-input class="search-box" v-model="search" placeholder="Procurar por pacientes">
+        <q-input
+          class="search-box"
+          v-model="search"
+          placeholder="Procurar por pacientes"
+        >
           <template v-slot:prepend>
             <q-icon size="18px" name="fa-solid fa-magnifying-glass" />
           </template>
@@ -35,10 +43,14 @@
           <q-badge floating color="warning" rounded style="width: 12px" />
         </q-btn>
         <q-separator vertical inset />
-        <q-btn-dropdown class="header-menu" flat dropdown-icon="fa-solid fa-chevron-down">
+        <q-btn-dropdown
+          class="header-menu"
+          flat
+          dropdown-icon="fa-solid fa-chevron-down"
+        >
           <template v-slot:label>
             <div class="row items-center no-wrap">
-              <div class="text-center">Paulo Pereira</div>
+              <div class="text-center">{{ userStore.getName }}</div>
               <q-avatar
                 color="transparent"
                 text-color="white"
@@ -72,20 +84,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import MenuItems from "./menu";
+import { defineComponent } from 'vue'
+import MenuItems from './menu'
+
+import { useUserStore } from '@/stores/user'
 
 export default defineComponent({
   data() {
     return {
+      userStore: useUserStore(),
       menuItems: MenuItems,
       menuOpen: false,
-      search: "",
-    };
+      search: '',
+    }
   },
-});
+})
 </script>
 
 <style scoped>
-@import "./default.css";
+@import './default.css';
 </style>
