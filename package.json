@@ -1,6 +1,6 @@
 {
-  "name": "web-vue",
-  "version": "0.0.0",
+  "name": "aquavitae",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

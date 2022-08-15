@@ -1,0 +1,13 @@
+{
+  "name": "Aquavitae",
+  "short_name": "Aquavitae",
+  "icons": [
+    {
+      "src": "favicon.gif",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#ffffff",
+  "theme_color": "#53B458",
+  "display": "fullscreen"
+}
