@@ -11,7 +11,7 @@ export const useUserStore = defineStore({
   }),
   getters: {
     getToken: (state): string | null =>
-      state.token_type ? `${state.token_type} ${state.access_token}` : null,
+      state.token_type ? `${state.token_type} ${state.access_token}` : '',
     getName: (state): string => (state.user as any)?.name,
   },
   actions: {

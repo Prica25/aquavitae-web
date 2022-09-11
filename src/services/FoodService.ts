@@ -3,8 +3,14 @@ import Api from '@/services/Api'
 import type Food from '@/types/Food'
 
 export default {
-  index() {
-    return Api().get(`food/get`)
+  index(page: number, itemsPerPage: number, sort = 'description:ASC') {
+    return Api().get(`food/get`, {
+      params: {
+        skip: page,
+        take: itemsPerPage,
+        sort: sort,
+      },
+    })
   },
   show(id: number) {
     return Api().get(`food/get/${id}`)
