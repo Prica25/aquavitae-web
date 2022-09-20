@@ -3,16 +3,20 @@ import Api from '@/services/Api'
 import type Food from '@/types/Food'
 
 export default {
-  index(page: number, itemsPerPage: number, sort = 'description:ASC') {
+  index(
+    page: number,
+    itemsPerPage: number,
+    sort = 'description:ASC',
+    filter = null as string | null
+  ) {
+    let params = { skip: page, take: itemsPerPage, sort: sort } as any
+    if (filter) params.search = filter
+
     return Api().get(`food/get`, {
-      params: {
-        skip: page,
-        take: itemsPerPage,
-        sort: sort,
-      },
+      params,
     })
   },
-  show(id: number) {
+  show(id: string) {
     return Api().get(`food/get/${id}`)
   },
   post(food: Food) {
