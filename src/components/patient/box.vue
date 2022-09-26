@@ -65,8 +65,8 @@ export default defineComponent({
 </script>
 <style scoped>
 .user-box {
-  min-width: 400px;
-  max-width: 400px;
+  min-width: 375px;
+  max-width: 375px;
   height: 120px;
   background: white;
   box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%),

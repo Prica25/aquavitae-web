@@ -26,6 +26,11 @@ const router = createRouter({
       component: () => import('@/views/patient/list.vue'),
     },
     {
+      path: '/patient/nutrition-plan',
+      name: 'patient',
+      component: () => import('@/views/patient/nutritionPlan.vue'),
+    },
+    {
       path: '/food/list',
       name: 'food',
       component: () => import('@/views/food/list.vue'),
