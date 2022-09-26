@@ -16,7 +16,7 @@ import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 import 'quasar/src/css/index.sass'
 
 import App from './App.vue'
-import Base from './components/base.vue'
+import Base from './components/Base.vue'
 import Search from './components/search.vue'
 
 const pinia = createPinia()
