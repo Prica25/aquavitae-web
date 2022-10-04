@@ -23,6 +23,10 @@
       <q-icon name="fa-solid fa-eye" @click="$emit('view', user)" />
       <q-icon name="fa-solid fa-pencil" @click="$emit('edit', user)" />
       <q-icon name="fa-solid fa-trash" @click="$emit('delete', user)" />
+      <q-icon
+        name="fa-solid fa-apple-whole"
+        @click="$emit('open-nutrition-plan', user)"
+      />
     </div>
   </div>
 </template>
@@ -105,8 +109,8 @@ export default defineComponent({
 }
 
 .user-actions .q-icon {
-  margin: 5px 0;
-  font-size: 18px;
+  margin: 4px 0;
+  font-size: 14px;
   color: #b9b9b9;
   cursor: pointer;
 }

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.13.6",
+    "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.15",
     "axios": "^0.27.2",
     "pinia": "^2.0.13",
     "pinia-plugin-persistedstate": "^1.6.3",
