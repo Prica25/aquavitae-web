@@ -3,8 +3,16 @@ import Api from '@/services/Api'
 import type User from '@/types/User'
 
 export default {
-  index() {
-    return Api().get(`user/get`)
+  index(
+    page: number,
+    itemsPerPage: number,
+    sort = 'description:ASC',
+    filter = null as string | null
+  ) {
+    let params = { skip: page, take: itemsPerPage, sort: sort } as any
+    if (filter) params.search = filter
+
+    return Api().get(`user/get`, { params })
   },
   show(id: number) {
     return Api().get(`user/get/${id}`)
