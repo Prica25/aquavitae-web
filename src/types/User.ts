@@ -3,11 +3,11 @@ type User = {
   created_at: string
   updated_at: string
   deleted_at: string
-  name: string
   email: string
   password: string
   role: string
   last_access: string
+  profile_photo: string
 }
 
 export default User
