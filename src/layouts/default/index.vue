@@ -2,8 +2,7 @@
   <q-layout id="app">
     <div :class="{ sidebar: true, open: menuOpen }">
       <div class="logo-details">
-        <q-icon name="fa-solid fa-droplet" class="icon" />
-        <div class="logo_name">Aquavitae</div>
+        <div class="image" />
         <q-icon
           :name="`fa-solid fa-${menuOpen ? 'bars-staggered' : 'bars'}`"
           id="btn"

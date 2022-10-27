@@ -38,15 +38,17 @@
   text-align: center;
   line-height: 60px;
 }
-.sidebar .logo-details .logo_name {
-  color: var(--q-primary);
-  font-size: 20px;
-  font-weight: 600;
+.sidebar .logo-details .image {
+  background: url('../../assets/logo.svg');
+  background-repeat: no-repeat;
+  height: 45px;
+  width: calc(978 / 575 * 45px);
+  margin-left: 10px;
   opacity: 0;
-  transition: all 0.5s ease;
+  transition: opacity 0.4s;
 }
 .sidebar.open .logo-details .icon,
-.sidebar.open .logo-details .logo_name {
+.sidebar.open .logo-details .image {
   opacity: 1;
 }
 .sidebar .logo-details #btn {
