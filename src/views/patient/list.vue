@@ -30,7 +30,9 @@
 import { defineComponent } from 'vue'
 import PatientBox from '@/components/patient/box.vue'
 import type User from '@/types/User'
+
 import UserService from '@/services/UserService'
+import PersonalDataService from '@/services/PersonalDataService'
 
 export default defineComponent({
   components: {
@@ -40,6 +42,7 @@ export default defineComponent({
     return {
       search: '',
       users: [] as any[],
+      patientsData: [] as any[],
       pagination: {
         sortBy: 'email',
         descending: false,
@@ -59,7 +62,13 @@ export default defineComponent({
           this.pagination.descending ? 'DESC' : 'ASC'
         }`
       )
-    ).data
+    ).data.data
+
+    //TODO melhorar assim que tiver novo endpoint
+    this.patientsData = []
+    for (let user of this.users) {
+      console.log((await PersonalDataService.show(user.id)).data)
+    }
   },
   methods: {
     add() {
