@@ -16,6 +16,7 @@
         <patient-box
           v-for="user in users"
           :user="user"
+          :personal-data="getPersonalData(user.id)"
           @view="view"
           @edit="edit"
           @delete="delete"
@@ -64,13 +65,14 @@ export default defineComponent({
       )
     ).data.data
 
-    //TODO melhorar assim que tiver novo endpoint
-    this.patientsData = []
-    for (let user of this.users) {
-      console.log((await PersonalDataService.show(user.id)).data)
-    }
+    this.patientsData = (
+      await PersonalDataService.show(this.users.map((u) => u.id) as string[])
+    ).data
   },
   methods: {
+    getPersonalData(user_id: string) {
+      return this.patientsData.find((pd) => pd.user.id === user_id)
+    },
     add() {
       alert('add')
     },

@@ -32,11 +32,16 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   props: {
     user: {
-      type: Object,
+      type: Object as any,
       required: true,
+    },
+    personalData: {
+      type: Object as any,
+      required: false,
     },
   },
   data() {
@@ -46,7 +51,11 @@ export default defineComponent({
   },
   computed: {
     birthdayDate() {
-      const date = new Date(this.user.birthday)
+      if (!this.personalData) {
+        return 'Sem dados'
+      }
+
+      const date = new Date(this.personalData.birthday)
       const today = new Date()
 
       let age = today.getFullYear() - date.getFullYear()
@@ -62,7 +71,11 @@ export default defineComponent({
       ].join('/')} (${age})`
     },
     fullName() {
-      return `${this.user.first_name} ${this.user.last_name}`
+      if (this.personalData) {
+        return `${this.personalData.first_name} ${this.personalData.last_name}`
+      } else {
+        return 'Sem Nome'
+      }
     },
   },
 })

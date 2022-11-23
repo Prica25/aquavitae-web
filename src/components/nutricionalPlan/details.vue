@@ -3,46 +3,115 @@
     <div class="col data-card">
       <div class="title">Proteínas</div>
       <div class="bottom">
-        <div class="details"><span>80,0</span><span>/107,0</span></div>
+        <div class="details">
+          <span>80,0</span><span>/{{ formatNumber(totalProteins) }}</span>
+        </div>
         <div class="info">
-          <q-icon name="fa-solid fa-arrow-up" color="negative" size="14px" />
-          27,0
+          <q-icon
+            :name="`fa-solid fa-arrow-${proteinsDiff > 0 ? 'up' : 'down'}`"
+            color="negative"
+            size="14px"
+          />
+          {{ formatNumber(proteinsDiff) }}
         </div>
       </div>
     </div>
     <div class="col data-card">
       <div class="title">Lípidos</div>
       <div class="bottom">
-        <div class="details"><span>55,4</span><span>/71,0</span></div>
+        <div class="details">
+          <span>55,4</span><span>/{{ formatNumber(totalLipids) }}</span>
+        </div>
         <div class="info">
-          <q-icon name="fa-solid fa-arrow-up" color="negative" size="14px" />
-          15,9
+          <q-icon
+            :name="`fa-solid fa-arrow-${lipidsDiff > 0 ? 'up' : 'down'}`"
+            color="negative"
+            size="14px"
+          />
+          {{ formatNumber(lipidsDiff) }}
         </div>
       </div>
     </div>
     <div class="col data-card">
       <div class="title">Hidratos de Carbono</div>
       <div class="bottom">
-        <div class="details"><span>277,0</span><span>/267,0</span></div>
+        <div class="details">
+          <span>277,0</span><span>/{{ formatNumber(totalCarbohydrates) }}</span>
+        </div>
         <div class="info">
-          <q-icon name="fa-solid fa-arrow-down" color="negative" size="14px" />
-          10,0
+          <q-icon
+            :name="`fa-solid fa-arrow-${carbohydratesDiff > 0 ? 'up' : 'down'}`"
+            color="negative"
+            size="14px"
+          />
+          {{ formatNumber(carbohydratesDiff) }}
         </div>
       </div>
     </div>
     <div class="col data-card">
       <div class="title">Valor Energético</div>
       <div class="bottom">
-        <div class="details"><span>1665</span><span>/2139</span></div>
+        <div class="details">
+          <span>1665</span><span>/{{ totalEnergyValue }}</span>
+        </div>
         <div class="info">
-          <q-icon name="fa-solid fa-arrow-up" color="negative" size="14px" />
-          474
+          <q-icon
+            :name="`fa-solid fa-arrow-${energyValueDiff > 0 ? 'up' : 'down'}`"
+            color="negative"
+            size="14px"
+          />
+          {{ energyValueDiff }}
         </div>
       </div>
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineComponent } from 'vue'
 
+export default defineComponent({
+  props: {
+    anthropometricData: {
+      type: Object as any,
+      required: true,
+    },
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    totalEnergyValue() {
+      return Math.round(this.anthropometricData.weight * 32.5)
+    },
+    energyValueDiff() {
+      return this.totalEnergyValue - 1665
+    },
+    totalProteins() {
+      return (this.totalEnergyValue * 0.2) / 4
+    },
+    proteinsDiff() {
+      return this.totalProteins - 80
+    },
+    totalLipids() {
+      return (this.totalEnergyValue * 0.3) / 9
+    },
+    lipidsDiff() {
+      return this.totalLipids - 55.4
+    },
+    totalCarbohydrates() {
+      return (this.totalEnergyValue * 0.5) / 4
+    },
+    carbohydratesDiff() {
+      return this.totalCarbohydrates - 277
+    },
+  },
+  methods: {
+    formatNumber(numb: number) {
+      return numb.toFixed(2).replace('.', ',')
+    },
+  },
+})
+</script>
 <style scoped>
 .data-card {
   background: white;

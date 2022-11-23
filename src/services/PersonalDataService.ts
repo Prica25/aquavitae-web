@@ -6,8 +6,20 @@ export default {
   mine() {
     return Api().get(`personal-data/me/get`)
   },
-  show(personalDataId: string) {
-    return Api().get(`personal-data/get/${personalDataId}`)
+  show(users_id: string | string[]) {
+    const params = new URLSearchParams()
+
+    if (Array.isArray(users_id)) {
+      for (let user_id of users_id) {
+        params.append('users_id', user_id)
+      }
+    } else {
+      params.append('users_id', users_id)
+    }
+
+    return Api().get(`personal-data/users/get`, {
+      params: params,
+    })
   },
   post(personalData: PersonalData) {
     return Api().post('personal-data/create', personalData)
