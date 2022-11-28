@@ -9,14 +9,7 @@
         @click="editNome()"
       />
       <q-space />
-      <q-select
-        outlined
-        v-model="search"
-        :options="[]"
-        label="Procurar Alimento"
-        dense
-        style="min-width: 200px; max-width: 200px"
-      />
+      <FoodSearch />
     </div>
 
     <q-table
@@ -65,7 +58,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import FoodSearch from './foodSearch.vue'
+
 export default defineComponent({
+  components: {
+    FoodSearch,
+  },
   data() {
     return {
       search: null as string | null,

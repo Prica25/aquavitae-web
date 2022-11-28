@@ -30,7 +30,7 @@ export default defineComponent({
   },
   data() {
     return {
-      numberOfMeals: 4,
+      numberOfMeals: 1,
       meals: [],
       user: {},
       personalData: {},
