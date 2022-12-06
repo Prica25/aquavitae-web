@@ -1,7 +1,7 @@
 <template>
   <q-select
     filled
-    v-model="model"
+    v-model="value"
     :options="options"
     :loading="isLoading"
     @virtual-scroll="onScroll"
@@ -20,9 +20,10 @@ import type ResponseList from '@/types/ResponseList'
 import FoodService from '@/services/FoodService'
 
 export default defineComponent({
+  props: ['modelValue'],
+  emits: ['update:modelValue'],
   data() {
     return {
-      model: null as string | null,
       options: [] as any,
       pagination: {
         sortBy: 'description',
@@ -43,7 +44,8 @@ export default defineComponent({
         1,
         `${this.pagination.sortBy}:${
           this.pagination.descending ? 'DESC' : 'ASC'
-        }`
+        }`,
+        'description'
       )
     ).data as ResponseList
 
@@ -51,6 +53,16 @@ export default defineComponent({
     this.pagination.pagesNumber = response.last_page
     this.options = Object.freeze(response.data)
     this.isLoading = false
+  },
+  computed: {
+    value: {
+      get(): string {
+        return this.modelValue
+      },
+      set(val: string): void {
+        this.$emit('update:modelValue', val)
+      },
+    },
   },
   methods: {
     async onScroll(props: any) {
@@ -68,6 +80,7 @@ export default defineComponent({
             `${this.pagination.sortBy}:${
               this.pagination.descending ? 'DESC' : 'ASC'
             }`,
+            'description',
             this.filter ? `description:${this.filter}` : null
           )
         ).data as ResponseList
@@ -87,6 +100,7 @@ export default defineComponent({
           `${this.pagination.sortBy}:${
             this.pagination.descending ? 'DESC' : 'ASC'
           }`,
+          'description',
           this.filter ? `description:${this.filter}` : null
         )
       ).data as ResponseList
@@ -99,12 +113,6 @@ export default defineComponent({
         this.options = Object.freeze(response.data)
       })
       this.isLoading = false
-    },
-  },
-  watch: {
-    model() {
-      console.log(this.model)
-      this.model = null
     },
   },
 })

@@ -1,21 +1,22 @@
 <template>
   <q-card class="q-pa-xl meal-card">
     <div class="row meal">
-      <span>Pequeno-Almoço</span>
+      <span v-if="!changeName">{{ name }}</span>
+      <q-input v-else outlined v-model="name" dense />
       <q-icon
-        name="fa-solid fa-pencil"
+        :name="`fa-solid fa-${changeName ? 'check' : 'pencil'}`"
         color="primary"
         style="cursor: pointer; margin: 0 8px"
-        @click="editNome()"
+        @click="editName()"
       />
       <q-space />
-      <FoodSearch />
+      <FoodSearch v-model="food_id" @update:model-value="addFood" />
     </div>
 
     <q-table
       ref="table"
       table-header-class="header-table"
-      :rows="food"
+      :rows="foodList"
       :columns="columns"
       no-data-label="Sem alimentos selecionados"
       hide-pagination
@@ -42,13 +43,13 @@
               name="fa-solid fa-eye"
               color="primary"
               style="cursor: pointer; margin: 0 4px"
-              @click="view()"
+              @click="view(props.row.id)"
             />
             <q-icon
               name="fa-solid fa-trash"
               color="negative"
               style="cursor: pointer; margin: 0 4px"
-              @click="remove()"
+              @click="remove(props.row.id)"
             />
           </q-td>
         </q-tr>
@@ -59,6 +60,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import FoodSearch from './foodSearch.vue'
+import FoodService from '@/services/FoodService'
+import type Food from '@/types/Food'
 
 export default defineComponent({
   components: {
@@ -66,30 +69,11 @@ export default defineComponent({
   },
   data() {
     return {
+      name: 'Pequeno-Almoço',
+      changeName: false,
       search: null as string | null,
-      food: [
-        {
-          description: 'Iogurte meio gordo, natural',
-          proteins: 4.2,
-          lipids: 1.8,
-          carbohydrates: 5.0,
-          energy_value: 54,
-        },
-        {
-          description: 'Pão de mistura de trigo e centeio',
-          proteins: 9,
-          lipids: 1.4,
-          carbohydrates: 53.8,
-          energy_value: 272,
-        },
-        {
-          description: 'Sumo de laranja, 100%',
-          proteins: 0.3,
-          lipids: 0.1,
-          carbohydrates: 9.5,
-          energy_value: 41,
-        },
-      ],
+      food_id: null as string | null,
+      foodList: [] as Food[],
       columns: [
         {
           name: 'description',
@@ -144,14 +128,19 @@ export default defineComponent({
     }
   },
   methods: {
-    view() {
+    async addFood(id: string): Promise<void> {
+      const food = (await FoodService.show(id)).data as Food
+      this.foodList = [...this.foodList, food]
+      this.food_id = null
+    },
+    view(id: string): void {
       alert('Mostrar dados do alimento')
     },
-    remove() {
-      alert('Remover alimento da lista')
+    remove(id: string): void {
+      this.foodList = this.foodList.filter((o) => o.id === id)
     },
-    editNome() {
-      alert('Alterar nome da refeição')
+    editName(): void {
+      this.changeName = !this.changeName
     },
   },
 })

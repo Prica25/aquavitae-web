@@ -7,9 +7,10 @@ export default {
     page: number,
     itemsPerPage: number,
     sort = 'description:ASC',
+    columns = 'description',
     filter = null as string | null
   ) {
-    let params = { skip: page, take: itemsPerPage, sort: sort } as any
+    let params = { skip: page, take: itemsPerPage, sort, columns } as any
     if (filter) params.search = filter
 
     return Api().get(`food/get`, {
