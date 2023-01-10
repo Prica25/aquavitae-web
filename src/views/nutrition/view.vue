@@ -7,6 +7,7 @@
         v-model="meals[index]"
         v-for="index in numberOfMeals"
         :key="`meal-${index}`"
+        @update-meal="teste"
       />
     </template>
   </base-page>
@@ -19,6 +20,7 @@ import NumberMeals from '@/components/nutricionalPlan/numberMeals.vue'
 import MealCard from '@/components/nutricionalPlan/mealCard.vue'
 
 import type AnthropometricData from '@/types/AnthropometricData'
+import type Food from '@/types/Food'
 
 import AnthropometricDataService from '@/services/AnthropometricDataService.js'
 
@@ -35,18 +37,17 @@ export default defineComponent({
       user: {},
       personalData: {},
       anthroData: {} as AnthropometricData,
+      mealData: [],
     }
   },
   async mounted() {
     this.anthroData = (
       await AnthropometricDataService.show(this.$route.params.user_id as string)
     ).data.data[0] as AnthropometricData
-
-    console.log(this.anthroData)
   },
   methods: {
-    teste() {
-      console.log(this.numberOfMeals, 'xxx')
+    teste(list: Food[]) {
+      console.log(list)
     },
   },
 })

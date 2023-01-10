@@ -143,6 +143,14 @@ export default defineComponent({
       this.changeName = !this.changeName
     },
   },
+  watch: {
+    foodList: {
+      handler() {
+        this.$emit('update-meal', this.foodList)
+      },
+      deep: true,
+    },
+  },
 })
 </script>
 <style scoped>

@@ -7,11 +7,22 @@ export default {
     page: number,
     itemsPerPage: number,
     sort = 'description:ASC',
-    columns = 'description',
+    columns = 'description' as string | string[],
     filter = null as string | null
   ) {
-    let params = { skip: page, take: itemsPerPage, sort, columns } as any
-    if (filter) params.search = filter
+    const params = new URLSearchParams()
+
+    if (Array.isArray(columns)) {
+      for (let column of columns) {
+        params.append('columns', column)
+      }
+    } else {
+      params.append('columns', columns)
+    }
+    params.append('skip', page.toString())
+    params.append('take', itemsPerPage.toString())
+    params.append('sort', sort)
+    if (filter) params.append('search', filter)
 
     return Api().get(`food/get`, {
       params,
