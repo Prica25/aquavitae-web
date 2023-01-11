@@ -19,4 +19,10 @@ export default [
     icon: 'fa-solid fa-apple-whole',
     href: 'food',
   },
+  {
+    text: 'Configurações',
+    icon: 'fa-solid fa-gears',
+    href: 'settings',
+    position: 'bottom',
+  },
 ]

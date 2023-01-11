@@ -9,8 +9,35 @@
           @click="menuOpen = !menuOpen"
         />
       </div>
-      <q-list>
-        <q-item v-for="item in menuItems" :key="item.href" clickable v-ripple>
+      <q-list class="menu-top">
+        <q-item
+          v-for="item in menuTopItems"
+          :key="item.href"
+          clickable
+          v-ripple
+        >
+          <router-link
+            :to="{ name: item.href }"
+            custom
+            v-slot="{ navigate, isActive }"
+          >
+            <q-item-section :class="{ active: isActive }" @click="navigate">
+              <q-icon :name="item.icon" />
+              <span class="links_name">{{ item.text }}</span>
+            </q-item-section>
+          </router-link>
+
+          <span class="tooltip">{{ item.text }}</span>
+        </q-item>
+      </q-list>
+      <q-space />
+      <q-list class="menu-bottom">
+        <q-item
+          v-for="item in menuBottomItems"
+          :key="item.href"
+          clickable
+          v-ripple
+        >
           <router-link
             :to="{ name: item.href }"
             custom
@@ -92,7 +119,12 @@ export default defineComponent({
   data() {
     return {
       userStore: useUserStore(),
-      menuItems: MenuItems,
+      menuTopItems: MenuItems.filter(
+        (item) => item.position?.toLowerCase() === 'top' || !item.position
+      ),
+      menuBottomItems: MenuItems.filter(
+        (item) => item.position?.toLowerCase() === 'bottom'
+      ),
       menuOpen: false,
       search: '',
     }
