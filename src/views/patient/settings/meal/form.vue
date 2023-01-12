@@ -3,5 +3,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-export default defineComponent({})
+export default defineComponent({
+  props: {
+    user_id: {
+      type: String,
+      required: true,
+    },
+  },
+})
 </script>

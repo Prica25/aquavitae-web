@@ -22,6 +22,12 @@ import { defineComponent } from 'vue'
 import Option from '@/components/settings/option.vue'
 
 export default defineComponent({
+  props: {
+    user_id: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     Option,
   },

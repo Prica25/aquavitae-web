@@ -29,6 +29,7 @@ const router = createRouter({
       path: '/nutrition-plan/view/:user_id',
       name: 'nutrition-plan',
       component: () => import('@/views/nutrition/view.vue'),
+      props: true,
     },
     {
       path: '/food/list',
@@ -39,11 +40,13 @@ const router = createRouter({
       path: '/menu-user/:user_id',
       name: 'menu-user',
       component: () => import('@/views/patient/settings/main.vue'),
+      props: true,
     },
     {
       path: '/menu-user/meal/:user_id',
       name: 'meal',
       component: () => import('@/views/patient/settings/meal/form.vue'),
+      props: true,
     },
     {
       path: '/management',

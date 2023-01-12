@@ -25,6 +25,12 @@ import type Food from '@/types/Food'
 import AnthropometricDataService from '@/services/AnthropometricDataService.js'
 
 export default defineComponent({
+  props: {
+    user_id: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     Details,
     NumberMeals,
