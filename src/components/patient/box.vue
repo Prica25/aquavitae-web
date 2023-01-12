@@ -23,10 +23,7 @@
       <q-icon name="fa-solid fa-eye" @click="$emit('view', user)" />
       <q-icon name="fa-solid fa-pencil" @click="$emit('edit', user)" />
       <q-icon name="fa-solid fa-trash" @click="$emit('delete', user)" />
-      <q-icon
-        name="fa-solid fa-apple-whole"
-        @click="$emit('open-nutrition-plan', user)"
-      />
+      <q-icon name="fa-solid fa-gears" @click="$emit('open-settings', user)" />
     </div>
   </div>
 </template>

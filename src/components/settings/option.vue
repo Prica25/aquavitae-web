@@ -1,15 +1,28 @@
 <template>
-  <div class="option">
-    <q-icon class="logo" name="fa-solid fa-utensils" />
-    <div class="description">Refeições</div>
-  </div>
+  <router-link :to="{ name: href }" custom v-slot="{ navigate }">
+    <div class="option" @click="navigate">
+      <q-icon class="logo" :name="`fa-solid fa-${icon}`" />
+      <div class="description">{{ description }}</div>
+    </div>
+  </router-link>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  data() {
-    return {}
+  props: {
+    description: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
+    href: {
+      type: String,
+      default: 'asd',
+    },
   },
 })
 </script>
@@ -24,6 +37,8 @@ export default defineComponent({
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: white;
+  transition: background-color 200ms linear;
+  margin: 20px;
 }
 
 .option:hover {
@@ -34,12 +49,14 @@ export default defineComponent({
 .logo {
   font-size: 4em;
   color: var(--q-primary);
+  transition: color 200ms linear;
 }
 
 .description {
-  margin: 10px;
+  margin-top: 20px;
   font-size: 1.2em;
   color: #646464;
+  transition: color 200ms linear;
 }
 
 .option:hover .logo,

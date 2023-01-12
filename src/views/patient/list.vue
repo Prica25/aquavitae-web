@@ -20,7 +20,7 @@
           @view="view"
           @edit="edit"
           @delete="delete"
-          @open-nutrition-plan="openNutritionPlan"
+          @open-settings="openSettings"
           style="margin: 16px"
         ></patient-box>
       </div>
@@ -85,13 +85,9 @@ export default defineComponent({
     delete(user: User) {
       alert('delete')
     },
-    openNutritionPlan(user: User) {
-      console.log({
-        name: 'nutrition-plan',
-        params: { user_id: user.id },
-      })
+    openSettings(user: User) {
       this.$router.push({
-        name: 'nutrition-plan',
+        name: 'settings',
         params: { user_id: user.id },
       })
     },

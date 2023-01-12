@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Consultas">
+  <base-page title="Consultas" direction="col">
     <template v-slot:right-header>
       <q-btn flat label="Anterior" color="primary" @click="calendarPrev" />
       <q-separator vertical />

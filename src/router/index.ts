@@ -36,9 +36,14 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
-      path: '/settings',
+      path: '/settings/:user_id',
       name: 'settings',
       component: () => import('@/views/settings/main.vue'),
+    },
+    {
+      path: '/settings/meal/:user_id',
+      name: 'meal',
+      component: () => import('@/views/settings/meal/form.vue'),
     },
   ],
 })
