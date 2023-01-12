@@ -1,6 +1,6 @@
 <template>
   <base-page
-    title="Gestão"
+    title="Configurações"
     horizontal-alignment="center"
     vertical-alignment="center"
     no-header
@@ -28,7 +28,13 @@ export default defineComponent({
   data() {
     return {
       options: [
-        { description: 'Refeições', icon: 'utensils', href: 'meal' },
+        {
+          description: 'Plano Nutricional',
+          icon: 'apple-whole',
+          href: 'nutrition-plan',
+          params: {},
+        },
+        { description: 'Diário', icon: 'calendar-day', href: 'appointment' },
         { description: 'Patologias', icon: 'disease', href: 'appointment' },
       ],
     }

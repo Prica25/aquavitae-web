@@ -36,14 +36,19 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
-      path: '/settings/:user_id',
-      name: 'settings',
-      component: () => import('@/views/settings/main.vue'),
+      path: '/menu-user/:user_id',
+      name: 'menu-user',
+      component: () => import('@/views/patient/settings/main.vue'),
     },
     {
-      path: '/settings/meal/:user_id',
+      path: '/menu-user/meal/:user_id',
       name: 'meal',
-      component: () => import('@/views/settings/meal/form.vue'),
+      component: () => import('@/views/patient/settings/meal/form.vue'),
+    },
+    {
+      path: '/management',
+      name: 'management',
+      component: () => import('@/views/settings/main.vue'),
     },
   ],
 })

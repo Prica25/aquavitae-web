@@ -87,7 +87,7 @@ export default defineComponent({
     },
     openSettings(user: User) {
       this.$router.push({
-        name: 'settings',
+        name: 'menu-user',
         params: { user_id: user.id },
       })
     },

@@ -4,7 +4,7 @@
     <div class="q-space"></div>
     <slot name="right-header"></slot>
   </div>
-  <div :class="contentClass">
+  <div :class="contentClass" :style="`flex-direction: ${direction}`">
     <slot name="content"></slot>
   </div>
 </template>

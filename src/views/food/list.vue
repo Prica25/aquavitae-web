@@ -176,7 +176,8 @@ export default defineComponent({
         this.pagination.rowsPerPage,
         `${this.pagination.sortBy}:${
           this.pagination.descending ? 'DESC' : 'ASC'
-        }`
+        }`,
+        ['description', 'food_category']
       )
     ).data as ResponseList
 
@@ -213,6 +214,7 @@ export default defineComponent({
           `${this.pagination.sortBy}:${
             this.pagination.descending ? 'DESC' : 'ASC'
           }`,
+          ['description', 'food_category'],
           filter ? `description:${filter}` : null
         )
       ).data as ResponseList
