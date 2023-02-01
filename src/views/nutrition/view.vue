@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Plano Nutricional" direction="column">
+  <base-page title="Plano Nutricional" display="block" direction="column">
     <template v-slot:content>
       <Details :anthropometric-data="anthroData" />
       <NumberMeals v-model="numberOfMeals" @update:modelValue="teste" />

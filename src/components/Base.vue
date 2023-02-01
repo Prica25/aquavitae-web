@@ -4,7 +4,10 @@
     <div class="q-space"></div>
     <slot name="right-header"></slot>
   </div>
-  <div :class="contentClass" :style="`flex-direction: ${direction}`">
+  <div
+    :class="contentClass"
+    :style="`flex-direction: ${direction}; display: ${display}`"
+  >
     <slot name="content"></slot>
   </div>
 </template>
@@ -32,6 +35,10 @@ export default defineComponent({
       type: String,
       default: 'row',
     },
+    display: {
+      type: String,
+      default: 'flex',
+    },
   },
   computed: {
     contentClass() {
@@ -53,6 +60,5 @@ export default defineComponent({
   flex: 1 1 auto;
   width: 80%;
   margin: 0 auto;
-  display: flex;
 }
 </style>

@@ -28,7 +28,7 @@ export default defineComponent({
   data() {
     return {
       options: [
-        { description: 'Refeições', icon: 'utensils', href: 'meal' },
+        { description: 'Refeições', icon: 'utensils', href: 'type-meals' },
         { description: 'Patologias', icon: 'disease', href: 'appointment' },
       ],
     }

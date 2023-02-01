@@ -2,7 +2,13 @@
   <q-card class="q-pa-xl meal-card">
     <div class="row meal">
       <span v-if="!changeName">{{ name }}</span>
-      <q-input v-else outlined v-model="name" dense />
+      <q-select
+        v-else
+        outlined
+        v-model="name"
+        :options="['Pequeno-Almoço', 'Almoço']"
+        dense
+      />
       <q-icon
         :name="`fa-solid fa-${changeName ? 'check' : 'pencil'}`"
         color="primary"

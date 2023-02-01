@@ -37,6 +37,16 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
+      path: '/management',
+      name: 'management',
+      component: () => import('@/views/settings/main.vue'),
+    },
+    {
+      path: '/management/type-meals',
+      name: 'type-meals',
+      component: () => import('@/views/settings/typeOfMeals/form.vue'),
+    },
+    {
       path: '/menu-user/:user_id',
       name: 'menu-user',
       component: () => import('@/views/patient/settings/main.vue'),
@@ -47,11 +57,6 @@ const router = createRouter({
       name: 'meal',
       component: () => import('@/views/patient/settings/meal/form.vue'),
       props: true,
-    },
-    {
-      path: '/management',
-      name: 'management',
-      component: () => import('@/views/settings/main.vue'),
     },
   ],
 })
