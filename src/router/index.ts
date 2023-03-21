@@ -42,6 +42,11 @@ const router = createRouter({
       component: () => import('@/views/settings/main.vue'),
     },
     {
+      path: '/management/type-meals/new',
+      name: 'type-meals-create-form',
+      component: () => import('@/views/settings/typeOfMeals/forms/create.vue'),
+    },
+    {
       path: '/management/type-meals',
       name: 'type-meals',
       component: () => import('@/views/settings/typeOfMeals/form.vue'),

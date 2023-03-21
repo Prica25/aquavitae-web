@@ -13,7 +13,7 @@
         class="items-center justify-center"
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
-        <q-card class="q-pa-xl table-card">
+        <q-card class="q-pa-sm table-card">
           <q-table
             ref="table"
             table-header-class="header-table"
