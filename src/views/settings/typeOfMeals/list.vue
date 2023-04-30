@@ -60,17 +60,15 @@ export default defineComponent({
       rows: [
         {
           description: 'Pequeno-Almoço',
-          calories_percentage: 25,
-          lipids_percentage: 25,
-          proteins_percentage: 25,
-          carbohydrates_percentage: 25,
+          lipids_percentage: 30,
+          proteins_percentage: 15,
+          carbohydrates_percentage: 55,
         },
         {
           description: 'Almoço',
-          calories_percentage: 30,
-          lipids_percentage: 30,
-          proteins_percentage: 30,
-          carbohydrates_percentage: 30,
+          lipids_percentage: 35,
+          proteins_percentage: 15,
+          carbohydrates_percentage: 50,
         },
       ],
       columns: [
@@ -82,14 +80,6 @@ export default defineComponent({
           style:
             'min-width: 10vw; max-width: 10vw; text-overflow: ellipsis; overflow: hidden;',
           headerStyle: 'min-width: 10vw; max-width: 10vw',
-          sortable: true,
-        },
-        {
-          name: 'calories_percentage',
-          label: 'Calorias (%)',
-          field: 'calories_percentage',
-          align: 'center',
-          style: 'font-weight: bold;',
           sortable: true,
         },
         {
@@ -140,7 +130,7 @@ export default defineComponent({
   async mounted() {},
   methods: {
     add() {
-      console.log('add new food')
+      this.$router.push({ name: 'type-meals-create-form' })
     },
     remove(id: string) {
       this.selectedFood = id

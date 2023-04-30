@@ -37,6 +37,18 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
+      path: '/menu-user/:user_id',
+      name: 'menu-user',
+      component: () => import('@/views/patient/settings/main.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/meal/:user_id',
+      name: 'meal',
+      component: () => import('@/views/patient/settings/meal/form.vue'),
+      props: true,
+    },
+    {
       path: '/management',
       name: 'management',
       component: () => import('@/views/settings/main.vue'),
@@ -49,19 +61,18 @@ const router = createRouter({
     {
       path: '/management/type-meals',
       name: 'type-meals',
-      component: () => import('@/views/settings/typeOfMeals/form.vue'),
+      component: () => import('@/views/settings/typeOfMeals/list.vue'),
     },
     {
-      path: '/menu-user/:user_id',
-      name: 'menu-user',
-      component: () => import('@/views/patient/settings/main.vue'),
-      props: true,
+      path: '/management/activity-level/new',
+      name: 'activity-level-create-form',
+      component: () =>
+        import('@/views/settings/activityLevel/forms/create.vue'),
     },
     {
-      path: '/menu-user/meal/:user_id',
-      name: 'meal',
-      component: () => import('@/views/patient/settings/meal/form.vue'),
-      props: true,
+      path: '/management/activity-level',
+      name: 'activity-level',
+      component: () => import('@/views/settings/activityLevel/list.vue'),
     },
   ],
 })

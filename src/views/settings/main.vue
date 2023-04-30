@@ -29,7 +29,11 @@ export default defineComponent({
     return {
       options: [
         { description: 'Refeições', icon: 'utensils', href: 'type-meals' },
-        { description: 'Patologias', icon: 'disease', href: 'appointment' },
+        {
+          description: 'Nível de Atividade',
+          icon: 'running',
+          href: 'activity-level',
+        },
       ],
     }
   },

@@ -22,7 +22,7 @@ import MealCard from '@/components/nutricionalPlan/mealCard.vue'
 import type AnthropometricData from '@/types/AnthropometricData'
 import type Food from '@/types/Food'
 
-import AnthropometricDataService from '@/services/AnthropometricDataService.js'
+import AnthropometricDataService from '@/services/AnthropometricDataService'
 
 export default defineComponent({
   props: {
