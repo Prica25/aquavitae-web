@@ -8,13 +8,12 @@
     filter-column="description"
     :columns="columns"
     create-form="type-meals-create-form"
-  >
-  </List>
+  />
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import List from '@/components/List.vue'
+import List from '@/components/misc/List.vue'
 
 export default defineComponent({
   components: {

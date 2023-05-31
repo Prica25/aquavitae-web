@@ -37,7 +37,7 @@ export default {
   put(typeOfMeal: TypeOfMeal) {
     return Api().patch(`type-of-meal/update/${typeOfMeal.id}`, typeOfMeal)
   },
-  delete(id: number) {
+  delete(id: string) {
     return Api().delete(`type-of-meal/delete/${id}`)
   },
 }

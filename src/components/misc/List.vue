@@ -31,7 +31,7 @@
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td
-                  v-for="column in columns"
+                  v-for="column in (columns as QTableColumn[])"
                   :key="column.name"
                   :props="props"
                 >
@@ -78,6 +78,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import type ResponseList from '@/types/ResponseList'
+import type { QTableColumn } from 'quasar'
 
 import Details from '@/components/food/details.vue'
 
@@ -126,7 +127,7 @@ export default defineComponent({
       search: '',
       rows: [] as any[],
       pagination: {
-        sortBy: this.tableSortBy || this.columns[0]?.name,
+        sortBy: this.tableSortBy || (this.columns[0] as QTableColumn)?.name,
         descending: false,
         page: 1,
         rowsPerPage: 8,
