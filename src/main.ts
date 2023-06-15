@@ -17,7 +17,7 @@ import 'quasar/src/css/index.sass'
 
 import App from './App.vue'
 import Base from './components/misc/Base.vue'
-import Search from './components/misc/search.vue'
+import Search from './components/misc/Search.vue'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
