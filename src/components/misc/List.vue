@@ -123,7 +123,9 @@ export default defineComponent({
   },
   data() {
     return {
-      SERVICE: import(/* @vite-ignore */ `../services/${this.type}Service.ts`),
+      SERVICE: import(
+        /* @vite-ignore */ `../../services/${this.type}Service.ts`
+      ),
       search: '',
       rows: [] as any[],
       pagination: {
@@ -179,9 +181,10 @@ export default defineComponent({
     add() {
       this.$router.push({ name: this.createForm })
     },
-    remove(id: string) {
-      this.selectedFood = id
-      console.log('remove food', id)
+    async remove(id: string) {
+      try {
+        // await this.SERVICE.delete(id)
+      } catch (err) {}
     },
     edit(id: string) {
       this.selectedFood = id

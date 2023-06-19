@@ -56,13 +56,6 @@ export default defineComponent({
           style: 'font-weight: bold;',
           sortable: true,
         },
-        {
-          name: 'actions',
-          align: 'center',
-          label: 'Ações',
-          field: 'actions',
-          sortable: false,
-        },
       ],
     }
   },
