@@ -106,16 +106,21 @@
         <router-view />
       </div>
     </q-page-container>
+    <DialogWrapper />
   </q-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { DialogWrapper } from 'vue3-promise-dialog'
 import MenuItems from './menu'
 
 import { useUserStore } from '@/stores/user'
 
 export default defineComponent({
+  components: {
+    DialogWrapper,
+  },
   data() {
     return {
       userStore: useUserStore(),

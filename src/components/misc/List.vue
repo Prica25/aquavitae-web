@@ -183,8 +183,12 @@ export default defineComponent({
     },
     async remove(id: string) {
       try {
+        const resultado = await this.$confirmation({ text: 'teste 123' })
+        console.log(resultado)
         // await this.SERVICE.delete(id)
-      } catch (err) {}
+      } catch (err) {
+        console.log(err)
+      }
     },
     edit(id: string) {
       this.selectedFood = id
