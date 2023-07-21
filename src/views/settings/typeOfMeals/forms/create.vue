@@ -10,7 +10,9 @@
       />
     </template>
     <template v-slot:content>
-      <div
+      <q-form
+        ref="form"
+        @submit="save"
         class="items-center justify-center"
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
@@ -21,11 +23,20 @@
             v-model="text"
             label="Descrição"
             width="200px"
+            :rules="[(val) => (val && val.length > 0) || 'Campo Obrigatório']"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            @change="formChanged = true"
           />
-          <micronutrients-percentage-bar v-model="micronutrients" />
-          <q-btn color="primary" label="Adicionar" />
+          <micronutrients-percentage-bar
+            v-model="micronutrients"
+            @change="formChanged = true"
+          />
+          <q-btn color="primary" label="Adicionar" type="submit" />
         </q-card>
-      </div>
+      </q-form>
     </template>
   </base-page>
 </template>
@@ -34,11 +45,14 @@ import { defineComponent } from 'vue'
 
 import micronutrientsPercentageBar from '@/components/micronutrientsPercentageBar/index.vue'
 
+import TypeOfMealService from '@/services/TypeOfMealService'
+
 export default defineComponent({
   components: { micronutrientsPercentageBar },
   data() {
     return {
-      text: 'Pequeno-Almoço',
+      formChanged: false,
+      text: '',
       micronutrients: [
         { name: 'Lípidos', percentage: 30 },
         { name: 'Proteínas', percentage: 15 },
@@ -47,8 +61,25 @@ export default defineComponent({
     }
   },
   methods: {
-    goBack() {
-      this.$router.back()
+    async goBack() {
+      if (!this.formChanged || (await this.$confirmation('cancel'))) {
+        this.$router.back()
+      }
+    },
+    async save() {
+      if (await this.$confirmation('save')) {
+        try {
+          let obj = {
+            description: this.text,
+            lipids_percentage: this.micronutrients[0].percentage,
+            proteins_percentage: this.micronutrients[1].percentage,
+            carbohydrates_percentage: this.micronutrients[2].percentage,
+          }
+          await TypeOfMealService.post(obj)
+        } catch (err) {
+          console.log(err)
+        }
+      }
     },
   },
 })

@@ -1,8 +1,9 @@
 <template>
   <confirmation-base
-    title="Novo Registo"
-    description="Têm certeza que deseja guardar?"
-    icon="edit"
+    title="Remover"
+    description="Têm certeza que deseja remover este registo?"
+    icon="trash"
+    iconColor="negative"
     :buttons="buttons"
   />
 </template>

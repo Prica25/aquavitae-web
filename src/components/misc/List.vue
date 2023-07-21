@@ -183,9 +183,11 @@ export default defineComponent({
     },
     async remove(id: string) {
       try {
-        const resultado = await this.$confirmation({ text: 'teste 123' })
+        const resultado = await this.$confirmation('delete')
+        if (resultado) {
+          await this.SERVICE.delete(id)
+        }
         console.log(resultado)
-        // await this.SERVICE.delete(id)
       } catch (err) {
         console.log(err)
       }

@@ -32,6 +32,7 @@ export default {
     return Api().get(`type-of-meal/get/${id}`)
   },
   post(typeOfMeal: TypeOfMeal) {
+    typeOfMeal.calories_percentage = 0
     return Api().post('type-of-meal/create', typeOfMeal)
   },
   put(typeOfMeal: TypeOfMeal) {

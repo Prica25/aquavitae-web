@@ -21,7 +21,7 @@ import './style.css'
 export default defineComponent({
   components: { Splitpanes, Pane },
   props: ['modelValue'],
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   computed: {
     nutrients: {
       get() {
@@ -44,6 +44,7 @@ export default defineComponent({
         name: n.name,
         percentage: newSizes[i].size,
       }))
+      this.$emit('change')
     },
     formatedPercentage(percentage: number) {
       return Math.round(percentage) + '%'
