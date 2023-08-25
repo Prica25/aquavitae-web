@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-xl meal-card">
+  <q-card class="q-pa-xl meal-card box-default">
     <div class="row meal">
       <span v-if="!changeName">{{ name }}</span>
       <q-select

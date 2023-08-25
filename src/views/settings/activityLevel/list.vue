@@ -27,18 +27,12 @@ export default defineComponent({
           name: 'description',
           label: 'Descrição',
           field: 'description',
-          align: 'left',
-          style:
-            'min-width: 10vw; max-width: 10vw; text-overflow: ellipsis; overflow: hidden;',
-          headerStyle: 'min-width: 10vw; max-width: 10vw',
-          sortable: true,
         },
         {
           name: 'factor',
           label: 'Fator',
           field: 'factor',
           align: 'center',
-          sortable: true,
         },
       ],
     }

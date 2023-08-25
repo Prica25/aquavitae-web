@@ -1,8 +1,7 @@
 <template>
   <q-card class="login-card">
     <div class="banner">
-      <q-icon name="fa-solid fa-droplet" class="icon" />
-      <span>Aquavitae</span>
+      <div title="Aquavitae" class="image"></div>
     </div>
     <div class="form">
       <q-input outlined v-model="username" placeholder="Email" dense>
@@ -81,31 +80,20 @@ export default defineComponent({
 }
 
 .banner {
-  background: var(--q-primary);
   width: 100%;
   height: 200px;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: end;
+  justify-content: center;
 }
 
-.banner span {
-  font-size: 32px;
-  font-weight: bold;
-  text-transform: uppercase;
-  position: absolute;
-  bottom: 25px;
-  left: 25px;
-  color: #f5f7f9;
-}
-
-.banner .icon {
-  font-size: 220px;
-  position: absolute;
-  right: -70px;
-  top: -40px;
-  color: var(--q-secondary);
+.banner .image {
+  background: url('../../assets/logo.svg');
+  background-repeat: no-repeat;
+  height: 180px;
+  width: calc(978 / 575 * 180px);
 }
 
 .form {

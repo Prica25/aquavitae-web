@@ -1,5 +1,5 @@
 <template>
-  <div class="user-box row">
+  <div class="user-box row box-default">
     <div class="col-4 items-center justify-center flex">
       <q-avatar
         size="80px"
@@ -83,8 +83,6 @@ export default defineComponent({
   max-width: 375px;
   height: 120px;
   background: white;
-  box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%),
-    0 3px 1px -2px rgb(0 0 0 / 12%);
   position: relative;
 }
 

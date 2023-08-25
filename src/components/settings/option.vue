@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: href }" custom v-slot="{ navigate }">
-    <div class="option" @click="navigate">
+    <div class="option box-default" @click="navigate">
       <q-icon class="logo" :name="`fa-solid fa-${icon}`" />
       <div class="description">{{ description }}</div>
     </div>
@@ -30,12 +30,12 @@ export default defineComponent({
 .option {
   width: 10vw;
   height: 10vw;
+  min-width: 150px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   background-color: white;
   transition: background-color 200ms linear;
   margin: 20px;
@@ -47,7 +47,7 @@ export default defineComponent({
 }
 
 .logo {
-  font-size: 4em;
+  font-size: max(3vw, 45px);
   color: var(--q-primary);
   transition: color 200ms linear;
 }

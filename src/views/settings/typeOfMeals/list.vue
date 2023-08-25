@@ -26,11 +26,7 @@ export default defineComponent({
           name: 'description',
           label: 'Descrição',
           field: 'description',
-          align: 'left',
-          style:
-            'min-width: 10vw; max-width: 10vw; text-overflow: ellipsis; overflow: hidden;',
-          headerStyle: 'min-width: 10vw; max-width: 10vw',
-          sortable: true,
+          size: '40%',
         },
         {
           name: 'lipids_percentage',
@@ -38,7 +34,6 @@ export default defineComponent({
           field: 'lipids_percentage',
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
         },
         {
           name: 'proteins_percentage',
@@ -46,7 +41,6 @@ export default defineComponent({
           field: 'proteins_percentage',
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
         },
         {
           name: 'carbohydrates_percentage',
@@ -54,7 +48,6 @@ export default defineComponent({
           field: 'carbohydrates_percentage',
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
         },
       ],
     }

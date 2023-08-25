@@ -12,10 +12,12 @@
     "@quasar/extras": "^1.13.6",
     "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.15",
     "axios": "^0.27.2",
+    "luxon": "^3.3.0",
     "pinia": "^2.0.13",
     "pinia-plugin-persistedstate": "^1.6.3",
     "quasar": "^2.6.6",
     "splitpanes": "^3.1.5",
+    "tabulator-tables": "^5.5.1",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14",
     "vue3-promise-dialog": "^0.3.4"

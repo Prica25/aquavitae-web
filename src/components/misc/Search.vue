@@ -1,5 +1,10 @@
 <template>
-  <q-input class="search" filled v-model="search" placeholder="Procurar">
+  <q-input
+    class="search box-default"
+    filled
+    v-model="search"
+    placeholder="Procurar"
+  >
     <template v-slot:prepend>
       <q-icon size="16px" name="fa-solid fa-magnifying-glass" />
     </template>

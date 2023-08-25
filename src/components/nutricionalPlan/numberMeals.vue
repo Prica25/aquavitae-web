@@ -1,5 +1,5 @@
 <template>
-  <div class="row number-meals">
+  <div class="row number-meals box-default">
     <span>Refeições</span>
     <q-space />
     <q-select
@@ -54,8 +54,6 @@ export default defineComponent({
   align-items: center;
   padding: 0 15px;
   margin: 20px 0;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 10%),
-    0 3px 1px -2px rgb(0 0 0 / 12%);
 }
 
 .number-meals > span {

@@ -1,6 +1,6 @@
 <template>
   <div class="row q-ma-0">
-    <div class="col data-card">
+    <div class="col data-card box-default">
       <div class="title">Proteínas</div>
       <div class="bottom">
         <div class="details">
@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="col data-card">
+    <div class="col data-card box-default">
       <div class="title">Lípidos</div>
       <div class="bottom">
         <div class="details">
@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="col data-card">
+    <div class="col data-card box-default">
       <div class="title">Hidratos de Carbono</div>
       <div class="bottom">
         <div class="details">
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="col data-card">
+    <div class="col data-card box-default">
       <div class="title">Valor Energético</div>
       <div class="bottom">
         <div class="details">
@@ -117,8 +117,6 @@ export default defineComponent({
   background: white;
   margin: 0 15px;
   height: 125px;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 10%),
-    0 3px 1px -2px rgb(0 0 0 / 12%);
   padding: 15px;
   position: relative;
 }
