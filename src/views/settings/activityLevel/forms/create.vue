@@ -1,6 +1,6 @@
 <template>
   <base-page title="Tipo de Refeição">
-    <template v-slot:right-header>
+    <template #right-header>
       <q-btn
         outline
         round
@@ -9,7 +9,7 @@
         @click="goBack"
       />
     </template>
-    <template v-slot:content>
+    <template #content>
       <div
         class="items-center justify-center"
         style="display: flex; width: 100%; height: 100%; flex-direction: column"

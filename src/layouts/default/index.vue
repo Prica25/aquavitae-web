@@ -60,7 +60,7 @@
           v-model="search"
           placeholder="Procurar por pacientes"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <q-icon size="18px" name="fa-solid fa-magnifying-glass" />
           </template>
         </q-input>
@@ -74,7 +74,7 @@
           flat
           dropdown-icon="fa-solid fa-chevron-down"
         >
-          <template v-slot:label>
+          <template #label>
             <div class="row items-center no-wrap">
               <div class="text-center">{{ userStore.getName }}</div>
               <q-avatar

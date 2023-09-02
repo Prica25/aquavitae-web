@@ -4,7 +4,7 @@
     horizontal-alignment="center"
     vertical-alignment="center"
   >
-    <template v-slot:right-header>
+    <template #right-header>
       <search
         v-model="filter"
         @click-button="add"
@@ -12,7 +12,7 @@
         :button-text="addButtonText"
       ></search>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div style="width: 100%">
         <custom-table
           ref="table"
@@ -23,7 +23,7 @@
           :loading="isLoading"
           @request="requestDB"
         >
-          <template v-slot:actions="{ row }">
+          <template #actions="{ row }">
             <span>
               <q-icon
                 name="fa-solid fa-pencil"

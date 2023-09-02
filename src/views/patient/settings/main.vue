@@ -5,7 +5,7 @@
     vertical-alignment="center"
     no-header
   >
-    <template v-slot:content>
+    <template #content>
       <Option
         v-for="(option, index) in options"
         :key="`settings-option-${index}`"

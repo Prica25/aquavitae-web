@@ -5,7 +5,7 @@
     </div>
     <div class="form">
       <q-input outlined v-model="username" placeholder="Email" dense>
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon size="16px" name="fa-solid fa-user" />
         </template>
       </q-input>
@@ -17,10 +17,10 @@
         :type="showPassword ? 'text' : 'password'"
         dense
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon size="16px" name="fa-solid fa-user" />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon
             size="16px"
             :name="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"

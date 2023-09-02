@@ -1,6 +1,6 @@
 <template>
   <base-page title="Pacientes">
-    <template v-slot:right-header>
+    <template #right-header>
       <search
         v-model="search"
         @click-button="add"
@@ -8,7 +8,7 @@
         button-text="Adicionar Paciente"
       ></search>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div
         class="row items-start justify-center"
         style="width: 100%; padding: 20px"

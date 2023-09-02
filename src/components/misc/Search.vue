@@ -5,7 +5,7 @@
     v-model="search"
     placeholder="Procurar"
   >
-    <template v-slot:prepend>
+    <template #prepend>
       <q-icon size="16px" name="fa-solid fa-magnifying-glass" />
     </template>
   </q-input>

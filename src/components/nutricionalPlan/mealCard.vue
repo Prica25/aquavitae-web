@@ -27,7 +27,7 @@
       no-data-label="Sem alimentos selecionados"
       hide-pagination
     >
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr :props="props">
           <q-td key="description" :props="props">
             {{ props.row.description }}

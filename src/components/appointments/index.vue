@@ -6,7 +6,7 @@
       :columns="columns"
       :loading="isLoading"
     >
-      <template v-slot:description="{ row }">
+      <template #description="{ row }">
         <div class="row">
           <q-avatar
             size="50px"
@@ -20,6 +20,9 @@
             <span class="gender-age">28 anos</span>
           </div>
         </div>
+      </template>
+      <template #status="{ row }">
+        <q-chip size="16px" color="primary">{{ row.status }} </q-chip>
       </template>
     </custom-table>
   </div>
@@ -44,21 +47,22 @@ export default defineComponent({
           field: 'description',
         },
         {
-          name: 'description',
-          label: 'Descrição',
+          name: 'status',
+          label: 'Estado',
           field: 'status',
         },
       ],
       events: [
-        { description: 'asd' },
-        { description: 'xcv' },
-        { description: 'fgh' },
-        { description: 'yui' },
-        { description: 'jkl' },
+        { description: 'asd', status: 'REALIZED' },
+        { description: 'xcv', status: 'CANCELLED' },
+        { description: 'fgh', status: 'CANCELLED' },
+        { description: 'yui', status: 'SCHEDULED' },
+        { description: 'jkl', status: 'SCHEDULED' },
       ],
     }
   },
   methods: {
+    // statusDescription(status) {},
     calendarToday() {
       let calendar = this.$refs.calendar as any
       calendar.moveToToday()
