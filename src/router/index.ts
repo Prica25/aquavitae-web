@@ -74,6 +74,11 @@ const router = createRouter({
       name: 'activity-level',
       component: () => import('@/views/settings/activityLevel/list.vue'),
     },
+    {
+      path: '/management/appointment-goal',
+      name: 'appointment-goal',
+      component: () => import('@/views/settings/appointmentGoal/list.vue'),
+    },
   ],
 })
 
