@@ -2,7 +2,7 @@
   <div class="col-12">
     <custom-table
       ref="table"
-      :rows="events"
+      :rows="appointments"
       :columns="columns"
       :loading="isLoading"
     >
@@ -16,7 +16,7 @@
             style="margin-right: 12px"
           />
           <div class="patient-details">
-            <span class="name">Kiran Acharya</span>
+            <span class="name">{{ row.user.email }}</span>
             <span class="gender-age">28 anos</span>
           </div>
         </div>
@@ -33,18 +33,23 @@ import { defineComponent } from 'vue'
 import CustomTable from '@/components/misc/CustomTable.vue'
 
 export default defineComponent({
+  props: {
+    appointments: {
+      type: Array,
+      default: () => [],
+    },
+  },
   components: {
     CustomTable,
   },
   data() {
     return {
-      // selectedDate: today(),
       isLoading: false,
       columns: [
         {
-          name: 'description',
-          label: 'Descrição',
-          field: 'description',
+          name: 'user',
+          label: 'Paciente',
+          field: 'user',
         },
         {
           name: 'status',

@@ -34,6 +34,11 @@ export default defineComponent({
           icon: 'running',
           href: 'activity-level',
         },
+        {
+          description: 'Objetivos',
+          icon: 'bullseye',
+          href: 'appointment-goal',
+        },
       ],
     }
   },
