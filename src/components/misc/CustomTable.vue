@@ -49,7 +49,9 @@
             column.size ? 'flex: ' + column.size : ''
           } ${column.style ? column.style : ''}`"
           :title="
-            typeof column.field === 'function'
+            disableTooltip
+              ? undefined
+              : typeof column.field === 'function'
               ? column.field(row)
               : row[column.name]
           "
@@ -131,6 +133,10 @@ export default defineComponent({
       type: Array<any>,
       default: () => [],
     },
+    disableTooltip: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
