@@ -99,7 +99,7 @@ export default defineComponent({
     return {
       SERVICE: import(
         /* @vite-ignore */ `../../services/${this.type}Service.ts`
-      ),
+      ) as any,
       filter: '',
       rows: [] as any[],
       sort: {

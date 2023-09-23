@@ -77,11 +77,10 @@
           <template #label>
             <div class="row items-center no-wrap">
               <div class="text-center">{{ userStore.getName }}</div>
-              <q-avatar
-                color="transparent"
-                text-color="white"
-                size="36px"
-                icon="fa-solid fa-user-circle"
+              <user-photo
+                :photo="userStore.getProfilePhoto"
+                :size="30"
+                style="margin-left: 12px"
               />
             </div>
           </template>
@@ -117,9 +116,12 @@ import MenuItems from './menu'
 
 import { useUserStore } from '@/stores/user'
 
+import UserPhoto from '@/components/patient/photo.vue'
+
 export default defineComponent({
   components: {
     DialogWrapper,
+    UserPhoto,
   },
   data() {
     return {

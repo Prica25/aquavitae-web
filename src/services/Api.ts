@@ -28,7 +28,7 @@ export default () => {
         router.push('/login')
       }
 
-      return error
+      throw error
     }
   )
 

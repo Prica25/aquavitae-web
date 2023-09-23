@@ -67,12 +67,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, type PropType } from 'vue'
+
+import type AnthropometricData from '@/types/AnthropometricData'
 
 export default defineComponent({
   props: {
     anthropometricData: {
-      type: Object as any,
+      type: Object as PropType<AnthropometricData>,
       required: true,
     },
   },

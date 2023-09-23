@@ -44,6 +44,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import UserService from '@/services/UserService'
+import PersonalDataService from '@/services/PersonalDataService'
 
 import { useUserStore } from '@/stores/user'
 
@@ -59,14 +60,38 @@ export default defineComponent({
   },
   created() {
     if (this.store.getToken) this.store.logout()
+    window.addEventListener('keydown', this.login)
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.login)
   },
   methods: {
-    async login() {
-      let response = (await UserService.login(this.username, this.password))
-        .data
+    async login(event: KeyboardEvent | Event) {
+      if (!(event instanceof KeyboardEvent) || event.key === 'Enter') {
+        try {
+          let response = (await UserService.login(this.username, this.password))
+            .data
 
-      this.store.login(response)
-      this.$router.push('/')
+          this.store.login(response)
+
+          let personalData = response.user
+            ? (await PersonalDataService.show(response.user.id)).data[0]
+            : null
+
+          this.store.updatePersonalData(personalData)
+
+          this.$router.push('/')
+        } catch (err) {
+          if (
+            (err as any).response?.data?.detail?.[0]?.msg ===
+            'Invalid credentials.'
+          ) {
+            console.log('password errada')
+          } else {
+            console.log('Algum erro aconteceu')
+          }
+        }
+      }
     },
   },
 })

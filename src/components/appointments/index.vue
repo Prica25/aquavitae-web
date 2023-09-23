@@ -9,15 +9,11 @@
     >
       <template #user="{ row }">
         <div class="row">
-          <q-avatar
-            size="50px"
-            color="primary"
-            text-color="white"
+          <user-photo
+            :photo="row.user.profile_photo"
+            :size="50"
             style="margin-right: 12px"
-          >
-            <q-icon v-if="true" name="fa-solid fa-user" />
-            <img v-if="false" src="https://cdn.quasar.dev/img/avatar.png" />
-          </q-avatar>
+          />
           <div class="patient-details">
             <span class="name">{{ getFullName(row.user.id) }}</span>
             <span class="gender-age">{{ getAge(row.user.id) }}</span>
@@ -31,9 +27,9 @@
         <q-chip
           size="16px"
           text-color="white"
-          :color="AppointmentStatus[row.status].color"
+          :color="AppointmentStatusDetails[row.status as AppointmentStatus].color"
         >
-          {{ AppointmentStatus[row.status].description }}
+          {{ AppointmentStatusDetails[row.status as AppointmentStatus].description }}
         </q-chip>
       </template>
       <template #appointment_has_goals="{ row }">
@@ -112,11 +108,13 @@ import { defineComponent } from 'vue'
 
 import PersonalDataService from '@/services/PersonalDataService'
 
-import AppointmentStatus from '@/types/AppointmentStatus'
+import AppointmentStatusDetails from '@/types/Misc/AppointmentStatus'
 import type Appointment from '@/types/Appointment'
+import type AppointmentStatus from '@/types/Enum/AppointmentStatus'
 import type PersonalData from '@/types/PersonalData'
 
 import CustomTable from '@/components/misc/CustomTable.vue'
+import UserPhoto from '@/components/patient/photo.vue'
 
 export default defineComponent({
   props: {
@@ -127,10 +125,11 @@ export default defineComponent({
   },
   components: {
     CustomTable,
+    UserPhoto,
   },
   data() {
     return {
-      AppointmentStatus,
+      AppointmentStatusDetails,
       isLoading: false,
       columns: [
         {
@@ -167,7 +166,7 @@ export default defineComponent({
           size: '100px',
         },
       ],
-      personalDataList: [] as any,
+      personalDataList: [] as Array<PersonalData>,
     }
   },
   watch: {

@@ -144,7 +144,7 @@ export default defineComponent({
     }
   },
   methods: {
-    sortBy(column: String) {
+    sortBy(column: any) {
       if ('sortable' in column ? column.sortable : true) {
         if (this.sort.by !== column.name) {
         this.sort.by = column.name

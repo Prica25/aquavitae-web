@@ -5,9 +5,15 @@
     vertical-alignment="center"
   >
     <template #right-header>
-      <q-btn flat label="Anterior" color="primary" @click="calendarPrev" />
+      <q-btn
+        class="btn"
+        flat
+        label="Anterior"
+        color="primary"
+        @click="calendarPrev"
+      />
       <q-separator vertical />
-      <q-btn flat :label="formatedDate" color="secondary">
+      <q-btn class="btn" flat :label="formatedDate" color="secondary">
         <q-popup-proxy
           transition-show="scale"
           transition-hide="scale"
@@ -18,14 +24,18 @@
             v-model="formatedDate"
             mask="DD/MM/YYYY"
             minimal
-            :navigation-max-year-month="calendarSettings.navigationDate"
-            :options="calendarSettings.options"
             :locale="calendarSettings.locale"
           />
         </q-popup-proxy>
       </q-btn>
       <q-separator vertical />
-      <q-btn flat label="Próxima" color="primary" @click="calendarNext" />
+      <q-btn
+        class="btn"
+        flat
+        label="Próxima"
+        color="primary"
+        @click="calendarNext"
+      />
       <q-btn
         class="btn"
         color="primary"
@@ -158,3 +168,8 @@ export default defineComponent({
   },
 })
 </script>
+<style scoped>
+.btn {
+  height: 56px;
+}
+</style>

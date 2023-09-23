@@ -1,12 +1,7 @@
 <template>
   <div class="user-box row box-default">
     <div class="col-4 items-center justify-center flex">
-      <q-avatar
-        size="80px"
-        color="primary"
-        text-color="white"
-        icon="fa-solid fa-user"
-      />
+      <user-photo :photo="user.profile_photo" :size="80" />
     </div>
     <div class="col justify-center user-details">
       <span class="user-name">{{ fullName }}</span>
@@ -28,18 +23,26 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, type PropType } from 'vue'
+
+import UserPhoto from '@/components/patient/photo.vue'
+
+import type User from '@/types/User'
+import type PersonalData from '@/types/PersonalData'
 
 export default defineComponent({
   props: {
     user: {
-      type: Object as any,
+      type: Object as PropType<User>,
       required: true,
     },
     personalData: {
-      type: Object as any,
+      type: Object as PropType<PersonalData>,
       required: false,
     },
+  },
+  components: {
+    UserPhoto,
   },
   data() {
     return {

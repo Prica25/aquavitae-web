@@ -40,7 +40,6 @@ export default defineComponent({
       async handler() {
         if (this.visible) {
           const food = (await FoodService.show(this.food)).data
-          console.log(food)
         }
       },
       immediate: true,
