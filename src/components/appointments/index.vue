@@ -13,12 +13,14 @@
             size="50px"
             color="primary"
             text-color="white"
-            icon="fa-solid fa-user"
             style="margin-right: 12px"
-          />
+          >
+            <q-icon v-if="true" name="fa-solid fa-user" />
+            <img v-if="false" src="https://cdn.quasar.dev/img/avatar.png" />
+          </q-avatar>
           <div class="patient-details">
-            <span class="name">{{ row.user.email }}</span>
-            <span class="gender-age">28 anos</span>
+            <span class="name">{{ getFullName(row.user.id) }}</span>
+            <span class="gender-age">{{ getAge(row.user.id) }}</span>
           </div>
         </div>
       </template>
@@ -64,17 +66,42 @@
             name="fa-solid fa-user-check"
             color="positive"
             style="cursor: pointer; margin: 0 8px"
-          />
+          >
+            <q-tooltip
+              transition-show="flip-right"
+              transition-hide="flip-left"
+              style="font-size: 13px"
+            >
+              Registo
+            </q-tooltip>
+          </q-icon>
+
           <q-icon
             name="fa-solid fa-user-clock"
             color="warning"
             style="cursor: pointer; margin: 0 8px"
-          />
+          >
+            <q-tooltip
+              transition-show="flip-right"
+              transition-hide="flip-left"
+              style="font-size: 13px"
+            >
+              Reagendar
+            </q-tooltip>
+          </q-icon>
           <q-icon
             name="fa-solid fa-user-times"
             color="negative"
             style="cursor: pointer; margin: 0 2px 0 8px"
-          />
+          >
+            <q-tooltip
+              transition-show="flip-right"
+              transition-hide="flip-left"
+              style="font-size: 13px"
+            >
+              Cancelar
+            </q-tooltip>
+          </q-icon>
         </span>
       </template>
     </custom-table>
@@ -83,7 +110,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import PersonalDataService from '@/services/PersonalDataService'
+
 import AppointmentStatus from '@/types/AppointmentStatus'
+import type Appointment from '@/types/Appointment'
+import type PersonalData from '@/types/PersonalData'
+
 import CustomTable from '@/components/misc/CustomTable.vue'
 
 export default defineComponent({
@@ -135,7 +167,21 @@ export default defineComponent({
           size: '100px',
         },
       ],
+      personalDataList: [] as any,
     }
+  },
+  watch: {
+    appointments: {
+      async handler(val) {
+        const userIds = [
+          ...new Set(
+            val.map((appointment: Appointment) => appointment.user.id)
+          ),
+        ] as string[]
+        this.personalDataList = (await PersonalDataService.show(userIds)).data
+      },
+      immediate: true,
+    },
   },
   methods: {
     getHour(date: string) {
@@ -145,17 +191,33 @@ export default defineComponent({
           .match(/[0-9-]{10}T([0-9]{2}:[0-9]{2}):[0-9.]{6}Z/)?.[1] || 'N/D'
       )
     },
-    calendarToday() {
-      let calendar = this.$refs.calendar as any
-      calendar.moveToToday()
+    getFullName(user_id: string) {
+      const personalData = this.personalDataList.find(
+        (pd: PersonalData) => pd.user.id === user_id
+      ) as PersonalData
+
+      return personalData
+        ? `${personalData.first_name} ${personalData.last_name}`
+        : 'Desconhecido'
     },
-    calendarNext() {
-      let calendar = this.$refs.calendar as any
-      calendar.next()
-    },
-    calendarPrev() {
-      let calendar = this.$refs.calendar as any
-      calendar.prev()
+    getAge(user_id: string) {
+      const personalData = this.personalDataList.find(
+        (pd: PersonalData) => pd.user.id === user_id
+      ) as PersonalData
+
+      if (personalData) {
+        const date = new Date(personalData.birthday)
+        const today = new Date()
+
+        let age = today.getFullYear() - date.getFullYear()
+        const m = today.getMonth() - date.getMonth()
+        if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
+          age--
+        }
+
+        return `${age} anos`
+      }
+      return 'Sem informações'
     },
   },
 })

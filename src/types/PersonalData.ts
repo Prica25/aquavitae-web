@@ -13,8 +13,8 @@ type PersonalData = {
   food_history: string
   bedtime: string
   wake_up: string
-  activity_level_id: ActivityLevel
-  user_id: User
+  activity_level: ActivityLevel
+  user: User
 }
 
 export default PersonalData

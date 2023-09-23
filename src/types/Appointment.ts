@@ -6,7 +6,7 @@ type Appointment = {
   updated_at: string
   deleted_at: string
   status: number
-  user_id: User
+  user: User
 }
 
 export default Appointment

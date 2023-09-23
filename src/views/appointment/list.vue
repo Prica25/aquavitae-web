@@ -8,23 +8,31 @@
       <q-btn flat label="Anterior" color="primary" @click="calendarPrev" />
       <q-separator vertical />
       <q-btn flat :label="formatedDate" color="secondary">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="formatedDate" mask="DD/MM/YYYY" minimal />
+        <q-popup-proxy
+          transition-show="scale"
+          transition-hide="scale"
+          :offset="[91, 12]"
+        >
+          <q-date
+            class="box-default"
+            v-model="formatedDate"
+            mask="DD/MM/YYYY"
+            minimal
+            :navigation-max-year-month="calendarSettings.navigationDate"
+            :options="calendarSettings.options"
+            :locale="calendarSettings.locale"
+          />
         </q-popup-proxy>
       </q-btn>
-
-      <!-- <span
-        style="
-          padding: 4px 16px;
-          font-weight: 500;
-          color: var(--q-secondary) !important;
-          user-select: none;
-        "
-      >
-        {{ formatedDate }}
-      </span> -->
       <q-separator vertical />
       <q-btn flat label="Próxima" color="primary" @click="calendarNext" />
+      <q-btn
+        class="btn"
+        color="primary"
+        label="Agendar"
+        @click="$emit('click-button')"
+        style="margin-left: 12px"
+      />
     </template>
     <template #content>
       <appointments-list :appointments="rows" />
@@ -46,22 +54,60 @@ export default defineComponent({
   data() {
     return {
       selectedDate: new Date(),
-      rows: [],
+      rows: [] as any[],
       pagination: {
         page: 1,
         rowsPerPage: 10,
         pagesNumber: 0,
         rowsNumber: 0,
       },
+      calendarSettings: {
+        locale: {
+          firstDayOfWeek: 1,
+          months: [
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro',
+          ],
+          monthsShort: [
+            'Jan',
+            'Fev',
+            'Mar',
+            'Abr',
+            'Mai',
+            'Jun',
+            'Jul',
+            'Ago',
+            'Set',
+            'Out',
+            'Nov',
+            'Dez',
+          ],
+          days: [
+            'Domingo',
+            'Segunda-feira',
+            'Terça-feira',
+            'Quarta-feira',
+            'Quinta-feira',
+            'Sexta-feira',
+            'Sábado',
+          ],
+          daysShort: ['Dom', 'Seg', 'Terç', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        },
+      },
     }
   },
   async created() {
     this.getAppointments()
-    // this.rows = [
-    //   Object.assign({}, response.data[0], { status: 'REALIZED' }),
-    //   ...response.data,
-    //   Object.assign({}, response.data[0], { status: 'CANCELLED' }),
-    // ]
   },
   computed: {
     formatedDate: {
@@ -74,7 +120,7 @@ export default defineComponent({
       },
       set(value: string) {
         let d = value.split('/')
-        this.selectedDate = new Date(d[2] + '/' + d[1] + '/' + d[0])
+        this.selectedDate = new Date(`${d[2]}-${d[1]}-${d[0]}`)
       },
     },
   },
@@ -97,11 +143,17 @@ export default defineComponent({
 
       this.pagination.rowsNumber = response.count
       this.pagination.pagesNumber = response.last_page
-      this.rows = [
-        Object.assign({}, response.data[0], { status: 'CANCELLED' }),
-        ...response.data,
-        Object.assign({}, response.data[0], { status: 'REALIZED' }),
-      ]
+      this.rows = response.data
+    },
+    calendarNext() {
+      this.selectedDate = new Date(
+        this.selectedDate.getTime() + 60 * 60 * 24 * 1000
+      )
+    },
+    calendarPrev() {
+      this.selectedDate = new Date(
+        this.selectedDate.getTime() - 60 * 60 * 24 * 1000
+      )
     },
   },
 })
