@@ -52,6 +52,9 @@
   align-items: center;
   justify-content: center;
 }
+.splitpanes .splitpanes__pane.empty {
+  background-color: rgba(0, 0, 0, 0.18);
+}
 .splitpanes .splitpanes__pane > span {
   overflow: hidden;
   white-space: nowrap;

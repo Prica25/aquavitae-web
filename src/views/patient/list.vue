@@ -30,7 +30,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PatientBox from '@/components/patient/box.vue'
+
 import type User from '@/types/User'
+import type PersonalData from '@/types/PersonalData'
 
 import UserService from '@/services/UserService'
 import PersonalDataService from '@/services/PersonalDataService'
@@ -42,8 +44,8 @@ export default defineComponent({
   data() {
     return {
       search: '',
-      users: [] as any[],
-      patientsData: [] as any[],
+      users: [] as Array<User>,
+      patientsData: [] as Array<PersonalData>,
       pagination: {
         sortBy: 'email',
         descending: false,

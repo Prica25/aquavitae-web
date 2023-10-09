@@ -6,7 +6,7 @@
     <div class="col justify-center user-details">
       <span class="user-name">{{ fullName }}</span>
       <span class="birthday">
-        <q-icon name="fa-solid fa-baby-carriage"></q-icon>
+        <q-icon name="fa-solid fa-cake-candles"></q-icon>
         {{ birthdayDate }}
       </span>
       <span class="user-email">
@@ -15,10 +15,42 @@
       </span>
     </div>
     <div class="user-actions">
-      <q-icon name="fa-solid fa-eye" @click="$emit('view', user)" />
-      <q-icon name="fa-solid fa-pencil" @click="$emit('edit', user)" />
-      <q-icon name="fa-solid fa-trash" @click="$emit('delete', user)" />
-      <q-icon name="fa-solid fa-gears" @click="$emit('open-settings', user)" />
+      <q-icon name="fa-solid fa-eye" @click="$emit('open-settings', user)">
+        <q-tooltip
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          anchor="center right"
+          self="center left"
+          :offset="[10, 10]"
+          style="font-size: 13px"
+        >
+          Detalhes
+        </q-tooltip>
+      </q-icon>
+      <q-icon name="fa-solid fa-pencil" @click="$emit('edit', user)">
+        <q-tooltip
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          anchor="center right"
+          self="center left"
+          :offset="[10, 10]"
+          style="font-size: 13px"
+        >
+          Alterar Dados
+        </q-tooltip>
+      </q-icon>
+      <q-icon name="fa-solid fa-trash" @click="$emit('delete', user)">
+        <q-tooltip
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          anchor="center right"
+          self="center left"
+          :offset="[10, 10]"
+          style="font-size: 13px"
+        >
+          Remover
+        </q-tooltip>
+      </q-icon>
     </div>
   </div>
 </template>
@@ -104,7 +136,8 @@ export default defineComponent({
 
 .user-actions {
   position: absolute;
-  top: 18px;
+  top: 50%;
+  transform: translateY(-50%);
   right: 16px;
   flex-direction: column;
   display: flex;

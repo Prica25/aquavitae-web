@@ -2,14 +2,16 @@
   <div>
     <splitpanes @resize="updateSizes">
       <pane
-        min-size="5"
-        v-for="n in nutrients"
-        :key="n.name"
-        :size="n.percentage"
+        min-size="10"
+        :key="macronutrient.name"
+        :size="macronutrient.percentage"
       >
-        <span class="label">{{ n.name }}</span>
-        <span class="value">{{ formatedPercentage(n.percentage) }}</span>
+        <span class="label">{{ macronutrient.name }}</span>
+        <span class="value">{{
+          formatedPercentage(macronutrient.percentage)
+        }}</span>
       </pane>
+      <pane class="empty" />
     </splitpanes>
   </div>
 </template>
@@ -23,27 +25,21 @@ export default defineComponent({
   props: ['modelValue'],
   emits: ['update:modelValue', 'change'],
   computed: {
-    nutrients: {
+    macronutrient: {
       get() {
         return this.modelValue
       },
       set(value: any) {
-        this.$emit(
-          'update:modelValue',
-          value.map((n) => ({
-            name: n.name,
-            percentage: Math.round(n.percentage),
-          }))
-        )
+        this.$emit('update:modelValue', value)
       },
     },
   },
   methods: {
     updateSizes(newSizes: any) {
-      this.nutrients = this.nutrients.map((n, i) => ({
-        name: n.name,
-        percentage: newSizes[i].size,
-      }))
+      this.macronutrient = {
+        ...this.macronutrient,
+        percentage: newSizes[0].size,
+      }
       this.$emit('change')
     },
     formatedPercentage(percentage: number) {

@@ -30,8 +30,14 @@
             spellcheck="false"
             @change="formChanged = true"
           />
-          <micronutrients-percentage-bar
-            v-model="micronutrients"
+          <macronutrients-percentage-bar
+            v-model="calories"
+            @change="formChanged = true"
+          />
+          <div style="margin: 12px">Macronutrientes</div>
+          <macronutrients-percentage-bar
+            v-for="(macronutrient, i) in macronutrients"
+            v-model="macronutrients[i]"
             @change="formChanged = true"
           />
           <q-btn color="primary" label="Adicionar" type="submit" />
@@ -43,20 +49,29 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import micronutrientsPercentageBar from '@/components/micronutrientsPercentageBar/index.vue'
+import macronutrientsPercentageBar from '@/components/macronutrientsPercentageBar/index.vue'
 
 import TypeOfMealService from '@/services/TypeOfMealService'
 
 export default defineComponent({
-  components: { micronutrientsPercentageBar },
+  components: { macronutrientsPercentageBar },
   data() {
     return {
       formChanged: false,
       text: '',
-      micronutrients: [
-        { name: 'Lípidos', percentage: 30 },
-        { name: 'Proteínas', percentage: 15 },
-        { name: 'Hidratos de Carbono', percentage: 55 },
+      calories: {
+        name: 'Calorias',
+        key: 'calories_percentage',
+        percentage: 20,
+      },
+      macronutrients: [
+        { name: 'Lípidos', key: 'lipids_percentage', percentage: 30 },
+        { name: 'Proteínas', key: 'proteins_percentage', percentage: 15 },
+        {
+          name: 'Hidratos de Carbono',
+          key: 'carbohydrates_percentage',
+          percentage: 55,
+        },
       ],
     }
   },
@@ -71,9 +86,13 @@ export default defineComponent({
         try {
           let obj = {
             description: this.text,
-            lipids_percentage: this.micronutrients[0].percentage,
-            proteins_percentage: this.micronutrients[1].percentage,
-            carbohydrates_percentage: this.micronutrients[2].percentage,
+            ...[...this.macronutrients, this.calories].reduce(
+              (pv: any, cv: any) => {
+                pv[cv.key] = cv.percentage
+                return pv
+              },
+              {}
+            ),
           }
           await TypeOfMealService.post(obj)
         } catch (err) {
