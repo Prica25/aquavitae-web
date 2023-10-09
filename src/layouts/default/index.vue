@@ -55,15 +55,6 @@
     </div>
     <q-page-container class="home-section">
       <q-header class="header row items-center">
-        <q-input
-          class="search-box"
-          v-model="search"
-          placeholder="Procurar por pacientes"
-        >
-          <template #prepend>
-            <q-icon size="18px" name="fa-solid fa-magnifying-glass" />
-          </template>
-        </q-input>
         <q-space />
         <q-btn class="notification-btn" flat round icon="fa-solid fa-bell">
           <q-badge floating color="warning" rounded style="width: 12px" />

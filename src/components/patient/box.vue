@@ -47,12 +47,13 @@ export default defineComponent({
   data() {
     return {
       search: '',
+      isLoading: false,
     }
   },
   computed: {
     birthdayDate() {
       if (!this.personalData) {
-        return 'Sem dados'
+        return '--/--/---- (--)'
       }
 
       const date = new Date(this.personalData.birthday)

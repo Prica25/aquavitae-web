@@ -16,7 +16,7 @@
         <patient-box
           v-for="user in users"
           :user="user"
-          :personal-data="getPersonalData(user.id)"
+          :personal-data="user.personalData"
           @view="view"
           @edit="edit"
           @delete="delete"
@@ -30,7 +30,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PatientBox from '@/components/patient/box.vue'
+
 import type User from '@/types/User'
+import type PersonalData from '@/types/PersonalData'
 
 import UserService from '@/services/UserService'
 import PersonalDataService from '@/services/PersonalDataService'
@@ -43,7 +45,6 @@ export default defineComponent({
     return {
       search: '',
       users: [] as any[],
-      patientsData: [] as any[],
       pagination: {
         sortBy: 'email',
         descending: false,
@@ -55,7 +56,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.users = (
+    let users = (
       await UserService.index(
         this.pagination.page,
         this.pagination.rowsPerPage,
@@ -65,14 +66,19 @@ export default defineComponent({
       )
     ).data.data
 
-    this.patientsData = (
-      await PersonalDataService.show(this.users.map((u) => u.id) as string[])
+    const patientsData = (
+      await PersonalDataService.show(users.map((u: User) => u.id) as string[])
     ).data
+
+    for (let user of users) {
+      user.personalData = patientsData.find(
+        (pd: PersonalData) => pd.user.id === user.id
+      )
+    }
+
+    this.users = users
   },
   methods: {
-    getPersonalData(user_id: string) {
-      return this.patientsData.find((pd) => pd.user.id === user_id)
-    },
     add() {
       alert('add')
     },
