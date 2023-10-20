@@ -1,5 +1,9 @@
 <template>
-  <base-page title="Pacientes">
+  <base-page
+    title="Pacientes"
+    horizontal-alignment="center"
+    vertical-alignment="center"
+  >
     <template #right-header>
       <search
         v-model="search"
@@ -9,21 +13,16 @@
       ></search>
     </template>
     <template #content>
-      <div
-        class="row items-start justify-center"
-        style="width: 100%; padding: 20px"
-      >
-        <patient-box
-          v-for="user in users"
-          :user="user"
-          :personal-data="user.personalData"
-          @view="view"
-          @edit="edit"
-          @delete="delete"
-          @open-settings="openSettings"
-          style="margin: 16px"
-        ></patient-box>
-      </div>
+      <patient-box
+        v-for="user in users"
+        :user="user"
+        :personal-data="user.personalData"
+        @view="view"
+        @edit="edit"
+        @delete="delete"
+        @open-settings="openSettings"
+        style="margin: 16px"
+      ></patient-box>
     </template>
   </base-page>
 </template>

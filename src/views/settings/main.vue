@@ -28,6 +28,7 @@ export default defineComponent({
   data() {
     return {
       options: [
+        { description: 'Utilizadores', icon: 'user', href: 'user' },
         { description: 'Refeições', icon: 'utensils', href: 'type-meals' },
         {
           description: 'Nível de Atividade',

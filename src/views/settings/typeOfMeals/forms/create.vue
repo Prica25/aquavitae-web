@@ -16,7 +16,7 @@
         class="items-center justify-center"
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
-        <q-card class="q-pa-xl text-center form-card">
+        <div class="box-default q-pa-xl text-center form-card">
           <q-input
             outlined
             dense
@@ -41,7 +41,7 @@
             @change="formChanged = true"
           />
           <q-btn color="primary" label="Adicionar" type="submit" />
-        </q-card>
+        </div>
       </q-form>
     </template>
   </base-page>

@@ -41,6 +41,11 @@ export default defineComponent({
           params: {},
         },
         { description: 'Diário', icon: 'calendar-day', href: 'appointment' },
+        {
+          description: 'Dados Antropométricos',
+          icon: 'weight-scale',
+          href: 'anthropometric-data',
+        },
         { description: 'Patologias', icon: 'disease', href: 'appointment' },
       ],
     }

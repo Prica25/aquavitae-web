@@ -37,15 +37,22 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
-      path: '/menu-user/:user_id',
-      name: 'menu-user',
-      component: () => import('@/views/patient/settings/main.vue'),
+      path: '/menu-user/meal/:user_id',
+      name: 'meal',
+      component: () => import('@/views/patient/details/meal/form.vue'),
       props: true,
     },
     {
-      path: '/menu-user/meal/:user_id',
-      name: 'meal',
-      component: () => import('@/views/patient/settings/meal/form.vue'),
+      path: '/menu-user/anthropometric-data/:user_id',
+      name: 'anthropometric-data',
+      component: () =>
+        import('@/views/patient/details/data/anthropometricData.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/:user_id',
+      name: 'menu-user',
+      component: () => import('@/views/patient/details/main.vue'),
       props: true,
     },
     {
@@ -74,10 +81,25 @@ const router = createRouter({
       name: 'activity-level',
       component: () => import('@/views/settings/activityLevel/list.vue'),
     },
+    // {
+    //   path: '/management/appointment-goal/new',
+    //   name: 'appointment-goal-create-form',
+    //   component: () => import('@/views/settings/appointmentGoal/forms/create.vue'),
+    // },
     {
       path: '/management/appointment-goal',
       name: 'appointment-goal',
       component: () => import('@/views/settings/appointmentGoal/list.vue'),
+    },
+    {
+      path: '/management/user/new',
+      name: 'user-create-form',
+      component: () => import('@/views/settings/user/forms/create.vue'),
+    },
+    {
+      path: '/management/user',
+      name: 'user',
+      component: () => import('@/views/settings/user/list.vue'),
     },
   ],
 })

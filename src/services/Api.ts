@@ -6,8 +6,9 @@ export default () => {
   const store = useUserStore()
 
   let cliente = axios.create({
-    //baseURL: 'http://aquavitae.prica.pt/',
-    baseURL: 'http://193.136.195.62:3000/',
+    // baseURL: 'http://aquavitae.prica.pt/',
+    // baseURL: 'http://193.136.195.62:3000/',
+    baseURL: 'http://172.28.0.2:3000/',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store?.getToken || '',
