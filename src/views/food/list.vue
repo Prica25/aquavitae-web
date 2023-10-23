@@ -41,7 +41,7 @@ export default defineComponent({
         {
           name: 'level_1',
           label: 'Nível 1',
-          field: (row: any) => row.food_category.description,
+          field: (row: any) => row.food_category.parent?.parent?.description,
           size: '20%',
           sortable: false,
         },
@@ -55,8 +55,7 @@ export default defineComponent({
         {
           name: 'level_3',
           label: 'Nível 3',
-          field: (row: any) =>
-            row.food_category.parent?.parent?.description || '---',
+          field: (row: any) => row.food_category.description || '---',
           size: '20%',
           sortable: false,
         },

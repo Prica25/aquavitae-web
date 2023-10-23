@@ -22,7 +22,15 @@ export default {
     params.append('skip', page.toString())
     params.append('take', itemsPerPage.toString())
     params.append('sort', sort)
-    if (filter) params.append('search', filter)
+    if (filter) {
+      if (Array.isArray(filter)) {
+        for (const fil of filter) {
+          params.append('search', fil)
+        }
+      } else {
+        params.append('search', filter)
+      }
+    }
 
     return Api().get(`appointment-goal/get`, {
       params,
@@ -32,12 +40,21 @@ export default {
     return Api().get(`appointment-goal/get/${id}`)
   },
   post(appointmentGoal: AppointmentGoal) {
-    return Api().post('appointment-goal/create', appointmentGoal)
+    return Api().post('appointment-goal/create', appointmentGoal, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(appointmentGoal: AppointmentGoal) {
     return Api().patch(
       `appointment-goal/update/${appointmentGoal.id}`,
-      appointmentGoal
+      appointmentGoal,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     )
   },
   delete(id: number) {

@@ -72,6 +72,11 @@ export default defineComponent({
           let response = (await UserService.login(this.username, this.password))
             .data
 
+          // Falta código aqui para trocar a password gerada automaticamente
+          // if (!response.user.last_access) {
+          //   console.log('primeira vez')
+          // }
+
           this.store.login(response)
 
           let personalData = response.user

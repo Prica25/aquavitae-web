@@ -16,7 +16,13 @@
         @click="editName()"
       />
       <q-space />
-      <FoodSearch v-model="food_id" @update:model-value="addFood" />
+      <autocomplete
+        v-model="food_id"
+        @update:model-value="addFood"
+        type="Food"
+        value-key="id"
+        label-key="description"
+      />
     </div>
 
     <q-table
@@ -65,13 +71,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import FoodSearch from './foodSearch.vue'
+import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 import FoodService from '@/services/FoodService'
 import type Food from '@/types/Food'
 
 export default defineComponent({
   components: {
-    FoodSearch,
+    Autocomplete,
   },
   data() {
     return {

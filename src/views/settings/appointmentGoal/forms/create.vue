@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Tipo de Refeição">
+  <base-page title="Objetivos">
     <template #right-header>
       <q-btn
         outline
@@ -20,7 +20,7 @@
           <q-input
             outlined
             dense
-            v-model="text"
+            v-model="object.description"
             label="Descrição"
             width="200px"
             :rules="[(val) => (val && val.length > 0) || 'Campo Obrigatório']"
@@ -40,18 +40,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import TypeOfMealService from '@/services/TypeOfMealService'
+import AppointmentGoalService from '@/services/AppointmentGoalService'
+import type AppointmentGoal from '@/types/AppointmentGoal'
 
 export default defineComponent({
   data() {
     return {
       formChanged: false,
-      text: '',
-      calories: {
-        name: 'Calorias',
-        key: 'calories_percentage',
-        percentage: 20,
-      },
+      object: {
+        description: '',
+      } as AppointmentGoal,
     }
   },
   methods: {
@@ -63,10 +61,8 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          let obj = {
-            description: this.text,
-          }
-          await TypeOfMealService.post(obj)
+          await AppointmentGoalService.post(this.object)
+          this.$router.back()
         } catch (err) {
           console.log(err)
         }

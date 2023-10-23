@@ -53,12 +53,21 @@ export default {
     })
   },
   post(AnthropometricData: AnthropometricData) {
-    return Api().post('anthropometric-data/create', AnthropometricData)
+    return Api().post('anthropometric-data/create', AnthropometricData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(AnthropometricData: AnthropometricData) {
     return Api().patch(
       `anthropometric-data/update/${AnthropometricData.id}`,
-      AnthropometricData
+      AnthropometricData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     )
   },
 }

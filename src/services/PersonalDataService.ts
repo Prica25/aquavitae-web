@@ -22,9 +22,21 @@ export default {
     })
   },
   post(personalData: PersonalData) {
-    return Api().post('personal-data/create', personalData)
+    return Api().post('personal-data/create', personalData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(personalData: PersonalData) {
-    return Api().patch(`personal-data/update/${personalData.id}`, personalData)
+    return Api().patch(
+      `personal-data/update/${personalData.id}`,
+      personalData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   },
 }

@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
+import type FoodCategory from '@/types/FoodCategory'
 
 export default {
   index(
@@ -8,7 +8,7 @@ export default {
     itemsPerPage: number,
     sort = 'description:ASC',
     columns = 'description' as string | string[],
-    filter = null as string | null
+    filter = null as string | string[] | null
   ) {
     const params = new URLSearchParams()
 
@@ -32,28 +32,32 @@ export default {
       }
     }
 
-    return Api().get(`food/get`, {
+    return Api().get(`food-category/get`, {
       params,
     })
   },
   show(id: string) {
-    return Api().get(`food/get/${id}`)
+    return Api().get(`food-category/get/${id}`)
   },
-  post(food: Food) {
-    return Api().post('food/create', food, {
+  post(food_category: FoodCategory) {
+    return Api().post('food-category/create', food_category, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
-  put(food: Food) {
-    return Api().patch(`food/update/${food.id}`, food, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+  put(food_category: FoodCategory) {
+    return Api().patch(
+      `food-category/update/${food_category.id}`,
+      food_category,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   },
   delete(id: number) {
-    return Api().delete(`food/delete/${id}`)
+    return Api().delete(`food-category/delete/${id}`)
   },
 }

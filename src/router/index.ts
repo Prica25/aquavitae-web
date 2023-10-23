@@ -37,6 +37,11 @@ const router = createRouter({
       component: () => import('@/views/food/list.vue'),
     },
     {
+      path: '/food/new',
+      name: 'food-create-form',
+      component: () => import('@/views/food/forms/create.vue'),
+    },
+    {
       path: '/menu-user/meal/:user_id',
       name: 'meal',
       component: () => import('@/views/patient/details/meal/form.vue'),
@@ -81,11 +86,12 @@ const router = createRouter({
       name: 'activity-level',
       component: () => import('@/views/settings/activityLevel/list.vue'),
     },
-    // {
-    //   path: '/management/appointment-goal/new',
-    //   name: 'appointment-goal-create-form',
-    //   component: () => import('@/views/settings/appointmentGoal/forms/create.vue'),
-    // },
+    {
+      path: '/management/appointment-goal/new',
+      name: 'appointment-goals-create-form',
+      component: () =>
+        import('@/views/settings/appointmentGoal/forms/create.vue'),
+    },
     {
       path: '/management/appointment-goal',
       name: 'appointment-goal',

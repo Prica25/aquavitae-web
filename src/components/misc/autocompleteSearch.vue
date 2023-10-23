@@ -1,13 +1,14 @@
 <template>
   <q-select
-    filled
+    dense
+    outlined
     v-model="value"
     :options="options"
     :loading="isLoading"
     @virtual-scroll="onScroll"
-    placeholder="Procurar alimento..."
-    option-value="id"
-    option-label="description"
+    :placeholder="label"
+    :option-value="valueKey"
+    :option-label="labelKey"
     emit-value
     map-options
     use-input
@@ -17,16 +18,41 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import type ResponseList from '@/types/ResponseList'
-import FoodService from '@/services/FoodService'
 
 export default defineComponent({
-  props: ['modelValue'],
+  props: {
+    modelValue: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    valueKey: {
+      type: String,
+    },
+    labelKey: {
+      type: String,
+      default: false,
+    },
+    label: {
+      type: String,
+      default: 'Procurar...',
+    },
+    defaultFilter: {
+      type: String,
+    },
+  },
   emits: ['update:modelValue'],
   data() {
     return {
+      SERVICE: import(
+        /* @vite-ignore */ `../../services/${this.type}Service.ts`
+      ) as any,
       options: [] as any,
       pagination: {
-        sortBy: 'description',
+        sortBy: this.labelKey,
         descending: false,
         page: 1,
         rowsPerPage: 20,
@@ -38,14 +64,16 @@ export default defineComponent({
     }
   },
   async mounted() {
+    this.SERVICE = (await this.SERVICE).default
     let response = (
-      await FoodService.index(
+      await this.SERVICE.index(
         this.pagination.page,
         1,
         `${this.pagination.sortBy}:${
           this.pagination.descending ? 'DESC' : 'ASC'
         }`,
-        'description'
+        this.labelKey,
+        this.filters
       )
     ).data as ResponseList
 
@@ -63,6 +91,20 @@ export default defineComponent({
         this.$emit('update:modelValue', val)
       },
     },
+    filters() {
+      const fil = [
+        this.defaultFilter,
+        this.filter ? `${this.labelKey}:${this.filter}` : null,
+      ].filter((value) => !!value)
+
+      if (fil.length > 0) {
+        if (fil.length === 1) {
+          return fil[0]
+        }
+        return fil
+      }
+      return null
+    },
   },
   methods: {
     async onScroll(props: any) {
@@ -73,35 +115,35 @@ export default defineComponent({
       ) {
         this.isLoading = true
         this.pagination.page++
+
         let response = (
-          await FoodService.index(
+          await this.SERVICE.index(
             this.pagination.page,
             this.pagination.rowsPerPage,
             `${this.pagination.sortBy}:${
               this.pagination.descending ? 'DESC' : 'ASC'
             }`,
-            'description',
-            this.filter ? `description:${this.filter}` : null
+            this.labelKey,
+            this.filters
           )
         ).data as ResponseList
 
         this.options = Object.freeze([...this.options, ...response.data])
         this.isLoading = false
-        console.log('a')
       }
     },
     async onFilter(str: string, update: (fnc: () => void) => void) {
       this.isLoading = true
       this.filter = str
       let response = (
-        await FoodService.index(
+        await this.SERVICE.index(
           this.pagination.page,
           this.pagination.rowsPerPage,
           `${this.pagination.sortBy}:${
             this.pagination.descending ? 'DESC' : 'ASC'
           }`,
-          'description',
-          this.filter ? `description:${this.filter}` : null
+          this.labelKey,
+          this.filters
         )
       ).data as ResponseList
 

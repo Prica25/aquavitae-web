@@ -57,6 +57,8 @@ import AppointmentService from '@/services/AppointmentService'
 
 import AppointmentsList from '@/components/appointments/index.vue'
 
+import CalendarLocale from '@/assets/locales/calendar/pt-PT.ts'
+
 export default defineComponent({
   components: {
     AppointmentsList,
@@ -72,47 +74,7 @@ export default defineComponent({
         rowsNumber: 0,
       },
       calendarSettings: {
-        locale: {
-          firstDayOfWeek: 1,
-          months: [
-            'Janeiro',
-            'Fevereiro',
-            'Março',
-            'Abril',
-            'Maio',
-            'Junho',
-            'Julho',
-            'Agosto',
-            'Setembro',
-            'Outubro',
-            'Novembro',
-            'Dezembro',
-          ],
-          monthsShort: [
-            'Jan',
-            'Fev',
-            'Mar',
-            'Abr',
-            'Mai',
-            'Jun',
-            'Jul',
-            'Ago',
-            'Set',
-            'Out',
-            'Nov',
-            'Dez',
-          ],
-          days: [
-            'Domingo',
-            'Segunda-feira',
-            'Terça-feira',
-            'Quarta-feira',
-            'Quinta-feira',
-            'Sexta-feira',
-            'Sábado',
-          ],
-          daysShort: ['Dom', 'Seg', 'Terç', 'Qua', 'Qui', 'Sex', 'Sáb'],
-        },
+        locale: CalendarLocale,
       },
     }
   },

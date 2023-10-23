@@ -22,7 +22,15 @@ export default {
     params.append('skip', page.toString())
     params.append('take', itemsPerPage.toString())
     params.append('sort', sort)
-    if (filter) params.append('search', filter)
+    if (filter) {
+      if (Array.isArray(filter)) {
+        for (const fil of filter) {
+          params.append('search', fil)
+        }
+      } else {
+        params.append('search', filter)
+      }
+    }
 
     return Api().get(`appointment/get`, {
       params,
@@ -32,10 +40,18 @@ export default {
     return Api().get(`appointment/get/${id}`)
   },
   post(appointment: Appointment) {
-    return Api().post('appointment/create', appointment)
+    return Api().post('appointment/create', appointment, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(appointment: Appointment) {
-    return Api().patch(`appointment/update/${appointment.id}`, appointment)
+    return Api().patch(`appointment/update/${appointment.id}`, appointment, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`appointment/delete/${id}`)

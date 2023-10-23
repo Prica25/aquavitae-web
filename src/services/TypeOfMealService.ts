@@ -22,7 +22,15 @@ export default {
     params.append('skip', page.toString())
     params.append('take', itemsPerPage.toString())
     params.append('sort', sort)
-    if (filter) params.append('search', filter)
+    if (filter) {
+      if (Array.isArray(filter)) {
+        for (const fil of filter) {
+          params.append('search', fil)
+        }
+      } else {
+        params.append('search', filter)
+      }
+    }
 
     return Api().get(`type-of-meal/get`, {
       params,
@@ -33,10 +41,18 @@ export default {
   },
   post(typeOfMeal: TypeOfMeal) {
     typeOfMeal.calories_percentage = 0
-    return Api().post('type-of-meal/create', typeOfMeal)
+    return Api().post('type-of-meal/create', typeOfMeal, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(typeOfMeal: TypeOfMeal) {
-    return Api().patch(`type-of-meal/update/${typeOfMeal.id}`, typeOfMeal)
+    return Api().patch(`type-of-meal/update/${typeOfMeal.id}`, typeOfMeal, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: string) {
     return Api().delete(`type-of-meal/delete/${id}`)

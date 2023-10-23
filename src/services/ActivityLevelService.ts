@@ -22,7 +22,15 @@ export default {
     params.append('skip', page.toString())
     params.append('take', itemsPerPage.toString())
     params.append('sort', sort)
-    if (filter) params.append('search', filter)
+    if (filter) {
+      if (Array.isArray(filter)) {
+        for (const fil of filter) {
+          params.append('search', fil)
+        }
+      } else {
+        params.append('search', filter)
+      }
+    }
 
     return Api().get(`activity-level/get`, {
       params,
@@ -32,12 +40,21 @@ export default {
     return Api().get(`activity-level/get/${id}`)
   },
   post(activityLevel: ActivityLevel) {
-    return Api().post('activity-level/create', activityLevel)
+    return Api().post('activity-level/create', activityLevel, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   put(activityLevel: ActivityLevel) {
     return Api().patch(
       `activity-level/update/${activityLevel.id}`,
-      activityLevel
+      activityLevel,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     )
   },
   delete(id: number) {
