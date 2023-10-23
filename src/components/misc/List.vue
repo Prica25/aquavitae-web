@@ -128,6 +128,8 @@ export default defineComponent({
       )
     ).data as ResponseList
 
+    console.log(response)
+
     this.pagination.rowsNumber = response.count
     this.pagination.pagesNumber = response.last_page
     this.rows = response.data

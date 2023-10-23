@@ -42,11 +42,21 @@ const router = createRouter({
       component: () => import('@/views/food/forms/create.vue'),
     },
     {
-      path: '/menu-user/meal/:user_id',
+      path: '/meal/list',
       name: 'meal',
-      component: () => import('@/views/patient/details/meal/form.vue'),
-      props: true,
+      component: () => import('@/views/meals/list.vue'),
     },
+    {
+      path: '/meal/new',
+      name: 'meal-create-form',
+      component: () => import('@/views/meals/forms/create.vue'),
+    },
+    // {
+    //   path: '/menu-user/meal/:user_id',
+    //   name: 'meal',
+    //   component: () => import('@/views/patient/details/meal/form.vue'),
+    //   props: true,
+    // },
     {
       path: '/menu-user/anthropometric-data/:user_id',
       name: 'anthropometric-data',

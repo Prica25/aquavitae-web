@@ -57,11 +57,14 @@
           "
         >
           <slot :name="column.name" :row="row">
-            {{
-              typeof column.field === 'function'
-                ? column.field(row)
-                : row[column.name]
-            }}
+            <span
+              v-html="
+                typeof column.field === 'function'
+                  ? column.field(row)
+                  : row[column.name]
+              "
+            >
+            </span>
           </slot>
         </td>
       </tr>

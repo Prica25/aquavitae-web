@@ -100,7 +100,7 @@ export default defineComponent({
       return ''
     },
     formatDate(antropometricData: AnthropometricData) {
-      return 'xxx'
+      return '../../....'
     },
   },
 })

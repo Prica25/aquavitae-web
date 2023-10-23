@@ -20,6 +20,11 @@ export default [
     href: 'food',
   },
   {
+    text: 'Receitas',
+    icon: 'fa-solid fa-mortar-pestle',
+    href: 'meal',
+  },
+  {
     text: 'Gestão',
     icon: 'fa-solid fa-gears',
     href: 'management',
