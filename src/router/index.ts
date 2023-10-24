@@ -58,6 +58,21 @@ const router = createRouter({
     //   props: true,
     // },
     {
+      path: '/menu-user/personal-data/:user_id',
+      name: 'personal-data',
+      component: () => import('@/views/patient/details/data/personalData.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/anthropometric-data/new/:user_id',
+      name: 'anthropometric-data-create-form',
+      component: () =>
+        import(
+          '@/views/patient/details/data/forms/anthropometricData/create.vue'
+        ),
+      props: true,
+    },
+    {
       path: '/menu-user/anthropometric-data/:user_id',
       name: 'anthropometric-data',
       component: () =>

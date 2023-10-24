@@ -4,6 +4,14 @@
     horizontal-alignment="center"
     vertical-alignment="center"
   >
+    <template #right-header>
+      <q-btn
+        class="btn"
+        color="primary"
+        label="Adicionar Registo"
+        @click="add"
+      />
+    </template>
     <template #content>
       <div class="col-6" style="margin: 12px">
         <div
@@ -87,6 +95,12 @@ export default defineComponent({
     console.log(this.antropometricData)
   },
   methods: {
+    add() {
+      this.$router.push({
+        name: 'anthropometric-data-create-form',
+        params: { user_id: this.user_id },
+      })
+    },
     getBMI(antropometricData: AnthropometricData) {
       if (antropometricData?.weight && antropometricData?.height) {
         const heightInMeters = antropometricData.height / 100

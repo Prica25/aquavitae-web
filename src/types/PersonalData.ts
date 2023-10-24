@@ -13,6 +13,7 @@ type PersonalData = {
   food_history: string
   bedtime: string
   wake_up: string
+  gender: string
   activity_level: ActivityLevel
   user: User
 }

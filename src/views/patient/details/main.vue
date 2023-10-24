@@ -12,6 +12,7 @@
         :description="option.description"
         :icon="option.icon"
         :href="option.href"
+        :params="option.params"
       ></Option>
     </template>
   </base-page>
@@ -35,10 +36,15 @@ export default defineComponent({
     return {
       options: [
         {
+          description: 'Dados Pessoais',
+          icon: 'weight-scale',
+          href: 'personal-data',
+          params: { user_id: this.user_id },
+        },
+        {
           description: 'Plano Nutricional',
           icon: 'apple-whole',
           href: 'nutrition-plan',
-          params: {},
         },
         { description: 'Diário', icon: 'calendar-day', href: 'appointment' },
         {

@@ -1,5 +1,9 @@
 <template>
-  <router-link :to="{ name: href }" custom v-slot="{ navigate }">
+  <router-link
+    :to="{ name: href, params: params }"
+    custom
+    v-slot="{ navigate }"
+  >
     <div class="option box-default" @click="navigate">
       <q-icon class="logo" :name="`fa-solid fa-${icon}`" />
       <div class="description">{{ description }}</div>
@@ -22,6 +26,10 @@ export default defineComponent({
     href: {
       type: String,
       default: 'asd',
+    },
+    params: {
+      type: Object,
+      default: () => {},
     },
   },
 })

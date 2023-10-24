@@ -1,5 +1,5 @@
 <template>
-  <div class="row number-meals box-default">
+  <div class="row number-meals box-default" style="width: 100%">
     <span>Refeições</span>
     <q-space />
     <q-select

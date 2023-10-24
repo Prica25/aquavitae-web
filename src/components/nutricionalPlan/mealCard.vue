@@ -1,25 +1,19 @@
 <template>
-  <q-card class="q-pa-xl meal-card box-default">
+  <q-card class="q-pa-xl meal-card box-default" style="width: 100%">
     <div class="row meal">
-      <span v-if="!changeName">{{ name }}</span>
       <q-select
-        v-else
-        outlined
-        v-model="name"
-        :options="['Pequeno-Almoço', 'Almoço']"
         dense
-      />
-      <q-icon
-        :name="`fa-solid fa-${changeName ? 'check' : 'pencil'}`"
-        color="primary"
-        style="cursor: pointer; margin: 0 8px"
-        @click="editName()"
+        outlined
+        v-model="typeSelected"
+        :options="typeOfMeals"
+        option-label="description"
+        placeholder="Definir tipo"
       />
       <q-space />
       <autocomplete
-        v-model="food_id"
+        v-model="item_id"
         @update:model-value="addFood"
-        type="Food"
+        type="Item"
         value-key="id"
         label-key="description"
       />
@@ -33,7 +27,7 @@
       no-data-label="Sem alimentos selecionados"
       hide-pagination
     >
-      <template #body="props">
+      <!-- <template #body="props">
         <q-tr :props="props">
           <q-td key="description" :props="props">
             {{ props.row.description }}
@@ -65,15 +59,21 @@
             />
           </q-td>
         </q-tr>
-      </template>
+      </template> -->
     </q-table>
   </q-card>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
-import FoodService from '@/services/FoodService'
+
+import ItemService from '@/services/ItemService'
+import TypeOfMealService from '@/services/TypeOfMealService'
+
+import type Item from '@/types/Item'
 import type Food from '@/types/Food'
+import type TypeOfMeal from '@/types/TypeOfMeal'
 
 export default defineComponent({
   components: {
@@ -81,16 +81,16 @@ export default defineComponent({
   },
   data() {
     return {
-      name: 'Pequeno-Almoço',
-      changeName: false,
       search: null as string | null,
-      food_id: null as string | null,
+      item_id: null as string | null,
+      typeSelected: null as TypeOfMeal | null,
+      typeOfMeals: [] as TypeOfMeal[],
       foodList: [] as Food[],
       columns: [
         {
           name: 'description',
           label: 'Descrição',
-          field: 'description',
+          field: (row: any) => row.food.description,
           align: 'left',
           style:
             'min-width: 10vw; max-width: 10vw; text-overflow: ellipsis; overflow: hidden;',
@@ -98,25 +98,33 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: 'amount',
+          label: 'Quantidade (g)',
+          field: 'amount_grams',
+          align: 'center',
+          style: 'font-weight: bold;',
+          sortable: true,
+        },
+        {
           name: 'proteins',
-          label: 'Proteína',
-          field: 'proteins',
+          label: 'Proteína (g)',
+          field: (row: any) => this.calculateGrams(row, 'proteins'),
           align: 'center',
           style: 'font-weight: bold;',
           sortable: true,
         },
         {
           name: 'lipids',
-          label: 'Lípidos',
-          field: 'lipids',
+          label: 'Lípidos (g)',
+          field: (row: any) => this.calculateGrams(row, 'lipids'),
           align: 'center',
           style: 'font-weight: bold;',
           sortable: true,
         },
         {
           name: 'carbohydrates',
-          label: 'Hidratos de Carbono',
-          field: 'carbohydrates',
+          label: 'Hidratos de Carbono (g)',
+          field: (row: any) => this.calculateGrams(row, 'carbohydrates'),
           align: 'center',
           style: 'font-weight: bold;',
           sortable: true,
@@ -124,35 +132,41 @@ export default defineComponent({
         {
           name: 'energy_value',
           label: 'Energia (kcal)',
-          field: 'energy_value',
+          field: (row: any) => this.calculateGrams(row, 'energy_value'),
           align: 'center',
           style: 'font-weight: bold;',
           sortable: true,
         },
-        {
-          name: 'actions',
-          align: 'center',
-          label: 'Ações',
-          field: 'actions',
-          sortable: false,
-        },
+        // {
+        //   name: 'actions',
+        //   align: 'center',
+        //   label: 'Ações',
+        //   field: 'actions',
+        //   sortable: false,
+        // },
       ],
     }
   },
+  async mounted() {
+    this.typeOfMeals = (
+      await TypeOfMealService.index(1, 10, 'description:DESC')
+    ).data.data
+  },
   methods: {
+    calculateGrams(row: any, key: string) {
+      return Math.round((row.food[key] * row.amount_grams) / 100)
+    },
     async addFood(id: string): Promise<void> {
-      const food = (await FoodService.show(id)).data as Food
-      this.foodList = [...this.foodList, food]
-      this.food_id = null
+      const item = (await ItemService.show(id)).data as Item
+      this.foodList = [...this.foodList, ...item.foods]
+      console.log(this.foodList)
+      this.item_id = null
     },
     view(id: string): void {
       alert('Mostrar dados do alimento')
     },
     remove(id: string): void {
       this.foodList = this.foodList.filter((o) => o.id === id)
-    },
-    editName(): void {
-      this.changeName = !this.changeName
     },
   },
   watch: {

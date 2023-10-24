@@ -1,14 +1,20 @@
 <template>
-  <base-page title="Plano Nutricional" display="block" direction="column">
+  <base-page title="Plano Nutricional" vertical-alignment="center">
     <template #content>
-      <Details :anthropometric-data="anthroData" />
-      <NumberMeals v-model="numberOfMeals" @update:modelValue="teste" />
-      <MealCard
-        v-model="meals[index]"
-        v-for="index in numberOfMeals"
-        :key="`meal-${index}`"
-        @update-meal="teste"
-      />
+      <div style="width: 100%">
+        <Details
+          :anthropometric-data="anthroData"
+          :food-list="foodList"
+          :personal-data="personalData"
+        />
+        <NumberMeals v-model="numberOfMeals" @update:modelValue="teste" />
+        <MealCard
+          v-model="meals[index]"
+          v-for="index in numberOfMeals"
+          :key="`meal-${index}`"
+          @update-meal="teste"
+        />
+      </div>
     </template>
   </base-page>
 </template>
@@ -20,9 +26,10 @@ import NumberMeals from '@/components/nutricionalPlan/numberMeals.vue'
 import MealCard from '@/components/nutricionalPlan/mealCard.vue'
 
 import type AnthropometricData from '@/types/AnthropometricData'
-import type Food from '@/types/Food'
+import type PersonalData from '@/types/PersonalData'
 
 import AnthropometricDataService from '@/services/AnthropometricDataService'
+import PersonalDataService from '@/services/PersonalDataService'
 
 export default defineComponent({
   props: {
@@ -41,19 +48,20 @@ export default defineComponent({
       numberOfMeals: 1,
       meals: [],
       user: {},
-      personalData: {},
+      personalData: {} as PersonalData,
       anthroData: {} as AnthropometricData,
       mealData: [],
+      foodList: [] as any[],
     }
   },
   async mounted() {
-    this.anthroData = (
-      await AnthropometricDataService.show(this.$route.params.user_id as string)
-    ).data.data[0] as AnthropometricData
+    this.anthroData = (await AnthropometricDataService.showLast(this.user_id))
+      .data.data[0] as AnthropometricData
+    this.personalData = (await PersonalDataService.show(this.user_id)).data[0]
   },
   methods: {
-    teste(list: Food[]) {
-      console.log(list)
+    teste(list: any) {
+      this.foodList = [...this.foodList, ...list]
     },
   },
 })

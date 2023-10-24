@@ -4,6 +4,7 @@ type Item = {
   updated_at: string
   deleted_at: string
   description: string
+  foods: any
 }
 
 export default Item
