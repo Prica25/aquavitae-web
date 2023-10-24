@@ -1,10 +1,5 @@
 export default [
   {
-    text: 'Dashboard',
-    icon: 'fa-solid fa-chart-simple',
-    href: 'dashboard',
-  },
-  {
     text: 'Consultas',
     icon: 'fa-solid fa-calendar-days',
     href: 'appointment',

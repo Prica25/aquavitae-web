@@ -3,17 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', redirect: { name: 'dashboard' } },
+    { path: '/', redirect: { name: 'patient' } },
     {
       path: '/login',
       name: 'login',
       component: () => import('@/views/user/login.vue'),
       meta: { layout: 'Clean' },
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/views/dashboard/index.vue'),
     },
     {
       path: '/appointment/list',
