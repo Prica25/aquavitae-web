@@ -3,6 +3,7 @@
     title="Dados do Paciente"
     horizontal-alignment="center"
     vertical-alignment="center"
+    :breadcrumbs="breadcrumbs"
   >
     <template #right-header>
       <q-btn
@@ -60,6 +61,7 @@ export default defineComponent({
   },
   data() {
     return {
+      breadcrumbs: [] as any[],
       personalData: {} as PersonalData,
       personalParams: [
         { label: 'Primeiro Nome', value: 'first_name' },
@@ -85,6 +87,23 @@ export default defineComponent({
         { label: 'Género', value: 'gender', formatter: this.formatGender },
       ],
     }
+  },
+  async created() {
+    let personalData = (await PersonalDataService.show(this.user_id))
+      .data[0] as PersonalData
+    this.breadcrumbs.push(
+      { label: 'Pacientes', icon: 'users', href: 'patient' },
+      {
+        label: `${personalData.first_name} ${personalData.last_name}`,
+        href: 'menu-user',
+        params: { user_id: this.user_id },
+      },
+      {
+        label: 'Dados do Paciente',
+        href: 'personal-data',
+        params: { user_id: this.user_id },
+      }
+    )
   },
   async mounted() {
     this.personalData = (await PersonalDataService.show(this.user_id)).data[0]

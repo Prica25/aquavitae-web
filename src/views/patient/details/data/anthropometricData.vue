@@ -3,6 +3,7 @@
     title="Dados Antropométricos"
     horizontal-alignment="center"
     vertical-alignment="center"
+    :breadcrumbs="breadcrumbs"
   >
     <template #right-header>
       <q-btn
@@ -43,8 +44,10 @@
 import { defineComponent } from 'vue'
 
 import AnthropometricDataService from '@/services/AnthropometricDataService'
+import PersonalDataService from '@/services/PersonalDataService'
 
 import type AnthropometricData from '@/types/AnthropometricData'
+import type PersonalData from '@/types/PersonalData'
 
 export default defineComponent({
   props: {
@@ -55,6 +58,7 @@ export default defineComponent({
   },
   data() {
     return {
+      breadcrumbs: [] as any[],
       antropometricData: [] as AnthropometricData[],
       antropometricParams: [
         { label: 'Data', value: 'date', formatter: this.formatDate },
@@ -81,6 +85,23 @@ export default defineComponent({
       ],
     }
   },
+  async created() {
+    let personalData = (await PersonalDataService.show(this.user_id))
+      .data[0] as PersonalData
+    this.breadcrumbs.push(
+      { label: 'Pacientes', icon: 'users', href: 'patient' },
+      {
+        label: `${personalData.first_name} ${personalData.last_name}`,
+        href: 'menu-user',
+        params: { user_id: this.user_id },
+      },
+      {
+        label: 'Dados Antropométrico',
+        href: 'anthropometric-data',
+        params: { user_id: this.user_id },
+      }
+    )
+  },
   async mounted() {
     this.antropometricData = (
       await AnthropometricDataService.index(
@@ -92,7 +113,6 @@ export default defineComponent({
           .filter((v: string | boolean) => !!v)
       )
     ).data.data
-    console.log(this.antropometricData)
   },
   methods: {
     add() {

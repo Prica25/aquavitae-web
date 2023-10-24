@@ -20,12 +20,7 @@ const router = createRouter({
       name: 'patient',
       component: () => import('@/views/patient/list.vue'),
     },
-    {
-      path: '/nutrition-plan/view/:user_id',
-      name: 'nutrition-plan',
-      component: () => import('@/views/nutrition/view.vue'),
-      props: true,
-    },
+
     {
       path: '/food/list',
       name: 'food',
@@ -52,6 +47,12 @@ const router = createRouter({
     //   component: () => import('@/views/patient/details/meal/form.vue'),
     //   props: true,
     // },
+    {
+      path: '/menu-user/nutrition-plan/view/:user_id',
+      name: 'nutrition-plan',
+      component: () => import('@/views/patient/details/nutrition/view.vue'),
+      props: true,
+    },
     {
       path: '/menu-user/personal-data/:user_id',
       name: 'personal-data',

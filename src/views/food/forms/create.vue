@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Alimentos">
+  <base-page title="Alimentos" :breadcrumbs="breadcrumbs">
     <template #right-header>
       <q-btn
         outline
@@ -99,8 +99,6 @@ import { defineComponent } from 'vue'
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 
 import FoodService from '@/services/FoodService'
-import type Food from '@/types/Food'
-import type FoodCategory from '@/types/FoodCategory'
 
 export default defineComponent({
   components: {
@@ -108,6 +106,7 @@ export default defineComponent({
   },
   data() {
     return {
+      breadcrumbs: [] as any[],
       formChanged: false,
       object: {
         description: '',
@@ -121,6 +120,15 @@ export default defineComponent({
         sodium: null,
       },
     }
+  },
+  created() {
+    this.breadcrumbs.push(
+      { label: 'Alimentos', icon: 'apple-whole', href: 'food' },
+      {
+        label: 'Novo',
+        href: 'food-create-form',
+      }
+    )
   },
   methods: {
     int(key) {

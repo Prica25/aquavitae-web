@@ -1,5 +1,9 @@
 <template>
-  <base-page title="Plano Nutricional" vertical-alignment="center">
+  <base-page
+    title="Plano Nutricional"
+    vertical-alignment="center"
+    :breadcrumbs="breadcrumbs"
+  >
     <template #content>
       <div style="width: 100%">
         <Details
@@ -45,6 +49,7 @@ export default defineComponent({
   },
   data() {
     return {
+      breadcrumbs: [] as any[],
       numberOfMeals: 1,
       meals: [],
       user: {},
@@ -53,6 +58,23 @@ export default defineComponent({
       mealData: [],
       foodList: [] as any[],
     }
+  },
+  async created() {
+    let personalData = (await PersonalDataService.show(this.user_id))
+      .data[0] as PersonalData
+    this.breadcrumbs.push(
+      { label: 'Pacientes', icon: 'users', href: 'patient' },
+      {
+        label: `${personalData.first_name} ${personalData.last_name}`,
+        href: 'menu-user',
+        params: { user_id: this.user_id },
+      },
+      {
+        label: 'Plano Nutricional',
+        href: 'nutrition-plan',
+        params: { user_id: this.user_id },
+      }
+    )
   },
   async mounted() {
     this.anthroData = (await AnthropometricDataService.showLast(this.user_id))

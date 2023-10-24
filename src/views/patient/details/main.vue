@@ -4,6 +4,7 @@
     horizontal-alignment="center"
     vertical-alignment="center"
     no-header
+    :breadcrumbs="breadcrumbs"
   >
     <template #content>
       <div class="row justify-center">
@@ -24,6 +25,9 @@ import { defineComponent } from 'vue'
 
 import Option from '@/components/settings/option.vue'
 
+import PersonalDataService from '@/services/PersonalDataService'
+import type PersonalData from '@/types/PersonalData'
+
 export default defineComponent({
   props: {
     user_id: {
@@ -36,27 +40,40 @@ export default defineComponent({
   },
   data() {
     return {
+      breadcrumbs: [] as any[],
       options: [
         {
-          description: 'Dados Pessoais',
-          icon: 'weight-scale',
+          description: 'Dados do Paciente',
+          icon: 'id-card',
           href: 'personal-data',
           params: { user_id: this.user_id },
         },
         {
           description: 'Plano Nutricional',
-          icon: 'apple-whole',
+          icon: 'receipt',
           href: 'nutrition-plan',
         },
-        { description: 'Diário', icon: 'calendar-day', href: 'appointment' },
+        { description: 'Diário', icon: 'calendar-day', href: 'personal-data' },
         {
           description: 'Dados Antropométricos',
           icon: 'weight-scale',
           href: 'anthropometric-data',
         },
-        { description: 'Patologias', icon: 'disease', href: 'appointment' },
+        { description: 'Patologias', icon: 'disease', href: 'personal-data' },
       ],
     }
+  },
+  async created() {
+    let personalData = (await PersonalDataService.show(this.user_id))
+      .data[0] as PersonalData
+    this.breadcrumbs.push(
+      { label: 'Pacientes', icon: 'users', href: 'patient' },
+      {
+        label: `${personalData.first_name} ${personalData.last_name}`,
+        href: 'menu-user',
+        params: { user_id: this.user_id },
+      }
+    )
   },
 })
 </script>
