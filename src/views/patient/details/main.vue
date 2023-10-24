@@ -6,14 +6,16 @@
     no-header
   >
     <template #content>
-      <Option
-        v-for="(option, index) in options"
-        :key="`settings-option-${index}`"
-        :description="option.description"
-        :icon="option.icon"
-        :href="option.href"
-        :params="option.params"
-      ></Option>
+      <div class="row justify-center">
+        <Option
+          v-for="(option, index) in options"
+          :key="`settings-option-${index}`"
+          :description="option.description"
+          :icon="option.icon"
+          :href="option.href"
+          :params="option.params"
+        ></Option>
+      </div>
     </template>
   </base-page>
 </template>

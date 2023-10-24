@@ -65,6 +65,7 @@ export default defineComponent({
   font-size: 1.2em;
   color: #646464;
   transition: color 200ms linear;
+  text-align: center;
 }
 
 .option:hover .logo,
