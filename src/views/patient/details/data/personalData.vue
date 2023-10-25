@@ -11,6 +11,7 @@
         color="primary"
         label="Alterar Dados"
         @click="update"
+        style="height: 56px"
       />
     </template>
     <template #content>

@@ -11,6 +11,7 @@
         color="primary"
         label="Adicionar Registo"
         @click="add"
+        style="height: 56px"
       />
     </template>
     <template #content>
