@@ -62,6 +62,8 @@ import UserPhoto from '@/components/patient/photo.vue'
 import type User from '@/types/User'
 import type PersonalData from '@/types/PersonalData'
 
+import { formatDate } from '@/utils'
+
 export default defineComponent({
   props: {
     user: {
@@ -97,11 +99,7 @@ export default defineComponent({
         age--
       }
 
-      return `${[
-        date.getDate().toString().padStart(2, '0'),
-        (date.getMonth() + 1).toString().padStart(2, '0'),
-        date.getFullYear(),
-      ].join('/')} (${age})`
+      return `${formatDate(date, { showHour: false })} (${age})`
     },
     fullName() {
       if (this.personalData) {

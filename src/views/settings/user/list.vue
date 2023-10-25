@@ -8,10 +8,13 @@
     filter-column="email"
     :columns="columns"
     create-form="user-create-form"
+    :db-columns="dbColumns"
   />
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+import { formatDate } from '@/utils'
 
 import List from '@/components/misc/List.vue'
 
@@ -21,36 +24,29 @@ export default defineComponent({
   },
   data() {
     return {
+      dbColumns: ['last_access'],
       columns: [
         {
           name: 'email',
           label: 'Email',
           field: 'email',
-          size: '40%',
+          size: '50%',
         },
         {
-          name: 'lipids_percentage',
-          label: 'Lípidos (%)',
-          field: 'lipids_percentage',
+          name: 'role',
+          label: 'Perfil',
+          field: 'role',
           align: 'center',
-          style: 'font-weight: bold;',
         },
         {
-          name: 'proteins_percentage',
-          label: 'Proteína (%)',
-          field: 'proteins_percentage',
+          name: 'last_access',
+          label: 'Último Acesso',
+          field: (row: any) => formatDate(row.last_access),
           align: 'center',
-          style: 'font-weight: bold;',
-        },
-        {
-          name: 'carbohydrates_percentage',
-          label: 'Hidratos Carbono (%)',
-          field: 'carbohydrates_percentage',
-          align: 'center',
-          style: 'font-weight: bold;',
         },
       ],
     }
   },
+  methods: {},
 })
 </script>

@@ -6,22 +6,60 @@ export default {
   index(
     page: number,
     itemsPerPage: number,
-    sort = 'description:ASC',
+    sort = 'email:ASC',
+    columns = 'email' as string | string[],
     filter = null as string | null
   ) {
-    let params = { skip: page, take: itemsPerPage, sort: sort } as any
-    if (filter) params.search = filter
+    const params = new URLSearchParams()
 
-    return Api().get(`user/get`, { params })
+    if (Array.isArray(columns)) {
+      for (let column of columns) {
+        params.append('columns', column)
+      }
+    } else {
+      params.append('columns', columns)
+    }
+    params.append('skip', page.toString())
+    params.append('take', itemsPerPage.toString())
+    params.append('sort', sort)
+    if (filter) {
+      if (Array.isArray(filter)) {
+        for (const fil of filter) {
+          params.append('search', fil)
+        }
+      } else {
+        params.append('search', filter)
+      }
+    }
+
+    return Api().get(`user/get`, {
+      params,
+    })
   },
   show(id: number) {
     return Api().get(`user/get/${id}`)
   },
   post(user: User) {
-    return Api().post('user/create', user)
+    if (user.role) {
+      return Api().post('user/with-role/create', user, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    } else {
+      return Api().post('user/create', user, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    }
   },
   put(user: User) {
-    return Api().patch(`user/update/${user.id}`, user)
+    return Api().patch(`user/update/${user.id}`, user, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`user/delete/${id}`)

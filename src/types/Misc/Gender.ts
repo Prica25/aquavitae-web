@@ -1,10 +1,10 @@
 export default {
   MALE: {
     value: 'MALE',
-    description: 'Homem',
+    description: 'Masculino',
   },
   FEMALE: {
     value: 'FEMALE',
-    description: 'Mulher',
+    description: 'Feminino',
   },
 }

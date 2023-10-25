@@ -6,7 +6,7 @@
     :options="options"
     :loading="isLoading"
     @virtual-scroll="onScroll"
-    :placeholder="label"
+    :label="label"
     :option-value="valueKey"
     :option-label="labelKey"
     emit-value

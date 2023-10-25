@@ -59,6 +59,8 @@ import AppointmentsList from '@/components/appointments/index.vue'
 
 import CalendarLocale from '@/assets/locales/calendar/pt-PT.ts'
 
+import { formatDate } from '@/utils'
+
 export default defineComponent({
   components: {
     AppointmentsList,
@@ -84,11 +86,9 @@ export default defineComponent({
   computed: {
     formatedDate: {
       get() {
-        return [
-          this.selectedDate.getDate().toString().padStart(2, '0'),
-          (this.selectedDate.getMonth() + 1).toString().padStart(2, '0'),
-          this.selectedDate.getFullYear(),
-        ].join('/')
+        return formatDate(this.selectedDate, {
+          showHour: false,
+        })
       },
       set(value: string) {
         let d = value.split('/')
