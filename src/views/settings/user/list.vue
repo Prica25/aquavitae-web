@@ -18,6 +18,8 @@ import { formatDate } from '@/utils'
 
 import List from '@/components/misc/List.vue'
 
+import UserRoleDetails from '@/types/Misc/UserRole'
+
 export default defineComponent({
   components: {
     List,
@@ -30,12 +32,12 @@ export default defineComponent({
           name: 'email',
           label: 'Email',
           field: 'email',
-          size: '50%',
+          size: '40%',
         },
         {
           name: 'role',
           label: 'Perfil',
-          field: 'role',
+          field: (row: any) => this.generateChip(row.role),
           align: 'center',
         },
         {
@@ -47,6 +49,11 @@ export default defineComponent({
       ],
     }
   },
-  methods: {},
+  methods: {
+    generateChip(roleKey: string) {
+      const role = UserRoleDetails[roleKey]
+      return `<div class="q-chip row inline no-wrap items-center bg-primary text-white q-chip--colored"><i class="q-icon text-white fa-solid fa-${role.icon}" aria-hidden="true" role="presentation" style="cursor: pointer; margin-right: 8px;" > </i><div class="q-chip__content col row no-wrap items-center q-anchor--skip"><div class="ellipsis">${role.description}</div></div></div>`
+    },
+  },
 })
 </script>

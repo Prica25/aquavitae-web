@@ -163,8 +163,11 @@ export default defineComponent({
         const resultado = await this.$confirmation('delete')
         if (resultado) {
           await this.SERVICE.delete(id)
+          const index = this.rows.findIndex((r: any) => r.id === id)
+          if (index !== -1) {
+            this.rows.splice(index, 1)
+          }
         }
-        console.log(resultado)
       } catch (err) {
         console.log(err)
       }

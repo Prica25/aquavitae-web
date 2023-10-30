@@ -30,7 +30,16 @@
             spellcheck="false"
             @change="formChanged = true"
           />
-
+          <macronutrients-percentage-bar
+            v-model="calories"
+            @change="formChanged = true"
+          />
+          <div style="margin: 12px">Macronutrientes</div>
+          <macronutrients-percentage-bar
+            v-for="(macronutrient, i) in macronutrients"
+            v-model="macronutrients[i]"
+            @change="formChanged = true"
+          />
           <q-btn color="primary" label="Adicionar" type="submit" />
         </div>
       </q-form>
@@ -40,9 +49,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import macronutrientsPercentageBar from '@/components/macronutrientsPercentageBar/index.vue'
+
 import TypeOfMealService from '@/services/TypeOfMealService'
 
 export default defineComponent({
+  components: { macronutrientsPercentageBar },
   data() {
     return {
       formChanged: false,
@@ -52,6 +64,15 @@ export default defineComponent({
         key: 'calories_percentage',
         percentage: 20,
       },
+      macronutrients: [
+        { name: 'Lípidos', key: 'lipids_percentage', percentage: 30 },
+        { name: 'Proteínas', key: 'proteins_percentage', percentage: 15 },
+        {
+          name: 'Hidratos de Carbono',
+          key: 'carbohydrates_percentage',
+          percentage: 55,
+        },
+      ],
     }
   },
   methods: {
@@ -65,8 +86,16 @@ export default defineComponent({
         try {
           let obj = {
             description: this.text,
+            ...[...this.macronutrients, this.calories].reduce(
+              (pv: any, cv: any) => {
+                pv[cv.key] = cv.percentage
+                return pv
+              },
+              {}
+            ),
           }
           await TypeOfMealService.post(obj)
+          this.$router.back()
         } catch (err) {
           console.log(err)
         }
