@@ -3,6 +3,7 @@
     title="Pacientes"
     horizontal-alignment="center"
     vertical-alignment="center"
+    direction="column"
   >
     <template #right-header>
       <search
@@ -13,16 +14,36 @@
       ></search>
     </template>
     <template #content>
-      <patient-box
-        v-for="user in users"
-        :user="user"
-        :personal-data="user.personalData"
-        @view="view"
-        @edit="edit"
-        @delete="delete"
-        @open-settings="openSettings"
-        style="margin: 16px"
-      ></patient-box>
+      <div v-if="pagination.rowsNumber > 0" class="row justify-center">
+        <patient-box
+          v-for="user in users"
+          :user="user"
+          :personal-data="user.personalData"
+          @edit="edit"
+          @delete="delete"
+          @open-menu="openMenu"
+          style="margin: 16px"
+        ></patient-box>
+      </div>
+      <div v-else class="row no-results box-default">
+        <q-icon
+          color="negative"
+          name="fa-solid fa-triangle-exclamation"
+          size="24px"
+          style="margin-right: 4px"
+        />
+        Sem Resultados
+      </div>
+      <div class="row table-footer">
+        <q-pagination
+          v-model="pagination.page"
+          @update:model-value="$emit('request')"
+          color="primary"
+          :max="pagination.pagesNumber"
+          :max-pages="7"
+          boundary-numbers
+        />
+      </div>
     </template>
   </base-page>
 </template>
@@ -32,6 +53,7 @@ import PatientBox from '@/components/patient/box.vue'
 
 import type User from '@/types/User'
 import type PersonalData from '@/types/PersonalData'
+import type ResponseList from '@/types/ResponseList'
 
 import UserService from '@/services/UserService'
 import PersonalDataService from '@/services/PersonalDataService'
@@ -56,34 +78,48 @@ export default defineComponent({
     }
   },
   async mounted() {
-    let users = (
-      await UserService.index(
-        this.pagination.page,
-        this.pagination.rowsPerPage,
-        `${this.pagination.sortBy}:${
-          this.pagination.descending ? 'DESC' : 'ASC'
-        }`
-      )
-    ).data.data
-
-    const patientsData = (
-      await PersonalDataService.show(users.map((u: User) => u.id) as string[])
-    ).data
-
-    for (let user of users) {
-      user.personalData = patientsData.find(
-        (pd: PersonalData) => pd.user.id === user.id
-      )
-    }
-
-    this.users = users
+    this.requestDB()
+  },
+  watch: {
+    search() {
+      this.requestDB()
+    },
   },
   methods: {
-    add() {
-      alert('add')
+    async requestDB() {
+      let response = (
+        await UserService.index(
+          this.pagination.page,
+          this.pagination.rowsPerPage,
+          `${this.pagination.sortBy}:${
+            this.pagination.descending ? 'DESC' : 'ASC'
+          }`,
+          ['email', 'profile_photo'],
+          ['role:USER', this.search ? `email:${this.search}` : '']
+        )
+      ).data as ResponseList
+
+      this.pagination.rowsNumber = response.count
+      this.pagination.pagesNumber = response.last_page
+
+      if (response.count > 0) {
+        const patientsData = (
+          await PersonalDataService.show(
+            response.data.map((u: User) => u.id) as string[]
+          )
+        ).data
+
+        for (let user of response.data) {
+          user.personalData = patientsData.find(
+            (pd: PersonalData) => (pd.user as User).id === user.id
+          )
+        }
+      }
+
+      this.users = response.data
     },
-    view(user: User) {
-      alert('view')
+    add() {
+      this.$router.push({ name: 'patient-create-form' })
     },
     edit(user: User) {
       alert('edit')
@@ -91,7 +127,7 @@ export default defineComponent({
     delete(user: User) {
       alert('delete')
     },
-    openSettings(user: User) {
+    openMenu(user: User) {
       this.$router.push({
         name: 'menu-user',
         params: { user_id: user.id },
@@ -101,21 +137,16 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.search :deep(.q-field__control),
-.search :deep(.q-field__control::before) {
-  background: white !important;
-}
-.search {
-  width: 25%;
-  min-width: 200px;
-}
-.header-table :deep(thead tr:first-child th) {
-  background-color: #f5f7f9;
+.no-results {
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
 }
 
-.q-pagination :deep(.q-btn-item.q-btn--flat) {
-  margin: 0 2px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: #646464 !important;
+.table-footer {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 0;
+  margin: 12px 0;
 }
 </style>

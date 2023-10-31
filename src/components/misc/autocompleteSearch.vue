@@ -13,6 +13,7 @@
     map-options
     use-input
     @filter="onFilter"
+    hide-bottom-space
   />
 </template>
 <script lang="ts">
@@ -23,7 +24,6 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      required: true,
     },
     type: {
       type: String,

@@ -119,21 +119,7 @@ export default defineComponent({
   },
   async mounted() {
     this.SERVICE = (await this.SERVICE).default
-    let response = (
-      await this.SERVICE.index(
-        this.pagination.page,
-        this.pagination.rowsPerPage,
-        `${this.sort.by}:${this.sort.descending ? 'DESC' : 'ASC'}`,
-        this.dbColumns ? this.dbColumns : this.columns.map((c: any) => c.name)
-      )
-    ).data as ResponseList
-
-    this.pagination.rowsNumber = response.count
-    this.pagination.pagesNumber = response.last_page
-    this.rows = response.data
-    setTimeout(() => {
-      this.isLoading = false
-    }, 100)
+    this.requestDB()
   },
   computed: {
     columnsComputed() {
@@ -195,7 +181,9 @@ export default defineComponent({
       this.pagination.pagesNumber = response.last_page
       this.rows = response.data
 
-      this.isLoading = false
+      setTimeout(() => {
+        this.isLoading = false
+      }, 100)
     },
   },
 })

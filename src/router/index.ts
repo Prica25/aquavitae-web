@@ -20,7 +20,11 @@ const router = createRouter({
       name: 'patient',
       component: () => import('@/views/patient/list.vue'),
     },
-
+    {
+      path: '/patient/new',
+      name: 'patient-create-form',
+      component: () => import('@/views/patient/forms/create.vue'),
+    },
     {
       path: '/food/list',
       name: 'food',

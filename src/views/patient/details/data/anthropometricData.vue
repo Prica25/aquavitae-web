@@ -50,6 +50,8 @@ import PersonalDataService from '@/services/PersonalDataService'
 import type AnthropometricData from '@/types/AnthropometricData'
 import type PersonalData from '@/types/PersonalData'
 
+import { formatDate } from '@/utils'
+
 export default defineComponent({
   props: {
     user_id: {
@@ -135,6 +137,9 @@ export default defineComponent({
       return ''
     },
     formatDate(antropometricData: AnthropometricData) {
+      if (antropometricData) {
+        return formatDate(antropometricData.date, { showHour: false })
+      }
       return '../../....'
     },
   },

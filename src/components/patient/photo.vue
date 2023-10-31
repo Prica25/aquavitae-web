@@ -1,7 +1,6 @@
 <template>
   <q-avatar :size="`${size}px`" color="primary" style="color: white !important">
-    <img v-if="photo" :src="photoBase64" />
-    <q-icon v-else name="fa-solid fa-user" :size="`${size * 0.6}px`" />
+    <img :src="photoBase64" />
   </q-avatar>
 </template>
 <script lang="ts">
@@ -20,7 +19,11 @@ export default defineComponent({
   },
   computed: {
     photoBase64() {
-      return `data:image/png;base64,${this.photo}`
+      if (false && this.photo) {
+        return `data:image/jpeg;base64,${this.photo}`
+      }
+      const url = new URL('/src/assets/default_user.svg', import.meta.url)
+      return url.toString()
     },
   },
 })

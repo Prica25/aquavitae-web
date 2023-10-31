@@ -57,7 +57,15 @@
           "
         >
           <slot :name="column.name" :row="row">
+            <component
+              v-if="
+                typeof column.field === 'function' &&
+                typeof column.field(row) === 'object'
+              "
+              :is="column.field(row)"
+            />
             <span
+              v-else
               v-html="
                 typeof column.field === 'function'
                   ? column.field(row)
@@ -84,7 +92,7 @@
           </slot>
         </td>
       </tr>
-      <div class="row table-footer">
+      <div v-if="pagination" class="row table-footer">
         <q-pagination
           v-model="pagination.page"
           @update:model-value="$emit('request')"
@@ -104,7 +112,7 @@ export default defineComponent({
   emits: ['update:pagination', 'update:sort', 'request'],
   props: {
     pagination: {
-      type: Object,
+      type: [Object, Boolean],
       default: () => ({
         page: 1,
         rowsPerPage: 8,

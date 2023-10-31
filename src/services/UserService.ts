@@ -8,7 +8,7 @@ export default {
     itemsPerPage: number,
     sort = 'email:ASC',
     columns = 'email' as string | string[],
-    filter = null as string | null
+    filter = null as string | string[] | null
   ) {
     const params = new URLSearchParams()
 
@@ -25,7 +25,9 @@ export default {
     if (filter) {
       if (Array.isArray(filter)) {
         for (const fil of filter) {
-          params.append('search', fil)
+          if (fil) {
+            params.append('search', fil)
+          }
         }
       } else {
         params.append('search', filter)

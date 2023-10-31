@@ -15,7 +15,7 @@
       </span>
     </div>
     <div class="user-actions">
-      <q-icon name="fa-solid fa-eye" @click="$emit('open-settings', user)">
+      <q-icon name="fa-solid fa-eye" @click="$emit('open-menu', user)">
         <q-tooltip
           transition-show="flip-right"
           transition-hide="flip-left"

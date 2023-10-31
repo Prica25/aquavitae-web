@@ -17,6 +17,7 @@
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
         <div class="box-default q-pa-xl text-center form-card">
+          <image-uploader v-model="object.profile_photo" :size="120" />
           <div class="row">
             <q-input
               outlined
@@ -147,6 +148,20 @@
             hide-bottom-space
             @change="formChanged = true"
           />
+          <q-input
+            outlined
+            dense
+            v-model="repeatedPassword"
+            label="Confirmar password"
+            type="password"
+            :rules="[
+              (val: string) =>
+                (val && val === object.password) ||
+                'As passwords são diferentes',
+            ]"
+            hide-bottom-space
+            @change="formChanged = true"
+          />
           <q-select
             dense
             outlined
@@ -163,7 +178,7 @@
             map-options
           />
 
-          <q-btn color="primary" label="Register" type="submit" />
+          <q-btn color="primary" label="Registar" type="submit" />
         </div>
       </q-form>
     </template>
@@ -179,15 +194,18 @@ import PersonalDataService from '@/services/PersonalDataService'
 import GenderOptions from '@/types/Misc/Gender'
 import UserRoleOptions from '@/types/Misc/UserRole'
 
+import ImageUploader from '@/components/misc/ImageUploader.vue'
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 import { validators } from '@/utils'
 
 export default defineComponent({
   components: {
+    ImageUploader,
     Autocomplete,
   },
   data() {
     return {
+      repeatedPassword: null,
       breadcrumbs: [] as any[],
       formChanged: false,
       roles: [] as any[],
@@ -203,6 +221,7 @@ export default defineComponent({
         password: '',
         role: '',
         activity_level: '',
+        profile_photo: '',
       },
     }
   },
@@ -246,6 +265,7 @@ export default defineComponent({
               email: this.object.email,
               password: this.object.password,
               role: this.object.role,
+              profile_photo: this.object.profile_photo,
             })
           ).data
 
