@@ -204,7 +204,9 @@
             hide-bottom-space
             @change="formChanged = true"
           />
-          <q-btn color="primary" label="Continuar" @click="nextStep" />
+          <div class="row justify-center" style="margin-top: 20px !important">
+            <q-btn color="primary" label="Continuar" @click="nextStep" />
+          </div>
         </div>
         <div
           v-if="step === 2"
@@ -282,7 +284,10 @@
             width="200px"
             @change="formChanged = true"
           />
-          <q-btn color="primary" label="Continuar" @click="nextStep" />
+          <div class="row justify-center" style="margin-top: 20px !important">
+            <q-btn flat color="primary" label="Anterior" @click="prevStep" />
+            <q-btn color="primary" label="Continuar" @click="nextStep" />
+          </div>
         </div>
         <div
           v-if="step === 3"
@@ -348,7 +353,10 @@
               ]"
             />
           </div>
-          <q-btn color="primary" label="Continuar" @click="nextStep" />
+          <div class="row justify-center" style="margin-top: 20px !important">
+            <q-btn flat color="primary" label="Anterior" @click="prevStep" />
+            <q-btn color="primary" label="Continuar" @click="nextStep" />
+          </div>
         </div>
         <div
           v-if="step === 4"
@@ -458,7 +466,15 @@
               ]"
             />
           </div>
-          <q-btn color="primary" label="Concluir" @click="save" />
+          <div class="row justify-center" style="margin-top: 20px !important">
+            <q-btn flat color="primary" label="Anterior" @click="prevStep" />
+            <q-btn
+              :disable="saveDisabled"
+              color="primary"
+              label="Concluir"
+              @click="save"
+            />
+          </div>
         </div>
       </q-form>
     </template>
@@ -479,6 +495,7 @@ import AntecedentService from '@/services/AntecedentService'
 import SpecificityService from '@/services/SpecificityService'
 
 import { validators } from '@/utils'
+import DiagnosisService from '@/services/DiagnosisService'
 
 export default defineComponent({
   components: {
@@ -538,6 +555,7 @@ export default defineComponent({
         antecedents: [] as any[],
         specificities: [] as any[],
       },
+      saveDisabled: false,
     }
   },
   created() {
@@ -568,10 +586,12 @@ export default defineComponent({
       })
     },
     async nextStep() {
-      console.log(this.object.user)
       if (await this.$refs.form.validate()) {
         this.step++
       }
+    },
+    async prevStep() {
+      this.step--
     },
     async goBack() {
       if (!this.formChanged || (await this.$confirmation('cancel'))) {
@@ -580,17 +600,30 @@ export default defineComponent({
     },
     async save() {
       if (await this.$confirmation('save')) {
+        this.saveDisabled = true
+        const notif = this.$q.notify({
+          group: false,
+          spinner: true,
+          message: 'A guardar...',
+          position: 'bottom',
+          timeout: 0,
+        })
+
         let deleteIfFailed = {
-          User: null,
-          PersonalData: null,
-          AnthropometricData: null,
-          Antecedent: [],
-          Specificity: [],
+          User: { service: UserService, value: null },
+          PersonalData: { service: PersonalDataService, value: null },
+          AnthropometricData: {
+            service: AnthropometricDataService,
+            value: null,
+          },
+          Diagnosis: { service: DiagnosisService, value: null },
+          Antecedent: { service: AntecedentService, value: [] as String[] },
+          Specificity: { service: SpecificityService, value: [] as String[] },
         }
 
         try {
           const user = (await UserService.post(this.object.user as any)).data
-          deleteIfFailed.User = user.id
+          deleteIfFailed.User.value = user.id
 
           this.object.personalData.user = user.id
           let d = this.object.personalData.birthday.split('/')
@@ -602,7 +635,7 @@ export default defineComponent({
               }) as any
             )
           ).data
-          deleteIfFailed.PersonalData = personalData.id
+          deleteIfFailed.PersonalData.value = personalData.id
 
           this.object.anthropometricData.user = user.id
           const anthropometricData = (
@@ -610,23 +643,54 @@ export default defineComponent({
               this.object.anthropometricData as any
             )
           ).data
-          deleteIfFailed.AnthropometricData = anthropometricData.id
+          deleteIfFailed.AnthropometricData.value = anthropometricData.id
+
+          this.object.diagnosis.user = user.id
+          const diagnosis = (
+            await DiagnosisService.post(this.object.diagnosis as any)
+          ).data
+          deleteIfFailed.Diagnosis.value = diagnosis.id
 
           for (const antecedent of this.object.antecedents) {
             antecedent.user = user.id
             let ant = (await AntecedentService.post(antecedent as any)).data
-            deleteIfFailed.Antecedent.push(ant.id)
+            deleteIfFailed.Antecedent.value.push(ant.id)
           }
 
           for (const specificity of this.object.specificities) {
             specificity.user = user.id
             let sp = (await SpecificityService.post(specificity as any)).data
-            deleteIfFailed.Specificity.push(sp.id)
+            deleteIfFailed.Specificity.value.push(sp.id)
           }
-          // this.$router.back()
+
+          notif({
+            spinner: false,
+            color: 'positive',
+            icon: 'fa-solid fa-circle-check',
+            message: 'Concluído',
+            timeout: 500,
+          })
+
+          this.$router.back()
         } catch (err) {
-          console.log(err)
-          console.log(deleteIfFailed)
+          notif({
+            spinner: false,
+            color: 'negative',
+            icon: 'fa-solid fa-circle-xmark',
+            message: 'Algo inesperado aconteceu!',
+            timeout: 1000,
+          })
+
+          for (const key in deleteIfFailed) {
+            const data = deleteIfFailed[key]
+            if (Array.isArray(data.value)) {
+              for (const id of data.value) {
+                data.service.delete(id)
+              }
+            } else {
+              data.service.delete(data.value)
+            }
+          }
         }
       }
     },

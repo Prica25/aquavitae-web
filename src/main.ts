@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-import { Quasar } from 'quasar'
+import { Quasar, Notify } from 'quasar'
 import quasarIconSet from 'quasar/icon-set/svg-fontawesome-v6'
 
 import { PromiseDialog } from 'vue3-promise-dialog'
@@ -30,7 +30,12 @@ app
   .component('BasePage', Base)
   .component('Search', Search)
   .use(Quasar, {
-    plugins: {},
+    plugins: {
+      Notify,
+    },
+    config: {
+      Notify,
+    },
     iconSet: quasarIconSet,
   })
   .use(pinia)
