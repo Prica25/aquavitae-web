@@ -32,7 +32,7 @@
 <script lang="ts">
 import { defineComponent, h } from 'vue'
 
-import TypeOfMealService from '@/services/TypeOfMealService.js'
+import TypeOfMealService from '@/services/TypeOfMealService.ts'
 
 import type TypeOfMeal from '@/types/TypeOfMeal'
 import type FoodCantEatAt from '@/types/FoodCantEatAt'

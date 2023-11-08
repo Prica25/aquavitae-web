@@ -5,6 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import defaultUserImage from '/src/assets/default_user.svg'
 
 export default defineComponent({
   props: {
@@ -22,8 +23,7 @@ export default defineComponent({
       if (false && this.photo) {
         return `data:image/jpeg;base64,${this.photo}`
       }
-      const url = new URL('/src/assets/default_user.svg', import.meta.url)
-      return url.toString()
+      return defaultUserImage.toString()
     },
   },
 })

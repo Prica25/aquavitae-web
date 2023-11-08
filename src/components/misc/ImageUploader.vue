@@ -20,6 +20,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import defaultUserImage from '/src/assets/default_user.svg'
 
 export default defineComponent({
   emits: ['update:modelValue'],
@@ -68,8 +69,7 @@ export default defineComponent({
       },
     },
     defaultImageSrc(): string {
-      const url = new URL('/src/assets/default_user.svg', import.meta.url)
-      return url.toString()
+      return defaultUserImage.toString()
     },
   },
 })
