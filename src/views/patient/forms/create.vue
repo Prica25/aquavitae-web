@@ -670,7 +670,6 @@ export default defineComponent({
             message: 'Concluído',
             timeout: 500,
           })
-
           this.$router.back()
         } catch (err) {
           notif({

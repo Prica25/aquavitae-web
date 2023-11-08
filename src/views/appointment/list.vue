@@ -40,7 +40,7 @@
         class="btn"
         color="primary"
         label="Agendar"
-        @click="$emit('click-button')"
+        @click="$router.push({ name: 'appointment-create-form' })"
         style="margin-left: 12px"
       />
     </template>

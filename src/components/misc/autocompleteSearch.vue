@@ -9,7 +9,7 @@
     :label="label"
     :option-value="valueKey"
     :option-label="labelKey"
-    emit-value
+    :emit-value="!returnObject"
     map-options
     use-input
     @filter="onFilter"
@@ -42,6 +42,10 @@ export default defineComponent({
     },
     defaultFilter: {
       type: String,
+    },
+    returnObject: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:modelValue'],

@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import('@/views/appointment/list.vue'),
     },
     {
+      path: '/appointment/new',
+      name: 'appointment-create-form',
+      component: () => import('@/views/appointment/forms/create.vue'),
+    },
+    {
       path: '/patient/list',
       name: 'patient',
       component: () => import('@/views/patient/list.vue'),
