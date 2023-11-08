@@ -1,6 +1,17 @@
 <template>
   <div class="row number-meals box-default" style="width: 100%">
-    <span>Refeições</span>
+    <q-select
+      outlined
+      v-model="period"
+      :options="periods"
+      dense
+      option-value="value"
+      option-label="description"
+      label="Tipo de Plano"
+      emit-value
+      map-options
+      style="min-width: 150px"
+    />
     <q-space />
     <q-select
       outlined
@@ -8,12 +19,15 @@
       :options="options"
       dense
       emit-value
-      :display-value="selectedLabel"
+      map-options
+      style="min-width: 150px"
     />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+import PeriodsDetails from '@/types/Misc/Periods'
 
 export default defineComponent({
   emits: ['update:modelValue'],
@@ -22,6 +36,8 @@ export default defineComponent({
   },
   data() {
     return {
+      periods: [] as any[],
+      period: null,
       options: [
         { label: '1 Refeição', value: 1, cannotSelect: false },
         { label: '2 Refeições', value: 2, cannotSelect: false },
@@ -30,6 +46,9 @@ export default defineComponent({
         { label: '5 Refeições', value: 5, cannotSelect: false },
       ],
     }
+  },
+  created() {
+    this.periods = Object.values(PeriodsDetails)
   },
   computed: {
     number: {
