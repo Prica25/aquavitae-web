@@ -59,7 +59,11 @@ export default defineComponent({
           icon: 'weight-scale',
           href: 'anthropometric-data',
         },
-        { description: 'Patologias', icon: 'disease', href: 'personal-data' },
+        {
+          description: 'Antecedentes',
+          icon: 'file-medical',
+          href: 'antecedent',
+        },
       ],
     }
   },

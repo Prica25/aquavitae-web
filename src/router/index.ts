@@ -85,6 +85,12 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/menu-user/antecedent',
+      name: 'antecedent',
+      component: () => import('@/views/patient/details/data/antecedent.vue'),
+      props: true,
+    },
+    {
       path: '/menu-user/:user_id',
       name: 'menu-user',
       component: () => import('@/views/patient/details/main.vue'),
