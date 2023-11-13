@@ -215,7 +215,6 @@ export default defineComponent({
   margin-top: 25px;
 }
 .goals-list {
-  background-color: red;
   flex: 1 1 auto;
   border-radius: 4px;
   overflow-y: scroll;

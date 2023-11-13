@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Alimentos">
+  <base-page title="Receitas">
     <template #right-header>
       <q-btn
         outline
@@ -16,77 +16,97 @@
         class="items-center justify-center"
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
-        <div class="box-default q-pa-xl text-center form-card">
-          <q-input
-            outlined
-            dense
-            v-model="object.description"
-            label="Descrição"
-            :rules="[(val) => (val && val.length > 0) || 'Campo Obrigatório']"
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            @change="formChanged = true"
-          />
-          <autocomplete
-            v-model="object.food_category"
-            @update:model-value="formChanged = true"
-            label="Categoria do Alimento"
-            type="FoodCategory"
-            value-key="id"
-            label-key="description"
-            default-filter="level:3"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.proteins"
-            label="Proteínas"
-            @change="int('proteins')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.lipids"
-            label="Lípidos"
-            @change="int('lipids')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.carbohydrates"
-            label="Hidratos de Carbono"
-            @change="int('carbohydrates')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.energy_value"
-            label="Valor Energético"
-            @change="int('energy_value')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.potassium"
-            label="Potássio"
-            @change="int('potassium')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.phosphorus"
-            label="Fósforo"
-            @change="int('phosphorus')"
-          />
-          <q-input
-            outlined
-            dense
-            v-model="object.sodium"
-            label="Sódio"
-            @change="int('sodium')"
-          />
+        <div
+          class="box-default q-pa-xl text-center form-card"
+          style="min-width: 50vw"
+        >
+          <div class="row" style="width: 100%">
+            <div class="col mg">
+              <q-input
+                outlined
+                dense
+                v-model="object.description"
+                label="Descrição"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Campo Obrigatório',
+                ]"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="off"
+                spellcheck="false"
+                @change="formChanged = true"
+                hide-bottom-space
+              />
+              <q-separator />
+              <autocomplete
+                v-model="canEatAt"
+                @update:model-value="addCanEatAt"
+                label="Adicionar Tipo de Refeição"
+                type="TypeOfMeal"
+                value-key="id"
+                label-key="description"
+                return-object
+                multi
+                :rules="[
+                  () =>
+                    (object.can_eat_at && object.can_eat_at.length > 0) ||
+                    'Campo Obrigatório',
+                ]"
+              />
+              <div class="can-eat-at-list">
+                <div
+                  v-for="can_eat_at in object.can_eat_at"
+                  class="row box-default"
+                >
+                  <span>{{ can_eat_at.description }}</span>
+                  <q-space />
+                  <q-icon
+                    name="fa-solid fa-trash"
+                    color="negative"
+                    style="cursor: pointer; margin: 0 8px"
+                    @click="removeCanEatAt(can_eat_at.id)"
+                  />
+                </div>
+              </div>
+            </div>
+            <q-separator vertical />
+            <div class="col mg">
+              <q-btn
+                flat
+                color="primary"
+                icon="fa-solid fa-file-circle-plus"
+                label="Adicionar alimentos"
+                @click="addFood"
+              />
+              <div class="row" v-for="food in object.foods">
+                <autocomplete
+                  v-model="food.food"
+                  label="Alimento"
+                  type="Food"
+                  value-key="id"
+                  label-key="description"
+                  multi
+                  :rules="[() => !!food.food || 'Campo Obrigatório']"
+                />
+                <q-input
+                  outlined
+                  dense
+                  v-model="food.amount_grams"
+                  label="Quantidade"
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Campo Obrigatório',
+                  ]"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  spellcheck="false"
+                  @change="formChanged = true"
+                  hide-bottom-space
+                />
+              </div>
+            </div>
+          </div>
+
           <q-btn color="primary" label="Adicionar" type="submit" />
         </div>
       </q-form>
@@ -98,9 +118,7 @@ import { defineComponent } from 'vue'
 
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 
-import FoodService from '@/services/FoodService'
-import type Food from '@/types/Food'
-import type FoodCategory from '@/types/FoodCategory'
+import ItemService from '@/services/ItemService'
 
 export default defineComponent({
   components: {
@@ -109,23 +127,33 @@ export default defineComponent({
   data() {
     return {
       formChanged: false,
+      canEatAt: null,
       object: {
         description: '',
-        food_category: null,
-        proteins: null,
-        lipids: null,
-        carbohydrates: null,
-        energy_value: null,
-        potassium: null,
-        phosphorus: null,
-        sodium: null,
+        can_eat_at: [] as string[],
+        foods: [] as any[],
       },
     }
   },
   methods: {
-    int(key) {
-      this.object[key] = parseInt(this.object[key])
+    addFood() {
       this.formChanged = true
+      this.object.foods.push({ food: null, amount_grams: null })
+    },
+    addCanEatAt() {
+      this.formChanged = true
+      if (
+        this.object.can_eat_at.findIndex(
+          (value) => value.id === this.canEatAt.id
+        ) === -1
+      ) {
+        this.object.can_eat_at.push(this.canEatAt)
+      }
+      this.canEatAt = null
+    },
+    removeCanEatAt(id: string) {
+      const index = this.object.can_eat_at.findIndex((value) => value.id === id)
+      this.object.can_eat_at.splice(index, 1)
     },
     async goBack() {
       if (!this.formChanged || (await this.$confirmation('cancel'))) {
@@ -135,7 +163,10 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          await FoodService.post(this.object)
+          await ItemService.post({
+            ...this.object,
+            can_eat_at: this.object.can_eat_at.map((value) => value.id),
+          })
           this.$router.back()
         } catch (err) {
           console.log(err)
@@ -150,10 +181,23 @@ export default defineComponent({
   width: 35vw;
   min-width: 500px;
 }
-.form-card > * {
+.mg > *:not(.can-eat-at-list *) {
   margin: 10px 10px 0 10px;
 }
 .form-card > .q-btn {
   margin-top: 25px;
+}
+.can-eat-at-list {
+  flex: 1 1 auto;
+  border-radius: 4px;
+  overflow-y: scroll;
+  background: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  max-height: 215px;
+  min-height: 100px;
+}
+.can-eat-at-list * {
+  margin: 8px;
+  font-size: 12px;
 }
 </style>

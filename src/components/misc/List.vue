@@ -22,6 +22,7 @@
           :columns="columnsComputed"
           :loading="isLoading"
           @request="requestDB"
+          :disableTooltip="disableTooltip"
         >
           <template #actions="{ row }">
             <span>
@@ -89,6 +90,10 @@ export default defineComponent({
     },
     dbColumns: {
       type: Array,
+    },
+    disableTooltip: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
@@ -180,6 +185,7 @@ export default defineComponent({
       this.pagination.rowsNumber = response.count
       this.pagination.pagesNumber = response.last_page
       this.rows = response.data
+      console.log(this.rows)
 
       setTimeout(() => {
         this.isLoading = false

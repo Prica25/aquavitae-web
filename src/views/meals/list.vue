@@ -9,6 +9,7 @@
     :columns="columns"
     create-form="meal-create-form"
     :db-columns="dbColumns"
+    disable-tooltip
   >
   </List>
   <q-dialog v-model="mealFoodDetails">
@@ -20,6 +21,7 @@
           :rows="foods"
           :columns="foodsColumns"
           :loading="false"
+          disable-tooltip
         />
       </div>
 
@@ -84,6 +86,7 @@ export default defineComponent({
         label: type.description,
         field: (row: any) => this.createCheckIcon(row, type),
         align: 'center',
+        sortable: false,
       })
     }
     this.columns.push({
@@ -91,6 +94,7 @@ export default defineComponent({
       label: 'Alimentos',
       field: this.createViewBtn,
       align: 'center',
+      sortable: false,
     })
   },
   methods: {
