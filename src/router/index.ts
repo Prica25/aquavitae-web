@@ -85,7 +85,14 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/menu-user/antecedent',
+      path: '/menu-user/antecedent/new/:user_id',
+      name: 'antecedent-create-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/antecedent/create.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/antecedent/:user_id',
       name: 'antecedent',
       component: () => import('@/views/patient/details/data/antecedent.vue'),
       props: true,

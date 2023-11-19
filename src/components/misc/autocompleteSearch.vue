@@ -11,10 +11,22 @@
     :option-label="labelKey"
     :emit-value="!returnObject"
     map-options
-    use-input
+    :use-input="!value"
     @filter="onFilter"
     hide-bottom-space
-  />
+  >
+    <template v-slot:selected-item="scope">
+      <span class="ellipsis">{{ scope.opt[labelKey] }}</span>
+    </template>
+    <template v-if="clearable && value" v-slot:append>
+      <q-icon
+        name="fa-solid fa-xmark"
+        @click="value = null"
+        class="cursor-pointer"
+        style="font-size: 16px"
+      />
+    </template>
+  </q-select>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -44,6 +56,10 @@ export default defineComponent({
       type: String,
     },
     returnObject: {
+      type: Boolean,
+      default: false,
+    },
+    clearable: {
       type: Boolean,
       default: false,
     },

@@ -52,17 +52,25 @@ export default defineComponent({
           description: 'Plano Nutricional',
           icon: 'receipt',
           href: 'nutrition-plan',
+          params: { user_id: this.user_id },
         },
-        { description: 'Diário', icon: 'calendar-day', href: 'personal-data' },
+        {
+          description: 'Diário',
+          icon: 'calendar-day',
+          href: 'personal-data',
+          params: { user_id: this.user_id },
+        },
         {
           description: 'Dados Antropométricos',
           icon: 'weight-scale',
           href: 'anthropometric-data',
+          params: { user_id: this.user_id },
         },
         {
           description: 'Antecedentes',
           icon: 'file-medical',
           href: 'antecedent',
+          params: { user_id: this.user_id },
         },
       ],
     }

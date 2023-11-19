@@ -1,14 +1,64 @@
 <template>
-  <q-card class="q-pa-xl meal-card box-default" style="width: 100%">
+  <q-card class="q-pa-md meal-card box-default" style="width: 100%">
     <div class="row meal">
-      <q-select
-        dense
+      <q-input
         outlined
+        dense
+        label="Descrição"
+        v-model="modelValue.description"
+        style="width: 200px"
+      ></q-input>
+      <q-separator vertical style="margin: 0 8px" />
+      <autocomplete
         v-model="typeSelected"
-        :options="typeOfMeals"
-        option-label="description"
-        placeholder="Definir tipo"
+        type="TypeOfMeal"
+        value-key="id"
+        label-key="description"
+        label="Tipo de Refeição"
+        clearable
+        style="width: 200px"
       />
+
+      <q-input
+        outlined
+        dense
+        v-model="modelValue.start_time"
+        mask="##:##"
+        style="width: 60px; margin-left: 8px"
+      >
+        <q-popup-proxy
+          transition-show="scale"
+          transition-hide="scale"
+          :offset="[91, 12]"
+        >
+          <q-time
+            v-model="modelValue.start_time"
+            mask="HH:mm"
+            minimal
+            format24h
+          />
+        </q-popup-proxy>
+      </q-input>
+      <q-input
+        outlined
+        dense
+        v-model="modelValue.end_time"
+        mask="##:##"
+        style="width: 60px; margin-left: 8px"
+      >
+        <q-popup-proxy
+          transition-show="scale"
+          transition-hide="scale"
+          :offset="[91, 12]"
+        >
+          <q-time
+            v-model="modelValue.end_time"
+            mask="HH:mm"
+            minimal
+            format24h
+          />
+        </q-popup-proxy>
+      </q-input>
       <q-space />
       <autocomplete
         v-model="item_id"
@@ -16,6 +66,8 @@
         type="Item"
         value-key="id"
         label-key="description"
+        label="Procurar Receita..."
+        style="width: 200px"
       />
     </div>
 
@@ -26,41 +78,7 @@
       :columns="columns"
       no-data-label="Sem alimentos selecionados"
       hide-pagination
-    >
-      <!-- <template #body="props">
-        <q-tr :props="props">
-          <q-td key="description" :props="props">
-            {{ props.row.description }}
-          </q-td>
-          <q-td key="proteins" :props="props">
-            {{ props.row.proteins }}
-          </q-td>
-          <q-td key="lipids" :props="props">
-            {{ props.row.lipids }}
-          </q-td>
-          <q-td key="carbohydrates" :props="props">
-            {{ props.row.carbohydrates }}
-          </q-td>
-          <q-td key="energy_value" :props="props">
-            {{ props.row.energy_value }}
-          </q-td>
-          <q-td key="actions" :props="props">
-            <q-icon
-              name="fa-solid fa-eye"
-              color="primary"
-              style="cursor: pointer; margin: 0 4px"
-              @click="view(props.row.id)"
-            />
-            <q-icon
-              name="fa-solid fa-trash"
-              color="negative"
-              style="cursor: pointer; margin: 0 4px"
-              @click="remove(props.row.id)"
-            />
-          </q-td>
-        </q-tr>
-      </template> -->
-    </q-table>
+    ></q-table>
   </q-card>
 </template>
 <script lang="ts">
@@ -79,6 +97,8 @@ export default defineComponent({
   components: {
     Autocomplete,
   },
+  emits: ['update:modelValue'],
+  props: ['modelValue'],
   data() {
     return {
       search: null as string | null,
@@ -86,6 +106,7 @@ export default defineComponent({
       typeSelected: null as TypeOfMeal | null,
       typeOfMeals: [] as TypeOfMeal[],
       foodList: [] as Food[],
+      date: null,
       columns: [
         {
           name: 'description',

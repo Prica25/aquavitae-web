@@ -95,6 +95,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    defaultFilter: {
+      type: String,
+    },
   },
   components: {
     CustomTable,
@@ -178,7 +181,10 @@ export default defineComponent({
           this.dbColumns
             ? this.dbColumns
             : this.columns.map((c: any) => c.name),
-          this.filter ? `${this.filterColumn}:${this.filter}` : null
+          [
+            this.defaultFilter,
+            this.filter ? `${this.filterColumn}:${this.filter}` : null,
+          ].filter((v) => !!v)
         )
       ).data as ResponseList
 

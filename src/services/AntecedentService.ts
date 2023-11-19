@@ -8,7 +8,7 @@ export default {
     itemsPerPage: number,
     sort = 'description:ASC',
     columns = 'description' as string | string[],
-    filter = null as string | null
+    filter = null as string | string[] | null
   ) {
     const params = new URLSearchParams()
 

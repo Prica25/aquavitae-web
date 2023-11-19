@@ -10,17 +10,40 @@
       label="Tipo de Plano"
       emit-value
       map-options
-      style="min-width: 150px"
+      style="width: 200px"
     />
+    <q-separator vertical style="margin: 0 8px" />
+    <q-input
+      outlined
+      dense
+      v-model="date"
+      label="Validade"
+      mask="##/##/####"
+      style="width: 150px"
+    >
+      <q-popup-proxy
+        transition-show="scale"
+        transition-hide="scale"
+        :offset="[91, 12]"
+      >
+        <q-date
+          class="box-default"
+          v-model="date"
+          mask="DD/MM/YYYY"
+          minimal
+          :locale="calendarSettings.locale"
+        />
+      </q-popup-proxy>
+    </q-input>
     <q-space />
     <q-select
       outlined
-      v-model="number"
-      :options="options"
+      v-model="numberMeals"
+      :options="mealsOptions"
       dense
       emit-value
       map-options
-      style="min-width: 150px"
+      style="width: 200px"
     />
   </div>
 </template>
@@ -29,38 +52,63 @@ import { defineComponent } from 'vue'
 
 import PeriodsDetails from '@/types/Misc/Periods'
 
+import CalendarLocale from '@/assets/locales/calendar/pt-PT.ts'
+
 export default defineComponent({
-  emits: ['update:modelValue'],
+  emits: ['update:meals', 'update:type', 'update:validateDate'],
   props: {
-    modelValue: Number,
+    meals: Number,
+    type: String,
+    validateDate: String,
+    recommendedMeals: Number,
   },
   data() {
     return {
       periods: [] as any[],
-      period: null,
-      options: [
-        { label: '1 Refeição', value: 1, cannotSelect: false },
-        { label: '2 Refeições', value: 2, cannotSelect: false },
-        { label: '3 Refeições', value: 3, cannotSelect: false },
-        { label: '4 Refeições', value: 4, cannotSelect: false },
-        { label: '5 Refeições', value: 5, cannotSelect: false },
-      ],
+      date: null as string | null,
+      options: [],
+      calendarSettings: {
+        locale: CalendarLocale,
+      },
     }
   },
   created() {
     this.periods = Object.values(PeriodsDetails)
   },
   computed: {
-    number: {
+    mealsOptions() {
+      let options = []
+      for (
+        let index = (this.recommendedMeals || 0) - 2;
+        index <= (this.recommendedMeals || 0) + 2;
+        index++
+      ) {
+        if (index > 0) {
+          options.push({
+            label: `${index} Refeiç${index === 1 ? 'ão' : 'ões'}${
+              index === this.recommendedMeals ? ' (Recomendado)' : ''
+            }`,
+            value: index,
+          })
+        }
+      }
+      return options
+    },
+    numberMeals: {
       get: function () {
-        return this.modelValue
+        return this.meals
       },
       set: function (value: number) {
-        this.$emit('update:modelValue', value)
+        this.$emit('update:meals', value)
       },
     },
-    selectedLabel() {
-      return this.options.find((o) => o.value === this.number)?.label || 'N/S'
+    period: {
+      get: function () {
+        return this.type
+      },
+      set: function (value: string) {
+        this.$emit('update:type', value)
+      },
     },
   },
 })

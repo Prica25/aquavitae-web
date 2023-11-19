@@ -20,7 +20,7 @@
           :user="user"
           :personal-data="user.personalData"
           @edit="edit"
-          @delete="delete"
+          @delete="remove"
           @open-menu="openMenu"
           style="margin: 16px"
         ></patient-box>
@@ -57,6 +57,7 @@ import type ResponseList from '@/types/ResponseList'
 
 import UserService from '@/services/UserService'
 import PersonalDataService from '@/services/PersonalDataService'
+import { useFormChild } from 'quasar'
 
 export default defineComponent({
   components: {
@@ -124,8 +125,19 @@ export default defineComponent({
     edit(user: User) {
       alert('edit')
     },
-    delete(user: User) {
-      alert('delete')
+    async remove(user: User) {
+      try {
+        const resultado = await this.$confirmation('delete')
+        if (resultado) {
+          await UserService.delete(user.id)
+          const index = this.users.findIndex((r: User) => r.id === user.id)
+          if (index !== -1) {
+            this.users.splice(index, 1)
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
     },
     openMenu(user: User) {
       this.$router.push({
