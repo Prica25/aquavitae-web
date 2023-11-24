@@ -1,13 +1,13 @@
 <template>
   <List
-    title="Antecedentes"
-    type="Antecedent"
+    title="Especificidades"
+    type="Specificity"
     add-button
-    add-button-text="Adicionar Antecendente"
-    table-sort-by="description"
-    filter-column="description"
+    add-button-text="Adicionar Especificidade"
+    table-sort-by="user_id"
+    filter-column="user_id"
     :columns="columns"
-    create-form="antecedent-create-form"
+    create-form="specificity-create-form"
     :default-filter="`user_id:${user_id}`"
     :breadcrumbs="breadcrumbs"
   />
@@ -34,15 +34,16 @@ export default defineComponent({
       breadcrumbs: [] as any[],
       columns: [
         {
-          name: 'description',
-          label: 'Descrição',
-          field: 'description',
+          name: 'food',
+          label: 'Alimento',
+          field: (row: any) => row.food.description,
           size: '40%',
+          sortable: false,
         },
         {
-          name: 'antecedent_type',
-          label: 'Tipo de Antecedente',
-          field: (row: any) => row.antecedent_type.description,
+          name: 'specificity_type',
+          label: 'Tipo',
+          field: (row: any) => row.specificity_type.description,
           size: '40%',
           sortable: false,
         },
@@ -60,8 +61,8 @@ export default defineComponent({
         params: { user_id: this.user_id },
       },
       {
-        label: 'Antecedentes',
-        href: 'antecedent',
+        label: 'Especificidades',
+        href: 'specificity',
         params: { user_id: this.user_id },
       }
     )

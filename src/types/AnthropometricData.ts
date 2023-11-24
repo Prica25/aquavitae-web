@@ -14,7 +14,7 @@ type AnthropometricData = {
   body_water: number
   basal_metabolism: number
   visceral_fat: number
-  date: Date
+  date?: Date
   user_id: User
   body_photo: string
 }

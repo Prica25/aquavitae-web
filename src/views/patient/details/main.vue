@@ -72,6 +72,12 @@ export default defineComponent({
           href: 'antecedent',
           params: { user_id: this.user_id },
         },
+        {
+          description: 'Especificidades',
+          icon: 'person-burst',
+          href: 'specificity',
+          params: { user_id: this.user_id },
+        },
       ],
     }
   },

@@ -89,14 +89,6 @@
             width="200px"
             @change="formChanged = true"
           />
-          <q-input
-            outlined
-            dense
-            v-model="object.date"
-            label="Data"
-            width="200px"
-            @change="formChanged = true"
-          />
           <q-btn color="primary" label="Adicionar" type="submit" />
         </div>
       </q-form>
@@ -129,7 +121,6 @@ export default defineComponent({
         body_water: '',
         basal_metabolism: '',
         visceral_fat: '',
-        date: '',
         user: this.user_id,
       } as AnthropometricData,
     }
@@ -143,7 +134,6 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          console.log(this.object)
           await AnthropometricDataService.post(this.object)
           this.$router.back()
         } catch (err) {

@@ -98,6 +98,19 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/menu-user/specificity/new/:user_id',
+      name: 'specificity-create-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/specificity/create.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/specificity/:user_id',
+      name: 'specificity',
+      component: () => import('@/views/patient/details/data/specificity.vue'),
+      props: true,
+    },
+    {
       path: '/menu-user/:user_id',
       name: 'menu-user',
       component: () => import('@/views/patient/details/main.vue'),
@@ -139,6 +152,28 @@ const router = createRouter({
       path: '/management/appointment-goal',
       name: 'appointment-goal',
       component: () => import('@/views/settings/appointmentGoal/list.vue'),
+    },
+    {
+      path: '/management/antecedent-type/new',
+      name: 'antecedent-type-create-form',
+      component: () =>
+        import('@/views/settings/antecedentType/forms/create.vue'),
+    },
+    {
+      path: '/management/antecedent-type',
+      name: 'antecedent-type',
+      component: () => import('@/views/settings/antecedentType/list.vue'),
+    },
+    {
+      path: '/management/specificity-type/new',
+      name: 'specificity-type-create-form',
+      component: () =>
+        import('@/views/settings/specificityType/forms/create.vue'),
+    },
+    {
+      path: '/management/specificity-type',
+      name: 'specificity-type',
+      component: () => import('@/views/settings/specificityType/list.vue'),
     },
     {
       path: '/management/user/new',

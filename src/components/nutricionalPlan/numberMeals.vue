@@ -52,7 +52,7 @@ import { defineComponent } from 'vue'
 
 import PeriodsDetails from '@/types/Misc/Periods'
 
-import CalendarLocale from '@/assets/locales/calendar/pt-PT.ts'
+import CalendarLocale from '@/assets/locales/calendar/pt-PT'
 
 export default defineComponent({
   emits: ['update:meals', 'update:type', 'update:validateDate'],
@@ -65,7 +65,6 @@ export default defineComponent({
   data() {
     return {
       periods: [] as any[],
-      date: null as string | null,
       options: [],
       calendarSettings: {
         locale: CalendarLocale,
@@ -108,6 +107,14 @@ export default defineComponent({
       },
       set: function (value: string) {
         this.$emit('update:type', value)
+      },
+    },
+    date: {
+      get: function () {
+        return this.validateDate
+      },
+      set: function (value: string) {
+        this.$emit('update:validateDate', value)
       },
     },
   },

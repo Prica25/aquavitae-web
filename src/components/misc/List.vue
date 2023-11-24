@@ -3,6 +3,7 @@
     :title="title"
     horizontal-alignment="center"
     vertical-alignment="center"
+    :breadcrumbs="breadcrumbs ? breadcrumbs : undefined"
   >
     <template #right-header>
       <search
@@ -97,6 +98,10 @@ export default defineComponent({
     },
     defaultFilter: {
       type: String,
+    },
+    breadcrumbs: {
+      type: [Array, Boolean],
+      default: false,
     },
   },
   components: {

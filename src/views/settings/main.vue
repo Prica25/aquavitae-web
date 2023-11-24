@@ -42,9 +42,19 @@ export default defineComponent({
           href: 'activity-level',
         },
         {
+          description: 'Tipo de Antecedentes',
+          icon: 'laptop-medical',
+          href: 'antecedent-type',
+        },
+        {
           description: 'Objetivos',
           icon: 'bullseye',
           href: 'appointment-goal',
+        },
+        {
+          description: 'Tipo de Especificidades',
+          icon: 'burst',
+          href: 'specificity-type',
         },
       ],
     }

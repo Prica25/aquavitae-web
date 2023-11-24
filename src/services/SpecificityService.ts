@@ -6,8 +6,8 @@ export default {
   index(
     page: number,
     itemsPerPage: number,
-    sort = 'description:ASC',
-    columns = 'description' as string | string[],
+    sort = 'user_id:ASC',
+    columns = 'user_id' as string | string[],
     filter = null as string | null
   ) {
     const params = new URLSearchParams()

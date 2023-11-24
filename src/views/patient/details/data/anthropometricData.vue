@@ -16,6 +16,13 @@
     </template>
     <template #content>
       <div class="col-6" style="margin: 12px">
+        <div class="row box-default" style="margin: 8px 0; padding: 12px">
+          <div class="col text-center">
+            <b>Data</b>
+          </div>
+          <q-separator vertical />
+          <div class="col text-center">{{ formatedDate }}</div>
+        </div>
         <div
           v-for="param in antropometricParams.slice(0, -1)"
           :class="{ row: true, 'box-default': !param.spacer }"
@@ -62,9 +69,8 @@ export default defineComponent({
   data() {
     return {
       breadcrumbs: [] as any[],
-      antropometricData: [] as AnthropometricData[],
+      antropometricData: null as AnthropometricData | null,
       antropometricParams: [
-        { label: 'Data', value: 'date', formatter: this.formatDate },
         { spacer: true },
         { label: 'Peso', value: 'weight', unit: 'kg' },
         { label: 'Altura', value: 'height', unit: 'cm' },
@@ -109,13 +115,23 @@ export default defineComponent({
     this.antropometricData = (
       await AnthropometricDataService.index(
         1,
-        10,
+        1,
         this.user_id,
         this.antropometricParams
           .map((column) => (!column.estimated ? column.value : false))
           .filter((v: string | boolean) => !!v)
       )
-    ).data.data
+    ).data.data?.[0] as AnthropometricData
+
+    console.log(this.antropometricData)
+  },
+  computed: {
+    formatedDate() {
+      if (this.antropometricData) {
+        return formatDate(this.antropometricData.date, { showHour: false })
+      }
+      return '../../....'
+    },
   },
   methods: {
     add() {
@@ -124,23 +140,17 @@ export default defineComponent({
         params: { user_id: this.user_id },
       })
     },
-    getBMI(antropometricData: AnthropometricData) {
-      if (antropometricData?.weight && antropometricData?.height) {
-        const heightInMeters = antropometricData.height / 100
+    getBMI() {
+      if (this.antropometricData?.weight && this.antropometricData?.height) {
+        const heightInMeters = this.antropometricData.height / 100
         return (
           (
-            antropometricData.weight /
+            this.antropometricData.weight /
             (heightInMeters * heightInMeters)
           ).toFixed(2) + ' <i>kg/m2</i>'
         )
       }
       return ''
-    },
-    formatDate(antropometricData: AnthropometricData) {
-      if (antropometricData) {
-        return formatDate(antropometricData.date, { showHour: false })
-      }
-      return '../../....'
     },
   },
 })

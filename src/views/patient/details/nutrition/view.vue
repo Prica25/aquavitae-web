@@ -14,6 +14,7 @@
         <NumberMeals
           v-model:type="period"
           v-model:meals="numberOfMeals"
+          v-model:validate-date="maxDate"
           :recommended-meals="getRecommendedNumberMeals()"
         />
         <MealCard
@@ -38,6 +39,8 @@ import type PersonalData from '@/types/PersonalData'
 import AnthropometricDataService from '@/services/AnthropometricDataService'
 import PersonalDataService from '@/services/PersonalDataService'
 
+import { formatDate } from '@/utils/index'
+
 export default defineComponent({
   props: {
     user_id: {
@@ -60,7 +63,10 @@ export default defineComponent({
       anthroData: {} as AnthropometricData,
       mealData: [],
       foodList: [] as any[],
-      period: null as string | null,
+      period: undefined as string | undefined,
+      maxDate: formatDate(new Date(Date.now() + 60 * 60 * 24 * 1000)),
+      visibleDay: new Date(Date.now() + 60 * 60 * 24 * 1000),
+      numberOfDays: 1,
     }
   },
   async created() {
@@ -101,6 +107,19 @@ export default defineComponent({
       }
 
       this.calculateHours()
+    },
+    maxDate() {
+      let tomorrow = new Date()
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      let firstDay = new Date(
+        tomorrow.getFullYear(),
+        tomorrow.getMonth(),
+        tomorrow.getDate()
+      )
+      let d = this.maxDate.split('/')
+      let lastDay = new Date(parseInt(d[2]), parseInt(d[1]) - 1, parseInt(d[0]))
+      this.numberOfDays =
+        (lastDay.getTime() - firstDay.getTime()) / 1000 / 60 / 60 / 24 + 1
     },
   },
   async mounted() {

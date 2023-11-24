@@ -22,11 +22,20 @@
             }`"
           />
         </th>
+        <th
+          v-if="expandableRows"
+          class="col"
+          :style="`text-align: right; flex: 50px`"
+        />
       </tr>
       <tr
         v-if="loading"
-        v-for="index in pagination.rowsPerPage"
-        class="row box-default"
+        v-for="index in pagination?.rowsPerPage || []"
+        :class="{
+          row: true,
+          'box-default': !filled,
+          'box-filled': filled,
+        }"
         style="margin: 12px 0"
       >
         <td
@@ -41,7 +50,17 @@
           />
         </td>
       </tr>
-      <tr v-if="!loading" v-for="row in rows" class="row table-row box-default">
+      <tr
+        v-if="!loading"
+        v-for="row in rows"
+        :class="{
+          row: true,
+          'table-row': true,
+          'box-default': !filled,
+          'box-filled': filled,
+        }"
+        @click="toogleExpansion(row)"
+      >
         <td
           v-for="column in columns"
           class="col"
@@ -75,10 +94,38 @@
             </span>
           </slot>
         </td>
+
+        <td
+          v-if="expandableRows"
+          class="col"
+          :style="`text-align: right; flex: 50px`"
+        >
+          <q-icon
+            color="primary"
+            :name="`fa-solid fa-chevron-${row.expanded ? 'up' : 'down'}`"
+          />
+        </td>
+        <div v-if="row.expanded" style="width: 100%">
+          <hr
+            style="
+              border: none;
+              border-bottom: thin solid rgba(0, 0, 0, 0.12);
+              margin: 8px 0;
+            "
+          />
+          <slot name="exandable-area" :row="row">
+            {{ row }}
+          </slot>
+        </div>
       </tr>
       <tr
         v-if="!loading && rows.length === 0"
-        class="row table-row box-default"
+        :class="{
+          row: true,
+          'table-row': true,
+          'box-default': !filled,
+          'box-filled': filled,
+        }"
       >
         <td class="col" colspan="100" style="text-align: center">
           <slot name="no-data">
@@ -113,12 +160,7 @@ export default defineComponent({
   props: {
     pagination: {
       type: [Object, Boolean],
-      default: () => ({
-        page: 1,
-        rowsPerPage: 8,
-        pagesNumber: 0,
-        rowsNumber: 0,
-      })
+      default: false
     },
     sort: {
       type: Object,
@@ -147,14 +189,31 @@ export default defineComponent({
     disableTooltip: {
       type: Boolean,
       default: false,
+    },
+    expandableRows: {
+      type: Boolean,
+      default: false
+    },
+    filled: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
-    return {
-      rowsSorted: null as null | Array<any>,
-    }
+    return {}
   },
   methods: {
+    toogleExpansion(row: any) {
+      if (this.expandableRows) {
+        for (const r of this.rows) {
+          if (JSON.stringify(row) !== JSON.stringify(r)) {
+            r.expanded = false
+          }
+        }
+        row.expanded = !row.expanded
+      }
+
+    },
     sortBy(column: any) {
       if ('sortable' in column ? column.sortable : true) {
         if (this.sort.by !== column.name) {
@@ -230,5 +289,14 @@ td {
 
 .q-pagination :deep(.q-btn-item.q-btn--flat) {
   margin: 0 2px;
+}
+
+.box-filled {
+  /* 
+  border: 1px solid rgba(0, 0, 0, 0.24);
+   */
+  padding: 8px;
+  border-radius: 4px;
+  background: #f5f5f5;
 }
 </style>
