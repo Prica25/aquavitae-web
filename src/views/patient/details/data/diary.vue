@@ -1,6 +1,6 @@
 <template>
   <base-page
-    title="Plano Nutricional"
+    title="Diário"
     vertical-alignment="center"
     :breadcrumbs="breadcrumbs"
   >
@@ -91,8 +91,8 @@ export default defineComponent({
         params: { user_id: this.user_id },
       },
       {
-        label: 'Plano Nutricional',
-        href: 'nutrition-plan',
+        label: 'Diário',
+        href: 'diary',
         params: { user_id: this.user_id },
       }
     )

@@ -25,7 +25,7 @@
   <custom-table
     :rows="items"
     :columns="columns"
-    no-data-label="Sem Receitas Selecionadas"
+    no-data-label="Sem Registos"
     disable-tooltip
     hide-headers
     expandable-rows

@@ -77,6 +77,12 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/menu-user/diary/:user_id',
+      name: 'diary',
+      component: () => import('@/views/patient/details/data/diary.vue'),
+      props: true,
+    },
+    {
       path: '/menu-user/personal-data/:user_id',
       name: 'personal-data',
       component: () => import('@/views/patient/details/data/personalData.vue'),

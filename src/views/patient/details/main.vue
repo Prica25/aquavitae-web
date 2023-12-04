@@ -57,7 +57,7 @@ export default defineComponent({
         {
           description: 'Diário',
           icon: 'calendar-day',
-          href: 'personal-data',
+          href: 'diary',
           params: { user_id: this.user_id },
         },
         {
