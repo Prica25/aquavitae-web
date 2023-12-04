@@ -28,7 +28,7 @@ export default {
       },
     })
   },
-  put(personalData: PersonalData) {
+  put(id: string, personalData: PersonalData) {
     return Api().patch(
       `personal-data/update/${personalData.id}`,
       personalData,

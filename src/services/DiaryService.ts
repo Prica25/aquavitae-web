@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
+import type Diary from '@/types/Diary'
 
 export default {
   index(
@@ -32,28 +32,28 @@ export default {
       }
     }
 
-    return Api().get(`item/get`, {
+    return Api().get(`diary/get`, {
       params,
     })
   },
   show(id: string) {
-    return Api().get(`item/get/${id}`)
+    return Api().get(`diary/get/${id}`)
   },
-  post(food: Food) {
-    return Api().post('item/create', food, {
+  post(diary: Diary) {
+    return Api().post('diary/create', diary, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
-  put(id: string, food: Food) {
-    return Api().patch(`item/update/${id}`, food, {
+  put(diary: Diary) {
+    return Api().patch(`diary/update/${diary.id}`, diary, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
   delete(id: number) {
-    return Api().delete(`item/delete/${id}`)
+    return Api().delete(`diary/delete/${id}`)
   },
 }

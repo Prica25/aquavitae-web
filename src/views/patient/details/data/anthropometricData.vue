@@ -21,7 +21,29 @@
             <b>Data</b>
           </div>
           <q-separator vertical />
-          <div class="col text-center">{{ formatedDate }}</div>
+          <div class="col text-center">
+            <div class="row justify-center" style="align-items: center">
+              <q-icon
+                :color="
+                  pagination.page !== pagination.totalPages ? 'primary' : 'grey'
+                "
+                name="fa-solid fa-chevron-left"
+                style="margin-right: 8px; cursor: pointer"
+                @click="
+                  pagination.page !== pagination.totalPages
+                    ? prevData()
+                    : undefined
+                "
+              />
+              {{ formatedDate }}
+              <q-icon
+                :color="pagination.page !== 1 ? 'primary' : 'grey'"
+                name="fa-solid fa-chevron-right"
+                style="margin-left: 8px; cursor: pointer"
+                @click="pagination.page !== 1 ? nextData() : undefined"
+              />
+            </div>
+          </div>
         </div>
         <div
           v-for="param in antropometricParams.slice(0, -1)"
@@ -40,7 +62,7 @@
             v-html="param.formatter(antropometricData?.[0]) || '...'"
           />
           <div v-if="!param.spacer && !param.formatter" class="col text-center">
-            {{ antropometricData?.[0]?.[param.value] || '...' }}
+            {{ antropometricData?.[param.value] || '...' }}
             <i>{{ param.unit ? param.unit : '' }}</i>
           </div>
         </div>
@@ -92,6 +114,11 @@ export default defineComponent({
         { label: 'Gordura Visceral', value: 'visceral_fat' },
         { label: 'Body Photo', value: 'body_photo' },
       ],
+      pagination: {
+        page: 1,
+        rowsPerPage: 1,
+        totalPages: 1,
+      },
     }
   },
   async created() {
@@ -112,18 +139,7 @@ export default defineComponent({
     )
   },
   async mounted() {
-    this.antropometricData = (
-      await AnthropometricDataService.index(
-        1,
-        1,
-        this.user_id,
-        this.antropometricParams
-          .map((column) => (!column.estimated ? column.value : false))
-          .filter((v: string | boolean) => !!v)
-      )
-    ).data.data?.[0] as AnthropometricData
-
-    console.log(this.antropometricData)
+    this.getData()
   },
   computed: {
     formatedDate() {
@@ -134,6 +150,28 @@ export default defineComponent({
     },
   },
   methods: {
+    async getData() {
+      const data = (
+        await AnthropometricDataService.index(
+          this.pagination.page,
+          this.pagination.rowsPerPage,
+          this.user_id,
+          this.antropometricParams
+            .map((column) => (!column.estimated ? column.value : false))
+            .filter((v: string | boolean) => !!v)
+        )
+      ).data
+      this.antropometricData = data.data?.[0] as AnthropometricData
+      this.pagination.totalPages = data.count
+    },
+    prevData() {
+      this.pagination.page++
+      this.getData()
+    },
+    nextData() {
+      this.pagination.page--
+      this.getData()
+    },
     add() {
       this.$router.push({
         name: 'anthropometric-data-create-form',

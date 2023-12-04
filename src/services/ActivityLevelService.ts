@@ -46,16 +46,12 @@ export default {
       },
     })
   },
-  put(activityLevel: ActivityLevel) {
-    return Api().patch(
-      `activity-level/update/${activityLevel.id}`,
-      activityLevel,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: string, activityLevel: ActivityLevel) {
+    return Api().patch(`activity-level/update/${id}`, activityLevel, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`activity-level/delete/${id}`)

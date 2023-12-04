@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="type-meals-create-form"
+    update-form="type-meals-update-form"
   />
 </template>
 <script lang="ts">

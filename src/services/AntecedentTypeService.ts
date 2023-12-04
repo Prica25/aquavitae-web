@@ -46,16 +46,12 @@ export default {
       },
     })
   },
-  put(antecedentType: AntecedentType) {
-    return Api().patch(
-      `antecedent-type/update/${antecedentType.id}`,
-      antecedentType,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: string, antecedentType: AntecedentType) {
+    return Api().patch(`antecedent-type/update/${id}`, antecedentType, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`antecedent-type/delete/${id}`)

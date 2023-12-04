@@ -88,7 +88,7 @@ export default defineComponent({
             description: this.text,
             ...[...this.macronutrients, this.calories].reduce(
               (pv: any, cv: any) => {
-                pv[cv.key] = cv.percentage
+                pv[cv.key] = Math.round(cv.percentage)
                 return pv
               },
               {}

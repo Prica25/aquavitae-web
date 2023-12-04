@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
+import type ForbiddenFoods from '@/types/ForbiddenFoods'
 
 export default {
   index(
@@ -32,28 +32,28 @@ export default {
       }
     }
 
-    return Api().get(`item/get`, {
+    return Api().get(`forbidden-foods/get`, {
       params,
     })
   },
   show(id: string) {
-    return Api().get(`item/get/${id}`)
+    return Api().get(`forbidden-foods/get/${id}`)
   },
-  post(food: Food) {
-    return Api().post('item/create', food, {
+  post(forbiddenFoods: ForbiddenFoods) {
+    return Api().post('forbidden-foods/create', forbiddenFoods, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
-  put(id: string, food: Food) {
-    return Api().patch(`item/update/${id}`, food, {
+  put(id: string, forbiddenFoods: ForbiddenFoods) {
+    return Api().patch(`forbidden-foods/update/${id}`, forbiddenFoods, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
   delete(id: number) {
-    return Api().delete(`item/delete/${id}`)
+    return Api().delete(`forbidden-foods/delete/${id}`)
   },
 }

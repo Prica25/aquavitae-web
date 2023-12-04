@@ -1,13 +1,13 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
+import type BiochemicalData from '@/types/BiochemicalData'
 
 export default {
   index(
     page: number,
     itemsPerPage: number,
-    sort = 'description:ASC',
-    columns = 'description' as string | string[],
+    sort = 'total_cholesterol:ASC',
+    columns = 'total_cholesterol' as string | string[],
     filter = null as string | null
   ) {
     const params = new URLSearchParams()
@@ -32,28 +32,28 @@ export default {
       }
     }
 
-    return Api().get(`item/get`, {
+    return Api().get(`biochemical-data/get`, {
       params,
     })
   },
   show(id: string) {
-    return Api().get(`item/get/${id}`)
+    return Api().get(`biochemical-data/get/${id}`)
   },
-  post(food: Food) {
-    return Api().post('item/create', food, {
+  post(biochemicalData: BiochemicalData) {
+    return Api().post('biochemical-data/create', biochemicalData, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
-  put(id: string, food: Food) {
-    return Api().patch(`item/update/${id}`, food, {
+  put(id: string, biochemicalData: BiochemicalData) {
+    return Api().patch(`biochemical-data/update/${id}`, biochemicalData, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
   delete(id: number) {
-    return Api().delete(`item/delete/${id}`)
+    return Api().delete(`biochemical-data/delete/${id}`)
   },
 }

@@ -46,16 +46,12 @@ export default {
       },
     })
   },
-  put(appointmentGoal: AppointmentGoal) {
-    return Api().patch(
-      `appointment-goal/update/${appointmentGoal.id}`,
-      appointmentGoal,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: string, appointmentGoal: AppointmentGoal) {
+    return Api().patch(`appointment-goal/update/${id}`, appointmentGoal, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`appointment-goal/delete/${id}`)

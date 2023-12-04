@@ -46,16 +46,12 @@ export default {
       },
     })
   },
-  put(food_category: FoodCategory) {
-    return Api().patch(
-      `food-category/update/${food_category.id}`,
-      food_category,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: string, food_category: FoodCategory) {
+    return Api().patch(`food-category/update/${id}`, food_category, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`food-category/delete/${id}`)

@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
+import type NutritionalPlan from '@/types/NutritionalPlan'
 
 export default {
   index(
@@ -32,28 +32,28 @@ export default {
       }
     }
 
-    return Api().get(`item/get`, {
+    return Api().get(`nutritional-plan/get`, {
       params,
     })
   },
   show(id: string) {
-    return Api().get(`item/get/${id}`)
+    return Api().get(`nutritional-plan/get/${id}`)
   },
-  post(food: Food) {
-    return Api().post('item/create', food, {
+  post(nutritionalPlan: NutritionalPlan) {
+    return Api().post('nutritional-plan/create', nutritionalPlan, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
-  put(id: string, food: Food) {
-    return Api().patch(`item/update/${id}`, food, {
+  put(id: string, nutritionalPlan: NutritionalPlan) {
+    return Api().patch(`nutritional-plan/update/${id}`, nutritionalPlan, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
   },
   delete(id: number) {
-    return Api().delete(`item/delete/${id}`)
+    return Api().delete(`nutritional-plan/delete/${id}`)
   },
 }

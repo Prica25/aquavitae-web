@@ -59,15 +59,11 @@ export default {
       },
     })
   },
-  put(AnthropometricData: AnthropometricData) {
-    return Api().patch(
-      `anthropometric-data/update/${AnthropometricData.id}`,
-      AnthropometricData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: string, AnthropometricData: AnthropometricData) {
+    return Api().patch(`anthropometric-data/update/${id}`, AnthropometricData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
 }

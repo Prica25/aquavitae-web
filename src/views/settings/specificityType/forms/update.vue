@@ -1,5 +1,5 @@
 <template>
-  <base-page title="Nível de Atividade">
+  <base-page title="Tipo de Especificidades">
     <template #right-header>
       <q-btn
         outline
@@ -31,20 +31,6 @@
             @change="formChanged = true"
           />
 
-          <q-input
-            outlined
-            dense
-            v-model="object.factor"
-            label="Factor"
-            width="200px"
-            :rules="[(val) => !!val || 'Campo Obrigatório']"
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            @change="formChanged = true"
-          />
-
           <q-btn color="primary" label="Adicionar" type="submit" />
         </div>
       </q-form>
@@ -54,8 +40,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import ActivityLevelService from '@/services/ActivityLevelService'
-import type ActivityLevel from '@/types/ActivityLevel'
+import SpecificityTypeService from '@/services/SpecificityTypeService'
+import type SpecificityType from '@/types/SpecificityType'
 
 export default defineComponent({
   props: {
@@ -69,14 +55,12 @@ export default defineComponent({
       formChanged: false,
       object: {
         description: '',
-        factor: 0,
-      } as ActivityLevel,
+      } as SpecificityType,
     }
   },
   async created() {
-    const object = (await ActivityLevelService.show(this.id)).data
+    const object = (await SpecificityTypeService.show(this.id)).data
     this.object.description = object.description
-    this.object.factor = object.factor
   },
   methods: {
     async goBack() {
@@ -87,8 +71,7 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          this.object.factor = parseFloat(this.object.factor)
-          await ActivityLevelService.put(this.id, this.object)
+          await SpecificityTypeService.put(this.id, this.object)
           this.$router.back()
         } catch (err) {
           console.log(err)

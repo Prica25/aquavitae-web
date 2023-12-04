@@ -46,8 +46,8 @@ export default {
       },
     })
   },
-  put(appointment: Appointment) {
-    return Api().patch(`appointment/update/${appointment.id}`, appointment, {
+  put(id: string, appointment: Appointment) {
+    return Api().patch(`appointment/update/${id}`, appointment, {
       headers: {
         'Content-Type': 'application/json',
       },

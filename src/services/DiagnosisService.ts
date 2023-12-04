@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
 
-import type Diagnosis from '@/types/Appointment'
+import type Diagnosis from '@/types/Diagnosis'
 
 export default {
   index(
@@ -46,8 +46,8 @@ export default {
       },
     })
   },
-  put(diagnosis: Diagnosis) {
-    return Api().patch(`diagnosis/update/${diagnosis.id}`, diagnosis, {
+  put(id: string, diagnosis: Diagnosis) {
+    return Api().patch(`diagnosis/update/${id}`, diagnosis, {
       headers: {
         'Content-Type': 'application/json',
       },

@@ -47,8 +47,8 @@ export default {
       },
     })
   },
-  put(typeOfMeal: TypeOfMeal) {
-    return Api().patch(`type-of-meal/update/${typeOfMeal.id}`, typeOfMeal, {
+  put(id: string, typeOfMeal: TypeOfMeal) {
+    return Api().patch(`type-of-meal/update/${id}`, typeOfMeal, {
       headers: {
         'Content-Type': 'application/json',
       },

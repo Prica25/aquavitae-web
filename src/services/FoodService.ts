@@ -46,8 +46,8 @@ export default {
       },
     })
   },
-  put(food: Food) {
-    return Api().patch(`food/update/${food.id}`, food, {
+  put(id: string, food: Food) {
+    return Api().patch(`food/update/${id}`, food, {
       headers: {
         'Content-Type': 'application/json',
       },

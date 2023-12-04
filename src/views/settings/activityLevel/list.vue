@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="activity-level-create-form"
+    update-form="activity-level-update-form"
   >
   </List>
 </template>

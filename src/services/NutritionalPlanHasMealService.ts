@@ -1,13 +1,11 @@
 import Api from '@/services/Api'
 
-import type Food from '@/types/Food'
-
 export default {
   index(
     page: number,
     itemsPerPage: number,
-    sort = 'description:ASC',
-    columns = 'description' as string | string[],
+    sort = 'meal_date:ASC',
+    columns = 'meal_date' as string | string[],
     filter = null as string | null
   ) {
     const params = new URLSearchParams()
@@ -32,28 +30,8 @@ export default {
       }
     }
 
-    return Api().get(`item/get`, {
+    return Api().get(`nutritional-plan-has-meal/get`, {
       params,
     })
-  },
-  show(id: string) {
-    return Api().get(`item/get/${id}`)
-  },
-  post(food: Food) {
-    return Api().post('item/create', food, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  },
-  put(id: string, food: Food) {
-    return Api().patch(`item/update/${id}`, food, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  },
-  delete(id: number) {
-    return Api().delete(`item/delete/${id}`)
   },
 }

@@ -2,6 +2,7 @@
   <div class="table-wrapper">
     <table>
       <tr
+        v-if="!hideHeaders"
         :class="`row table-header ${tableHeaderClass ? tableHeaderClass : ''}`"
       >
         <th
@@ -18,7 +19,7 @@
             v-show="sort.by === column.name"
             :color="sort.by === column.name ? 'primary' : 'grey-6'"
             :name="`fa-solid fa-arrow-${
-              sort.by === column.name ? ['up', 'down'][+sort.descending] : 'up'
+              sort.by === column.name ? ['up', 'down'][sort.descending] : 'up'
             }`"
           />
         </th>
@@ -59,35 +60,28 @@
           'box-default': !filled,
           'box-filled': filled,
         }"
-        @click="toogleExpansion(row)"
       >
         <td
+          ref="columns"
           v-for="column in columns"
           class="col"
           :style="`text-align: ${column.align || 'left'}; ${
             column.size ? 'flex: ' + column.size : ''
           } ${column.style ? column.style : ''}`"
-          :title="
-            disableTooltip
-              ? undefined
-              : typeof column.field === 'function'
-              ? column.field(row)
-              : row[column.name]
-          "
         >
-          <slot :name="column.name" :row="row">
+          <slot :name="column.name" v-bind="{ row, ...customProps }">
             <component
               v-if="
                 typeof column.field === 'function' &&
                 typeof column.field(row) === 'object'
               "
-              :is="column.field(row)"
+              :is="column.field({ ...row, ...customProps })"
             />
             <span
               v-else
               v-html="
                 typeof column.field === 'function'
-                  ? column.field(row)
+                  ? column.field({ ...row, ...customProps })
                   : row[column.name]
               "
             >
@@ -99,6 +93,7 @@
           v-if="expandableRows"
           class="col"
           :style="`text-align: right; flex: 50px`"
+          @click="toogleExpansion(row)"
         >
           <q-icon
             color="primary"
@@ -113,7 +108,7 @@
               margin: 8px 0;
             "
           />
-          <slot name="exandable-area" :row="row">
+          <slot name="exandable-area" v-bind="{ row, ...customProps }">
             {{ row }}
           </slot>
         </div>
@@ -197,10 +192,26 @@ export default defineComponent({
     filled: {
       type: Boolean,
       default: false,
+    },
+    hideHeaders: {
+      type: Boolean,
+      default: false,
+    },
+    customProps : {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
     return {}
+  },
+  updated() {
+    if (!this.disableTooltip) {
+      for (const col of this.$refs.columns as Array<HTMLElement> || []) {
+        col.setAttribute("title", col.innerText)
+      }
+    }
+
   },
   methods: {
     toogleExpansion(row: any) {

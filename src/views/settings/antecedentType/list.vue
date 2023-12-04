@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="antecedent-type-create-form"
+    update-form="antecedent-type-update-form"
   >
   </List>
 </template>

@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="meal-create-form"
+    update-form="meal-update-form"
     :db-columns="dbColumns"
     disable-tooltip
   >

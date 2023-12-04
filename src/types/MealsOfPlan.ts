@@ -8,7 +8,8 @@ type MealsOfPlan = {
   description: string
   start_time: string
   end_time: string
-  type_of_meal_id: TypeOfMeal
+  type_of_meal: TypeOfMeal | string
+  type_of_meal_id: TypeOfMeal | string
 }
 
 export default MealsOfPlan

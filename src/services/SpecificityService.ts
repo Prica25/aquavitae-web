@@ -46,8 +46,8 @@ export default {
       },
     })
   },
-  put(specificity: Specificity) {
-    return Api().patch(`specificity/update/${specificity.id}`, specificity, {
+  put(id: string, specificity: Specificity) {
+    return Api().patch(`specificity/update/${id}`, specificity, {
       headers: {
         'Content-Type': 'application/json',
       },

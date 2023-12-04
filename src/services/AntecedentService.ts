@@ -46,8 +46,8 @@ export default {
       },
     })
   },
-  put(antecedent: Antecedent) {
-    return Api().patch(`antecedent/update/${antecedent.id}`, antecedent, {
+  put(id: string, antecedent: Antecedent) {
+    return Api().patch(`antecedent/update/${id}`, antecedent, {
       headers: {
         'Content-Type': 'application/json',
       },

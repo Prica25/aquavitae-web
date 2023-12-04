@@ -63,6 +63,12 @@ export default defineComponent({
     title: {
       type: String,
     },
+    createForm: {
+      type: String,
+    },
+    updateForm: {
+      type: String,
+    },
     addButton: {
       type: Boolean,
       default: false,
@@ -86,9 +92,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    createForm: {
-      type: String,
-    },
+
     dbColumns: {
       type: Array,
     },
@@ -172,8 +176,10 @@ export default defineComponent({
       }
     },
     edit(id: string) {
-      this.selectedFood = id
-      console.log('edit food', id)
+      this.$router.push({
+        name: this.updateForm,
+        params: { id },
+      })
     },
     async requestDB() {
       this.isLoading = true
@@ -196,7 +202,6 @@ export default defineComponent({
       this.pagination.rowsNumber = response.count
       this.pagination.pagesNumber = response.last_page
       this.rows = response.data
-      console.log(this.rows)
 
       setTimeout(() => {
         this.isLoading = false

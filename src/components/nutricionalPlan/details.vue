@@ -4,14 +4,20 @@
       <div class="title">Proteínas</div>
       <div class="bottom">
         <div class="details">
-          <span>{{ formatNumber(actualProteins) || '0' }}</span>
-          <span>/{{ formatNumber(totalProteins) || '0' }}</span>
+          <span
+            v-if="actualProteins.totalMin !== actualProteins.totalMax"
+            class="small"
+          >
+            ({{ format(actualProteins.totalMin) || '0' }})
+          </span>
+          <span>{{ format(actualProteins.totalMax) || '0' }}</span>
+          <span>/{{ format(totalProteins) || '0' }}</span>
         </div>
         <div class="info">
           <q-icon
             :name="`fa-solid fa-${
-              proteinsDiff
-                ? proteinsDiff > 0
+              proteinsDiff.max
+                ? proteinsDiff.max > 0
                   ? 'arrow-up'
                   : 'arrow-down'
                 : 'triangle-exclamation'
@@ -20,7 +26,7 @@
             size="14px"
             style="margin-right: 2px"
           />
-          {{ formatNumber(proteinsDiff) || 'Sem dados Antropométricos' }}
+          {{ format(proteinsDiff.max) || 'Sem dados Antropométricos' }}
         </div>
       </div>
     </div>
@@ -28,14 +34,20 @@
       <div class="title">Lípidos</div>
       <div class="bottom">
         <div class="details">
-          <span>{{ formatNumber(actualLipids) || '0' }}</span>
-          <span>/{{ formatNumber(totalLipids) || '0' }}</span>
+          <span
+            v-if="actualLipids.totalMin !== actualLipids.totalMax"
+            class="small"
+          >
+            ({{ format(actualLipids.totalMin) || '0' }})
+          </span>
+          <span>{{ format(actualLipids.totalMax) || '0' }}</span>
+          <span>/{{ format(totalLipids) || '0' }}</span>
         </div>
         <div class="info">
           <q-icon
             :name="`fa-solid fa-${
-              lipidsDiff
-                ? lipidsDiff > 0
+              lipidsDiff.max
+                ? lipidsDiff.max > 0
                   ? 'arrow-up'
                   : 'arrow-down'
                 : 'triangle-exclamation'
@@ -44,7 +56,7 @@
             size="14px"
             style="margin-right: 2px"
           />
-          {{ formatNumber(lipidsDiff) || 'Sem dados Antropométricos' }}
+          {{ format(lipidsDiff.max) || 'Sem dados Antropométricos' }}
         </div>
       </div>
     </div>
@@ -52,14 +64,20 @@
       <div class="title">Hidratos de Carbono</div>
       <div class="bottom">
         <div class="details">
-          <span>{{ formatNumber(actualCarbohydrates) || '0' }}</span>
-          <span>/{{ formatNumber(totalCarbohydrates) || '0' }}</span>
+          <span
+            v-if="actualCarbohydrates.totalMin !== actualCarbohydrates.totalMax"
+            class="small"
+          >
+            ({{ format(actualCarbohydrates.totalMin) || '0' }})
+          </span>
+          <span>{{ format(actualCarbohydrates.totalMax) || '0' }}</span>
+          <span>/{{ format(totalCarbohydrates) || '0' }}</span>
         </div>
         <div class="info">
           <q-icon
             :name="`fa-solid fa-${
-              carbohydratesDiff
-                ? carbohydratesDiff > 0
+              carbohydratesDiff.max
+                ? carbohydratesDiff.max > 0
                   ? 'arrow-up'
                   : 'arrow-down'
                 : 'triangle-exclamation'
@@ -68,7 +86,7 @@
             size="14px"
             style="margin-right: 2px"
           />
-          {{ formatNumber(carbohydratesDiff) || 'Sem dados Antropométricos' }}
+          {{ format(carbohydratesDiff.max) || 'Sem dados Antropométricos' }}
         </div>
       </div>
     </div>
@@ -76,14 +94,20 @@
       <div class="title">Valor Energético</div>
       <div class="bottom">
         <div class="details">
-          <span>{{ formatNumber(actualEnergyValue) || '0' }}</span>
-          <span>/{{ formatNumber(totalEnergyValue) || '0' }}</span>
+          <span
+            v-if="actualEnergyValue.totalMin !== actualEnergyValue.totalMax"
+            class="small"
+          >
+            ({{ format(actualEnergyValue.totalMin) || '0' }})
+          </span>
+          <span>{{ format(actualEnergyValue.totalMax) || '0' }}</span>
+          <span>/{{ format(totalEnergyValue) || '0' }}</span>
         </div>
         <div class="info">
           <q-icon
             :name="`fa-solid fa-${
-              energyValueDiff
-                ? energyValueDiff > 0
+              energyValueDiff.max
+                ? energyValueDiff.max > 0
                   ? 'arrow-up'
                   : 'arrow-down'
                 : 'triangle-exclamation'
@@ -92,7 +116,7 @@
             size="14px"
             style="margin-right: 2px"
           />
-          {{ formatNumber(energyValueDiff) || 'Sem dados Antropométricos' }}
+          {{ format(energyValueDiff.max) || 'Sem dados Antropométricos' }}
         </div>
       </div>
     </div>
@@ -105,7 +129,12 @@ import type AnthropometricData from '@/types/AnthropometricData'
 import type PersonalData from '@/types/PersonalData'
 
 export default defineComponent({
+  emits: ['update:modelValue'],
   props: {
+    modelValue: {
+      type: Object,
+      required: true,
+    },
     anthropometricData: {
       type: Object as PropType<AnthropometricData>,
       required: true,
@@ -114,38 +143,23 @@ export default defineComponent({
       type: Object as PropType<PersonalData>,
       required: true,
     },
-    foodList: {
+    meals: {
       type: Array,
       required: true,
     },
   },
-  data() {
-    return {}
-  },
   computed: {
-    actualEnergyValue(): number {
-      return this.foodList.reduce((pv: number, cv: any) => {
-        pv += (cv.food.energy_value * cv.amount_grams) / 100
-        return pv
-      }, 0)
+    actualEnergyValue(): any {
+      return this.calculateMaxMin('energy_value')
     },
-    actualProteins(): number {
-      return this.foodList.reduce((pv: number, cv: any) => {
-        pv += (cv.food.proteins * cv.amount_grams) / 100
-        return pv
-      }, 0)
+    actualProteins(): any {
+      return this.calculateMaxMin('proteins')
     },
-    actualLipids(): number {
-      return this.foodList.reduce((pv: number, cv: any) => {
-        pv += (cv.food.proteins * cv.amount_grams) / 100
-        return pv
-      }, 0)
+    actualLipids(): any {
+      return this.calculateMaxMin('lipids')
     },
-    actualCarbohydrates(): number {
-      return this.foodList.reduce((pv: number, cv: any) => {
-        pv += (cv.food.proteins * cv.amount_grams) / 100
-        return pv
-      }, 0)
+    actualCarbohydrates(): any {
+      return this.calculateMaxMin('carbohydrates')
     },
     referenceWeight(): number {
       if (
@@ -174,41 +188,106 @@ export default defineComponent({
       return 0
     },
     totalEnergyValue(): number {
-      return this.referenceWeight
-        ? Math.round(
-            this.referenceWeight * this.personalData.activity_level.factor
-          )
+      const value = this.referenceWeight
+        ? this.referenceWeight * this.personalData.activity_level.factor
         : 0
+
+      return value
     },
     totalProteins(): number {
-      return this.totalEnergyValue ? (this.totalEnergyValue * 0.2) / 4 : 0
+      const value = this.totalEnergyValue
+        ? (this.totalEnergyValue * 0.2) / 4
+        : 0
+      return value
     },
     totalLipids(): number {
-      return this.totalEnergyValue ? (this.totalEnergyValue * 0.3) / 9 : 0
+      const value = this.totalEnergyValue
+        ? (this.totalEnergyValue * 0.3) / 9
+        : 0
+      return value
     },
     totalCarbohydrates(): number {
-      return this.totalEnergyValue ? (this.totalEnergyValue * 0.5) / 4 : 0
+      const value = this.totalEnergyValue
+        ? (this.totalEnergyValue * 0.5) / 4
+        : 0
+      return value
     },
-    energyValueDiff(): number {
+    energyValueDiff(): any {
       return this.totalEnergyValue
-        ? this.totalEnergyValue - this.actualEnergyValue
-        : 0
+        ? {
+            max: this.totalEnergyValue - this.actualEnergyValue.totalMax,
+            min: this.totalEnergyValue - this.actualEnergyValue.totalMin,
+          }
+        : { max: 0, min: 0 }
     },
-    proteinsDiff(): number {
-      return this.totalProteins ? this.totalProteins - this.actualProteins : 0
+    proteinsDiff(): any {
+      return this.totalProteins
+        ? {
+            max: this.totalProteins - this.actualProteins.totalMax,
+            min: this.totalProteins - this.actualProteins.totalMin,
+          }
+        : { max: 0, min: 0 }
     },
-    lipidsDiff(): number {
-      return this.totalLipids ? this.totalLipids - this.actualLipids : 0
+    lipidsDiff(): any {
+      return this.totalLipids
+        ? {
+            max: this.totalLipids - this.actualLipids.totalMax,
+            min: this.totalLipids - this.actualLipids.totalMin,
+          }
+        : { max: 0, min: 0 }
     },
-    carbohydratesDiff(): number {
+    carbohydratesDiff(): any {
       return this.totalCarbohydrates
-        ? this.totalCarbohydrates - this.actualCarbohydrates
-        : 0
+        ? {
+            max: this.totalCarbohydrates - this.actualCarbohydrates.totalMax,
+            min: this.totalCarbohydrates - this.actualCarbohydrates.totalMin,
+          }
+        : { max: 0, min: 0 }
+    },
+    limits: {
+      get() {
+        return this.modelValue
+      },
+      set(value: any) {
+        this.$emit('update:modelValue', value)
+      },
     },
   },
   methods: {
-    formatNumber(numb: number) {
-      return numb ? Math.round(numb) : null
+    format(value: number) {
+      return value ? Math.round(value) : null
+    },
+    calculateMaxMin(key: string) {
+      let totalMax = 0
+      let totalMin = 0
+
+      this.meals.forEach((meal: any) => {
+        const sums = meal.mealsOptions.map((option: any) => {
+          const sum = option.foods.reduce((pv: number, food: any) => {
+            const multipliedAmount = (food.amount_grams * option.amount) / 100
+            return pv + food.food[key] * multipliedAmount
+          }, 0)
+          return sum
+        })
+
+        const max = sums.length > 0 ? Math.max(...sums) : 0
+        const min = sums.length > 0 ? Math.min(...sums) : 0
+
+        totalMax += max
+        totalMin += min
+      })
+
+      return { totalMax, totalMin }
+    },
+  },
+  watch: {
+    anthropometricData() {
+      this.limits = {
+        calories_limit: Math.round(this.totalEnergyValue),
+        proteins_limit: Math.round(this.totalProteins),
+        lipids_limit: Math.round(this.totalLipids),
+        carbohydrates_limit: Math.round(this.totalCarbohydrates),
+      }
     },
   },
 })
@@ -241,16 +320,22 @@ export default defineComponent({
   bottom: 15px;
 }
 
-.data-card .details span:first-child {
+.data-card .details span {
   font-size: 25px;
   color: #b9b9b9;
   font-weight: bold;
 }
+
 .data-card .details span:last-child {
   font-size: 25px;
   color: #646464;
   font-weight: bold;
 }
+
+.data-card .details .small {
+  font-size: 16px;
+}
+
 .data-card .info {
   color: var(--q-negative);
   font-weight: bold;

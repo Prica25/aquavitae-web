@@ -46,16 +46,12 @@ export default {
       },
     })
   },
-  put(specificityType: SpecificityType) {
-    return Api().patch(
-      `specificity-type/update/${specificityType.id}`,
-      specificityType,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+  put(id: String, specificityType: SpecificityType) {
+    return Api().patch(`specificity-type/update/${id}`, specificityType, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   delete(id: number) {
     return Api().delete(`specificity-type/delete/${id}`)

@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="appointment-goals-create-form"
+    update-form="appointment-goals-update-form"
   >
   </List>
 </template>

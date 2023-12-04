@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="food-create-form"
+    update-form="food-update-form"
     :db-columns="dbColumns"
   >
   </List>

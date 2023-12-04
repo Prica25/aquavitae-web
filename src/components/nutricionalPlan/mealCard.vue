@@ -6,12 +6,14 @@
         outlined
         dense
         label="Descrição"
-        v-model="modelValue.description"
+        v-model="mealOfPlan.description"
+        @update:model-value="mealOfPlan = { ...mealOfPlan }"
         style="width: 200px"
       ></q-input>
       <q-separator vertical style="margin: 0 8px" />
       <autocomplete
-        v-model="typeSelected"
+        v-model="mealOfPlan.type_of_meal"
+        @update:model-value="mealOfPlan = { ...mealOfPlan }"
         type="TypeOfMeal"
         value-key="id"
         label-key="description"
@@ -23,7 +25,8 @@
       <q-input
         outlined
         dense
-        v-model="modelValue.start_time"
+        v-model="mealOfPlan.start_time"
+        @update:model-value="mealOfPlan = { ...mealOfPlan }"
         mask="##:##"
         style="width: 60px; margin-left: 8px"
       >
@@ -33,7 +36,7 @@
           :offset="[91, 12]"
         >
           <q-time
-            v-model="modelValue.start_time"
+            v-model="mealOfPlan.start_time"
             mask="HH:mm"
             minimal
             format24h
@@ -43,7 +46,8 @@
       <q-input
         outlined
         dense
-        v-model="modelValue.end_time"
+        v-model="mealOfPlan.end_time"
+        @update:model-value="mealOfPlan = { ...mealOfPlan }"
         mask="##:##"
         style="width: 60px; margin-left: 8px"
       >
@@ -53,7 +57,7 @@
           :offset="[91, 12]"
         >
           <q-time
-            v-model="modelValue.end_time"
+            v-model="mealOfPlan.end_time"
             mask="HH:mm"
             minimal
             format24h
@@ -63,7 +67,7 @@
       <q-space />
       <autocomplete
         v-model="item_id"
-        @update:model-value="addFood"
+        @update:model-value="addItem"
         type="Item"
         value-key="id"
         label-key="description"
@@ -77,77 +81,31 @@
     :columns="columns"
     no-data-label="Sem Receitas Selecionadas"
     disable-tooltip
+    hide-headers
     expandable-rows
   >
-    <template v-slot:exandable-area="props">
+    <template v-slot:exandable-area="{ row }">
       <custom-table
-        :rows="props.row.foods"
+        :rows="row.foods"
         :columns="foodColumns"
         disable-tooltip
         filled
+        :custom-props="{ parent_id: row.id }"
       />
     </template>
+    <template v-slot:amount="{ row }">
+      <q-slider
+        v-if="row.expanded"
+        v-model="row.amount"
+        color="primary"
+        snap
+        :min="0.5"
+        :step="0.5"
+        :max="3"
+      />
+      <span v-else></span>
+    </template>
   </custom-table>
-
-  <!-- <q-table
-      ref="table"
-      table-header-class=""
-      :rows="items"
-      :columns="columns"
-      no-data-label="Sem alimentos selecionados"
-      hide-pagination
-    >
-      <template v-slot:header="props">
-        <q-tr class="header-table" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-          <q-th auto-width />
-        </q-tr>
-      </template>
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
-          </q-td>
-          <q-td auto-width>
-            <q-btn
-              size="sm"
-              color="secondary"
-              round
-              dense
-              @click="props.expand = !props.expand"
-              :icon="
-                props.expand
-                  ? 'fa-solid fa-chevron-up'
-                  : 'fa-solid fa-chevron-down'
-              "
-            />
-          </q-td>
-        </q-tr>
-        <q-tr v-if="props.expand">
-          <q-td colspan="100%" style="background-color: rgba(0, 0, 0, 0.08)"> -->
-  <!-- <custom-table
-              :rows="props.row.foods"
-              :columns="foodColumns"
-              disable-tooltip
-              hide-pagination
-            ></custom-table> -->
-
-  <!-- <q-table
-              hide-header
-              hide-bottom
-              ref="table"
-              table-header-class="header-table"
-              :rows="props.row.foods"
-              :columns="foodColumns"
-              no-data-label="Sem alimentos selecionados"
-              hide-pagination
-            ></q-table> -->
-  <!-- </q-td>
-        </q-tr>
-      </template>
-    </q-table> -->
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -158,7 +116,6 @@ import CustomTable from '@/components/misc/CustomTable.vue'
 import ItemService from '@/services/ItemService'
 import TypeOfMealService from '@/services/TypeOfMealService'
 
-import type Item from '@/types/Item'
 import type Food from '@/types/Food'
 import type TypeOfMeal from '@/types/TypeOfMeal'
 
@@ -172,11 +129,10 @@ export default defineComponent({
   data() {
     return {
       search: null as string | null,
-      item_id: null as string | null,
+      item_id: undefined as string | undefined,
       typeSelected: null as TypeOfMeal | null,
       typeOfMeals: [] as TypeOfMeal[],
-      foodList: [] as Food[],
-      items: [] as Item[],
+      items: [] as any[],
       date: null,
       columns: [
         {
@@ -186,6 +142,13 @@ export default defineComponent({
           align: 'left',
           sortable: false,
         },
+        {
+          name: 'amount',
+          label: 'Quantidade',
+          align: 'right',
+          sortable: false,
+          size: '15%',
+        },
       ],
       foodColumns: [
         {
@@ -193,18 +156,16 @@ export default defineComponent({
           label: 'Descrição',
           field: (row: any) => row.food.description,
           align: 'left',
-          style:
-            'min-width: 10vw; max-width: 10vw; text-overflow: ellipsis; overflow: hidden;',
-          headerStyle: 'min-width: 10vw; max-width: 10vw',
-          sortable: true,
+          size: '30%',
+          sortable: false,
         },
         {
           name: 'amount',
           label: 'Quantidade (g)',
-          field: 'amount_grams',
+          field: (row: any) => this.calculateAmount(row),
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
+          sortable: false,
         },
         {
           name: 'proteins',
@@ -212,7 +173,7 @@ export default defineComponent({
           field: (row: any) => this.calculateGrams(row, 'proteins'),
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
+          sortable: false,
         },
         {
           name: 'lipids',
@@ -220,7 +181,7 @@ export default defineComponent({
           field: (row: any) => this.calculateGrams(row, 'lipids'),
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
+          sortable: false,
         },
         {
           name: 'carbohydrates',
@@ -228,7 +189,7 @@ export default defineComponent({
           field: (row: any) => this.calculateGrams(row, 'carbohydrates'),
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
+          sortable: false,
         },
         {
           name: 'energy_value',
@@ -236,7 +197,7 @@ export default defineComponent({
           field: (row: any) => this.calculateGrams(row, 'energy_value'),
           align: 'center',
           style: 'font-weight: bold;',
-          sortable: true,
+          sortable: false,
         },
       ],
     }
@@ -246,30 +207,36 @@ export default defineComponent({
       await TypeOfMealService.index(1, 10, 'description:DESC')
     ).data.data
   },
-  methods: {
-    calculateGrams(row: any, key: string) {
-      return Math.round((row.food[key] * row.amount_grams) / 100)
+  computed: {
+    mealOfPlan: {
+      get() {
+        return this.modelValue
+      },
+      set(val: any) {
+        return this.$emit('update:modelValue', val)
+      },
     },
-    async addFood(id: string) {
-      const item = (await ItemService.show(id)).data as Item
-      this.items = [...this.items, item]
-      // this.foodList = [...this.foodList, ...item.foods]
-      // console.log(this.foodList)
-      this.item_id = null
+  },
+  methods: {
+    calculateAmount(row: any) {
+      const item = this.items.find((item) => item.id === row.parent_id)
+      return (item?.amount || 0) * row.amount_grams
+    },
+    calculateGrams(row: any, key: string) {
+      return Math.round((row.food[key] * this.calculateAmount(row)) / 100)
+    },
+    async addItem(id: string) {
+      const item = (await ItemService.show(id)).data
+      this.items = [...this.items, { ...item, amount: 1 }]
+      this.item_id = undefined
+      this.mealOfPlan = { ...this.mealOfPlan, mealsOptions: this.items }
     },
     view(id: string): void {
       alert('Mostrar dados do alimento')
     },
     remove(id: string): void {
-      this.foodList = this.foodList.filter((o) => o.id === id)
-    },
-  },
-  watch: {
-    foodList: {
-      handler() {
-        this.$emit('update-meal', this.foodList)
-      },
-      deep: true,
+      this.items = this.items.filter((o) => o.id === id)
+      this.mealOfPlan = { ...this.mealOfPlan, mealsOptions: this.items }
     },
   },
 })

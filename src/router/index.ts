@@ -41,6 +41,12 @@ const router = createRouter({
       component: () => import('@/views/food/forms/create.vue'),
     },
     {
+      path: '/food/update/:id',
+      name: 'food-update-form',
+      component: () => import('@/views/food/forms/update.vue'),
+      props: true,
+    },
+    {
       path: '/meal/list',
       name: 'meal',
       component: () => import('@/views/meals/list.vue'),
@@ -50,16 +56,24 @@ const router = createRouter({
       name: 'meal-create-form',
       component: () => import('@/views/meals/forms/create.vue'),
     },
-    // {
-    //   path: '/menu-user/meal/:user_id',
-    //   name: 'meal',
-    //   component: () => import('@/views/patient/details/meal/form.vue'),
-    //   props: true,
-    // },
     {
-      path: '/menu-user/nutrition-plan/view/:user_id',
+      path: '/meal/update/:id',
+      name: 'meal-update-form',
+      component: () => import('@/views/meals/forms/update.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/nutrition-plan/new/:user_id',
+      name: 'nutrition-plan-create-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/nutritionalPlan/create.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/nutrition-plan/:user_id',
       name: 'nutrition-plan',
-      component: () => import('@/views/patient/details/nutrition/view.vue'),
+      component: () =>
+        import('@/views/patient/details/data/nutritionalPlan.vue'),
       props: true,
     },
     {
@@ -122,6 +136,12 @@ const router = createRouter({
       component: () => import('@/views/settings/main.vue'),
     },
     {
+      path: '/management/type-meals/update/:id',
+      name: 'type-meals-update-form',
+      component: () => import('@/views/settings/typeOfMeals/forms/update.vue'),
+      props: true,
+    },
+    {
       path: '/management/type-meals/new',
       name: 'type-meals-create-form',
       component: () => import('@/views/settings/typeOfMeals/forms/create.vue'),
@@ -130,6 +150,13 @@ const router = createRouter({
       path: '/management/type-meals',
       name: 'type-meals',
       component: () => import('@/views/settings/typeOfMeals/list.vue'),
+    },
+    {
+      path: '/management/activity-level/update/:id',
+      name: 'activity-level-update-form',
+      component: () =>
+        import('@/views/settings/activityLevel/forms/update.vue'),
+      props: true,
     },
     {
       path: '/management/activity-level/new',
@@ -143,6 +170,13 @@ const router = createRouter({
       component: () => import('@/views/settings/activityLevel/list.vue'),
     },
     {
+      path: '/management/appointment-goal/update/:id',
+      name: 'appointment-goals-update-form',
+      component: () =>
+        import('@/views/settings/appointmentGoal/forms/update.vue'),
+      props: true,
+    },
+    {
       path: '/management/appointment-goal/new',
       name: 'appointment-goals-create-form',
       component: () =>
@@ -154,6 +188,13 @@ const router = createRouter({
       component: () => import('@/views/settings/appointmentGoal/list.vue'),
     },
     {
+      path: '/management/antecedent-type/update/:id',
+      name: 'antecedent-type-update-form',
+      component: () =>
+        import('@/views/settings/antecedentType/forms/update.vue'),
+      props: true,
+    },
+    {
       path: '/management/antecedent-type/new',
       name: 'antecedent-type-create-form',
       component: () =>
@@ -163,6 +204,13 @@ const router = createRouter({
       path: '/management/antecedent-type',
       name: 'antecedent-type',
       component: () => import('@/views/settings/antecedentType/list.vue'),
+    },
+    {
+      path: '/management/specificity-type/update/:id',
+      name: 'specificity-type-update-form',
+      component: () =>
+        import('@/views/settings/specificityType/forms/update.vue'),
+      props: true,
     },
     {
       path: '/management/specificity-type/new',
