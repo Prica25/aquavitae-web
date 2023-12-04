@@ -63,15 +63,15 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/menu-user/nutrition-plan/new/:user_id',
-      name: 'nutrition-plan-create-form',
+      path: '/menu-user/nutritional-plan/new/:user_id',
+      name: 'nutritional-plan-create-form',
       component: () =>
         import('@/views/patient/details/data/forms/nutritionalPlan/create.vue'),
       props: true,
     },
     {
-      path: '/menu-user/nutrition-plan/:user_id',
-      name: 'nutrition-plan',
+      path: '/menu-user/nutritional-plan/:user_id',
+      name: 'nutritional-plan',
       component: () =>
         import('@/views/patient/details/data/nutritionalPlan.vue'),
       props: true,

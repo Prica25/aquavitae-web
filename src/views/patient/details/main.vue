@@ -51,7 +51,7 @@ export default defineComponent({
         {
           description: 'Plano Nutricional',
           icon: 'receipt',
-          href: 'nutrition-plan',
+          href: 'nutritional-plan',
           params: { user_id: this.user_id },
         },
         {

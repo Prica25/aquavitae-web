@@ -45,7 +45,7 @@
       />
     </template>
     <template #content>
-      <appointments-list :appointments="rows" />
+      <appointments-list :appointments="rows" @update-rows="getAppointments" />
     </template>
   </base-page>
 </template>

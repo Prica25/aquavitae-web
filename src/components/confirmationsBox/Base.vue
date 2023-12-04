@@ -11,7 +11,7 @@
         >
           <i :class="`fa fa-${icon}`" />
         </div>
-        <h4 class="confirmation-title">{{ title }}</h4>
+        <h4 class="confirmation-title text-center">{{ title }}</h4>
         <div v-if="description" class="confirmation-text">
           <span class="text-sm text-gray-500" v-html="description" />
         </div>

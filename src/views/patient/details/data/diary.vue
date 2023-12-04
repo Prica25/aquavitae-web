@@ -4,46 +4,6 @@
     vertical-alignment="center"
     :breadcrumbs="breadcrumbs"
   >
-    <template #right-header>
-      <q-icon
-        v-if="nutritionalPlan"
-        name="fa-solid fa-wand-sparkles"
-        color="primary"
-        size="18px"
-        style="cursor: pointer; margin: 0 12px"
-        @click="completeNutritionalPlan"
-      >
-        <q-tooltip
-          transition-show="flip-right"
-          transition-hide="flip-left"
-          style="font-size: 13px"
-        >
-          Completar Automaticamente
-        </q-tooltip>
-      </q-icon>
-      <q-icon
-        v-if="nutritionalPlan"
-        name="fa-solid fa-pen"
-        color="primary"
-        size="18px"
-        style="cursor: pointer; margin: 0 12px"
-      >
-        <q-tooltip
-          transition-show="flip-right"
-          transition-hide="flip-left"
-          style="font-size: 13px"
-        >
-          Alterar
-        </q-tooltip>
-      </q-icon>
-      <q-btn
-        class="btn"
-        color="primary"
-        label="Novo Plano Nutricional"
-        @click="add"
-        style="height: 56px; margin-left: 12px"
-      />
-    </template>
     <template #content>
       <div v-if="nutritionalPlan" style="width: 100%; min-width: 900px">
         <Details :nutritional-plan="nutritionalPlan" :meals="meals" />
@@ -58,7 +18,7 @@
           v-model="meals[i]"
           v-for="(meal, i) in meals"
           :visible-day="visibleDay"
-          type="MealsOptions"
+          type="Diary"
         />
       </div>
       <div

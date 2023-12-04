@@ -33,7 +33,12 @@
         </q-chip>
       </template>
       <template #appointment_has_goals="{ row }">
-        <div class="row">
+        <div
+          v-if="
+            row.appointment_has_goals && row.appointment_has_goals.length > 0
+          "
+          class="row"
+        >
           <q-chip size="16px">
             {{ row.appointment_has_goals[0].description }}
           </q-chip>
@@ -89,6 +94,7 @@
             name="fa-solid fa-user-times"
             color="negative"
             style="cursor: pointer; margin: 0 2px 0 8px"
+            @click="cancel(row)"
           >
             <q-tooltip
               transition-show="flip-right"
@@ -115,6 +121,7 @@ import type PersonalData from '@/types/PersonalData'
 
 import CustomTable from '@/components/misc/CustomTable.vue'
 import UserPhoto from '@/components/patient/photo.vue'
+import AppointmentService from '@/services/AppointmentService'
 
 export default defineComponent({
   props: {
@@ -127,6 +134,7 @@ export default defineComponent({
     CustomTable,
     UserPhoto,
   },
+  emits: ['update-rows'],
   data() {
     return {
       AppointmentStatusDetails,
@@ -217,6 +225,22 @@ export default defineComponent({
         return `${age} anos`
       }
       return 'Sem informações'
+    },
+    async cancel(row: any) {
+      try {
+        if (await this.$confirmation('cancelAppointment')) {
+          await AppointmentService.put(row.id, {
+            user: row.user.id,
+            nutritionist: row.nutritionist.id,
+            date: row.date,
+            goals: row.appointment_has_goals.map((value: any) => value.id),
+            status: 'CANCELLED',
+          })
+          this.$emit('update-rows')
+        }
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 })
