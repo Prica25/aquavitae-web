@@ -8,6 +8,7 @@
     filter-column="description"
     :columns="columns"
     create-form="antecedent-create-form"
+    update-form="antecedent-update-form"
     :default-filter="`user_id:${user_id}`"
     :breadcrumbs="breadcrumbs"
   />

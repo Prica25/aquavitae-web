@@ -29,14 +29,10 @@ export default {
     })
   },
   put(id: string, personalData: PersonalData) {
-    return Api().patch(
-      `personal-data/update/${personalData.id}`,
-      personalData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    return Api().patch(`personal-data/update/${id}`, personalData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
 }

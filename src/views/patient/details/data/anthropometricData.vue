@@ -6,12 +6,27 @@
     :breadcrumbs="breadcrumbs"
   >
     <template #right-header>
+      <q-icon
+        name="fa-solid fa-pen"
+        color="primary"
+        size="18px"
+        style="cursor: pointer; margin: 0 12px"
+        @click="update"
+      >
+        <q-tooltip
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          style="font-size: 13px"
+        >
+          Alterar
+        </q-tooltip>
+      </q-icon>
       <q-btn
         class="btn"
         color="primary"
         label="Adicionar Registo"
         @click="add"
-        style="height: 56px"
+        style="height: 56px; margin-left: 12px"
       />
     </template>
     <template #content>
@@ -189,6 +204,12 @@ export default defineComponent({
         )
       }
       return ''
+    },
+    update() {
+      this.$router.push({
+        name: 'anthropometric-data-update-form',
+        params: { id: this.antropometricData.id },
+      })
     },
   },
 })

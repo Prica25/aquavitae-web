@@ -1,0 +1,112 @@
+<template>
+  <base-page title="Antecedentes">
+    <template #right-header>
+      <q-btn
+        outline
+        round
+        color="negative"
+        icon="fa-solid fa-xmark"
+        @click="goBack"
+      />
+    </template>
+    <template #content>
+      <q-form
+        ref="form"
+        @submit="save"
+        class="items-center justify-center"
+        style="display: flex; width: 100%; height: 100%; flex-direction: column"
+      >
+        <div class="box-default q-pa-xl text-center form-card">
+          <q-input
+            outlined
+            dense
+            v-model="object.description"
+            label="Descrição"
+            width="200px"
+            :rules="[(val) => (val && val.length > 0) || 'Campo Obrigatório']"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            @change="formChanged = true"
+            hide-bottom-space
+          />
+
+          <autocomplete
+            v-model="object.antecedent_type"
+            type="AntecedentType"
+            value-key="id"
+            label-key="description"
+            label="Tipo de Antecedente"
+            :rules="[
+                  (val: string) => !!val || 'Preenchimento Obrigatório',
+                ]"
+          />
+
+          <q-btn color="primary" label="Adicionar" type="submit" />
+        </div>
+      </q-form>
+    </template>
+  </base-page>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue'
+import Autocomplete from '@/components/misc/autocompleteSearch.vue'
+
+import AntecedentService from '@/services/AntecedentService'
+
+export default defineComponent({
+  components: {
+    Autocomplete,
+  },
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      formChanged: false,
+      object: {
+        description: '',
+        antecedent_type: '',
+      },
+    }
+  },
+  async created() {
+    const object = (await AntecedentService.show(this.id)).data
+    this.object.description = object.description
+    this.object.antecedent_type = object.antecedent_type.id
+  },
+  methods: {
+    async goBack() {
+      if (!this.formChanged || (await this.$confirmation('cancel'))) {
+        this.$router.back()
+      }
+    },
+    async save() {
+      if (await this.$confirmation('save')) {
+        try {
+          await AntecedentService.put(this.id, this.object)
+          this.$router.back()
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    },
+  },
+})
+</script>
+<style scoped>
+.form-card {
+  width: 35vw;
+  min-width: 500px;
+}
+.form-card > * {
+  margin: 10px 10px 0 10px;
+}
+.form-card > .q-btn {
+  margin-top: 25px;
+}
+</style>

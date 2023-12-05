@@ -8,6 +8,7 @@
     filter-column="email"
     :columns="columns"
     create-form="user-create-form"
+    update-form="user-update-form"
     :db-columns="dbColumns"
   />
 </template>

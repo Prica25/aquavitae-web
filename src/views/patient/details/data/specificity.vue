@@ -8,6 +8,7 @@
     filter-column="user_id"
     :columns="columns"
     create-form="specificity-create-form"
+    update-form="specificity-update-form"
     :default-filter="`user_id:${user_id}`"
     :breadcrumbs="breadcrumbs"
   />

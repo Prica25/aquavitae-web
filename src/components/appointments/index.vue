@@ -81,6 +81,7 @@
             name="fa-solid fa-user-clock"
             color="warning"
             style="cursor: pointer; margin: 0 8px"
+            @click="update(row)"
           >
             <q-tooltip
               transition-show="flip-right"
@@ -225,6 +226,12 @@ export default defineComponent({
         return `${age} anos`
       }
       return 'Sem informações'
+    },
+    async update(row: any) {
+      this.$router.push({
+        name: 'appointment-update-form',
+        params: { id: row.id },
+      })
     },
     async cancel(row: any) {
       try {

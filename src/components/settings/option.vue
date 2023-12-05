@@ -24,8 +24,8 @@ export default defineComponent({
       required: true,
     },
     href: {
-      type: String,
-      default: 'asd',
+      type: [String, Boolean],
+      default: false,
     },
     params: {
       type: Object,

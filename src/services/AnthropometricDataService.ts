@@ -52,6 +52,9 @@ export default {
       params,
     })
   },
+  show(id: string) {
+    return Api().get(`anthropometric-data/get/${id}`)
+  },
   post(AnthropometricData: AnthropometricData) {
     return Api().post('anthropometric-data/create', AnthropometricData, {
       headers: {

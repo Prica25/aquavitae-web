@@ -7,12 +7,20 @@
   >
     <template #right-header>
       <q-btn
-        class="btn"
+        outline
+        round
         color="primary"
-        label="Alterar Dados"
+        icon="fa-solid fa-pen"
         @click="update"
-        style="height: 56px"
-      />
+      >
+        <q-tooltip
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          style="font-size: 13px"
+        >
+          Alterar
+        </q-tooltip>
+      </q-btn>
     </template>
     <template #content>
       <div class="col-6" style="margin: 12px">
@@ -120,7 +128,7 @@ export default defineComponent({
     update() {
       this.$router.push({
         name: 'personal-data-update-form',
-        params: { user_id: this.user_id },
+        params: { id: this.user_id },
       })
     },
     formatDate(birthday: string | null) {

@@ -19,7 +19,6 @@
           v-for="user in users"
           :user="user"
           :personal-data="user.personalData"
-          @edit="edit"
           @delete="remove"
           @open-menu="openMenu"
           style="margin: 16px"

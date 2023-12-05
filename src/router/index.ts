@@ -21,6 +21,12 @@ const router = createRouter({
       component: () => import('@/views/appointment/forms/create.vue'),
     },
     {
+      path: '/appointment/update/:id',
+      name: 'appointment-update-form',
+      component: () => import('@/views/appointment/forms/update.vue'),
+      props: true,
+    },
+    {
       path: '/patient/list',
       name: 'patient',
       component: () => import('@/views/patient/list.vue'),
@@ -83,9 +89,25 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/menu-user/personal-data/update/:id',
+      name: 'personal-data-update-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/personalData/update.vue'),
+      props: true,
+    },
+    {
       path: '/menu-user/personal-data/:user_id',
       name: 'personal-data',
       component: () => import('@/views/patient/details/data/personalData.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/anthropometric-data/update/:id',
+      name: 'anthropometric-data-update-form',
+      component: () =>
+        import(
+          '@/views/patient/details/data/forms/anthropometricData/update.vue'
+        ),
       props: true,
     },
     {
@@ -105,6 +127,13 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/menu-user/antecedent/update/:id',
+      name: 'antecedent-update-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/antecedent/update.vue'),
+      props: true,
+    },
+    {
       path: '/menu-user/antecedent/new/:user_id',
       name: 'antecedent-create-form',
       component: () =>
@@ -115,6 +144,13 @@ const router = createRouter({
       path: '/menu-user/antecedent/:user_id',
       name: 'antecedent',
       component: () => import('@/views/patient/details/data/antecedent.vue'),
+      props: true,
+    },
+    {
+      path: '/menu-user/specificity/update/:id',
+      name: 'specificity-update-form',
+      component: () =>
+        import('@/views/patient/details/data/forms/specificity/update.vue'),
       props: true,
     },
     {
@@ -228,6 +264,12 @@ const router = createRouter({
       path: '/management/specificity-type',
       name: 'specificity-type',
       component: () => import('@/views/settings/specificityType/list.vue'),
+    },
+    {
+      path: '/management/user/update/:id',
+      name: 'user-update-form',
+      component: () => import('@/views/settings/user/forms/update.vue'),
+      props: true,
     },
     {
       path: '/management/user/new',
