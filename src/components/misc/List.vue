@@ -27,6 +27,7 @@
         >
           <template #actions="{ row }">
             <span>
+              <slot name="custom-actions" v-bind="{ row }"></slot>
               <q-icon
                 name="fa-solid fa-pencil"
                 color="secondary"
