@@ -20,10 +20,7 @@ export default defineComponent({
   },
   computed: {
     photoBase64() {
-      if (false && this.photo) {
-        return `data:image/jpeg;base64,${this.photo}`
-      }
-      return defaultUserImage.toString()
+      return this.photo || defaultUserImage.toString()
     },
   },
 })

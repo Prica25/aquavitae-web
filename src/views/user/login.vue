@@ -45,7 +45,8 @@
 import { defineComponent } from 'vue'
 import UserService from '@/services/UserService'
 import PersonalDataService from '@/services/PersonalDataService'
-
+import { openDialog } from 'vue3-promise-dialog'
+import ChangePassword from './changePassword.vue'
 import { useUserStore } from '@/stores/user'
 
 export default defineComponent({
@@ -72,10 +73,9 @@ export default defineComponent({
           let response = (await UserService.login(this.username, this.password))
             .data
 
-          // Falta código aqui para trocar a password gerada automaticamente
-          // if (!response.user.last_access) {
-          //   console.log('primeira vez')
-          // }
+          if (!response.user.last_access) {
+            openDialog(ChangePassword)
+          }
 
           this.store.login(response)
 

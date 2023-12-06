@@ -17,6 +17,7 @@
         style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
         <div class="box-default q-pa-xl text-center form-card">
+          <image-uploader v-model="object.profile_photo" :size="120" />
           <div class="row">
             <q-input
               outlined
@@ -66,7 +67,6 @@
             autocapitalize="off"
             autocomplete="off"
             spellcheck="false"
-            readonly
             @change="formChanged = true"
           />
           <q-select
@@ -134,8 +134,55 @@
             label-key="description"
             label="Nível de Atividade"
           />
+          <q-separator style="width: 100%; margin: 16px" />
+          <q-input
+            outlined
+            dense
+            v-model="oldPassword"
+            label="Password Atual"
+            type="password"
+            hide-bottom-space
+            :rules="object.password ? [
+              () => !wrongPassword || 'Password Errada',
+              (val: string) => (val && val.length > 0) || 'Preenchimento Obrigatório',
+            ]: []"
+            @change="formChanged = true"
+          />
+          <q-input
+            outlined
+            dense
+            v-model="object.password"
+            label="Nova Password"
+            type="password"
+            hide-bottom-space
+            @change="formChanged = true"
+            :rules="object.password ? [
+                (val: string) =>
+                  val.length >= 8 ||
+                  'A password deve ter mais de 8 caracteres',
+              ] : []"
+          />
+          <q-input
+            outlined
+            dense
+            v-model="repeatedPassword"
+            label="Confirmar Nova Password"
+            type="password"
+            hide-bottom-space
+            @change="formChanged = true"
+            :rules="object.password ? [
+              (val: string) =>
+                (val === object.password) ||
+                'As passwords são diferentes',
+            ]: []"
+          />
 
-          <q-btn color="primary" label="Registar" type="submit" />
+          <q-btn
+            color="primary"
+            label="Atualizar"
+            type="submit"
+            @click="() => (wrongPassword = false)"
+          />
         </div>
       </q-form>
     </template>
@@ -155,19 +202,18 @@ import ImageUploader from '@/components/misc/ImageUploader.vue'
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 import { validators, formatDate } from '@/utils'
 
+import { useUserStore } from '@/stores/user'
+
 export default defineComponent({
   components: {
     ImageUploader,
     Autocomplete,
   },
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
+      store: useUserStore(),
+      id: '',
+      oldPassword: null,
       repeatedPassword: null,
       breadcrumbs: [] as any[],
       formChanged: false,
@@ -182,10 +228,11 @@ export default defineComponent({
         bedtime: '',
         wake_up: '',
         password: '',
-        role: '',
         activity_level: '',
         profile_photo: '',
       },
+      originalObject: null,
+      wrongPassword: false,
     }
   },
   async created() {
@@ -196,13 +243,15 @@ export default defineComponent({
         href: 'user',
       },
       {
-        label: 'Atualizar',
-        href: 'user-update-form',
+        label: 'Novo',
+        href: 'user-create-form',
       }
     )
 
     this.genders = Object.values(GenderOptions)
     this.roles = [UserRoleOptions.ADMIN, UserRoleOptions.NUTRITIONIST]
+
+    this.id = this.store.user.id
 
     const user = (await UserService.show(this.id)).data
     const personalData = (await PersonalDataService.show(this.id)).data[0]
@@ -223,6 +272,8 @@ export default defineComponent({
 
     this.object.activity_level = personalData.activity_level.id
     this.object.profile_photo = user.profile_photo
+
+    this.originalObject = Object.assign({}, this.object)
   },
   methods: {
     isValidEmail(email: string) {
@@ -242,16 +293,58 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          let d = this.object.birthday.split('/')
-          await PersonalDataService.put(this.id, {
-            first_name: this.object.first_name,
-            last_name: this.object.last_name,
-            birthday: `${d[2]}-${d[1]}-${d[0]}`,
-            bedtime: this.object.bedtime,
-            wake_up: this.object.wake_up,
-            gender: this.object.gender,
-            activity_level: this.object.activity_level,
-          })
+          let userDiff = ['email', 'profile_photo'].reduce((pv, key) => {
+            if (this.originalObject[key] !== this.object[key])
+              pv[key] = this.object[key]
+            return pv
+          }, {})
+
+          if (Object.keys(userDiff).length) {
+            await UserService.put(userDiff)
+            this.store.updateUser((await UserService.show(this.id)).data)
+          }
+
+          let personalDataDiff = [
+            'first_name',
+            'last_name',
+            'birthday',
+            'bedtime',
+            'wake_up',
+            'gender',
+            'activity_level',
+          ].reduce((pv, key) => {
+            if (this.originalObject[key] !== this.object[key])
+              pv[key] = this.object[key]
+            return pv
+          }, {})
+
+          if (Object.keys(personalDataDiff).length) {
+            let d = this.object.birthday.split('/')
+            await PersonalDataService.put(this.id, {
+              first_name: this.object.first_name,
+              last_name: this.object.last_name,
+              birthday: `${d[2]}-${d[1]}-${d[0]}`,
+              bedtime: this.object.bedtime,
+              wake_up: this.object.wake_up,
+              gender: this.object.gender,
+              activity_level: this.object.activity_level,
+            })
+            await UserService.put(userDiff)
+            this.store.updatePersonalData(
+              (await PersonalDataService.show(this.id)).data[0]
+            )
+          }
+
+          if (this.object.password) {
+            try {
+              await UserService.login(this.object.email, this.oldPassword)
+              await UserService.put({ password: this.object.password })
+            } catch (err) {
+              this.wrongPassword = true
+              this.$refs.form.validate()
+            }
+          }
+
           this.$router.back()
         } catch (err) {
           console.log(err)

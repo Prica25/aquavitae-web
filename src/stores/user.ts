@@ -28,6 +28,9 @@ export const useUserStore = defineStore({
       this.expires_in = data.expires_in
       this.token_type = data.token_type
     },
+    updateUser(user: User) {
+      this.user = user
+    },
     updatePersonalData(personalData: PersonalData) {
       this.personalData = personalData
     },

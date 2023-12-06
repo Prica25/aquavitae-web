@@ -11,6 +11,11 @@ const router = createRouter({
       meta: { layout: 'Clean' },
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/user/forms/update.vue'),
+    },
+    {
       path: '/appointment/list',
       name: 'appointment',
       component: () => import('@/views/appointment/list.vue'),

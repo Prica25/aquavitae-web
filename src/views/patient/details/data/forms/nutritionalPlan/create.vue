@@ -235,6 +235,9 @@ export default defineComponent({
           }
 
           let d = this.maxDate.split('/')
+          let firstDay = formatDate(this.visibleDay, { showHour: false }).split(
+            '/'
+          )
           nutritionalPlan = (
             await NutritionalPlanService.post({
               period_limit: this.period,
@@ -243,7 +246,7 @@ export default defineComponent({
               active: true,
               meals_of_plan: this.meals.map((m) => ({
                 meals_of_plan: m.id,
-                meal_date: '2023-12-04',
+                meal_date: `${firstDay[2]}-${firstDay[1]}-${firstDay[0]}`,
               })),
               user: this.user_id,
             })

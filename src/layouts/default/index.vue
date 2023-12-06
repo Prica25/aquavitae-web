@@ -56,9 +56,9 @@
     <q-page-container class="home-section">
       <q-header class="header row items-center">
         <q-space />
-        <q-btn class="notification-btn" flat round icon="fa-solid fa-bell">
+        <!-- <q-btn class="notification-btn" flat round icon="fa-solid fa-bell">
           <q-badge floating color="warning" rounded style="width: 12px" />
-        </q-btn>
+        </q-btn> -->
         <q-separator vertical inset />
         <q-btn-dropdown
           class="header-menu"
@@ -76,8 +76,10 @@
             </div>
           </template>
           <q-list>
-            <q-item clickable v-close-popup>
-              <q-item-section class="text-center">Preferências</q-item-section>
+            <q-item clickable @click="$router.push('/profile')" v-close-popup>
+              <q-item-section class="text-center">
+                Dados Pessoais
+              </q-item-section>
             </q-item>
             <q-separator style="margin: 0 16px" />
             <q-item

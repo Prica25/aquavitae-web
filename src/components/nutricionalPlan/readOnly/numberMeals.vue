@@ -1,12 +1,12 @@
 <template>
   <div
-    class="row number-meals box-default"
+    class="q-pa-md row number-meals box-default"
     style="width: 100%; background: var(--q-primary)"
   >
     <span>
       {{ period }}
     </span>
-    <q-separator vertical style="margin: 0 8px" />
+    <q-separator vertical style="margin: 0 8px" dark />
     Válido até:
     <span style="font-size: 14px; margin-left: 4px">
       {{ validateDate }}
@@ -15,7 +15,7 @@
     <span style="font-size: 14px">
       {{ numberMeals }}
     </span>
-    <q-separator vertical style="margin: 0 8px" />
+    <q-separator vertical style="margin: 0 8px" dark />
     <span style="font-size: 14px">
       <q-icon
         :color="dateIndex > 0 ? 'white' : 'secondary'"
@@ -105,10 +105,10 @@ export default defineComponent({
 
 <style scoped>
 .number-meals {
-  height: 60px;
+  /* height: 60px; */
   background: var(--q-primary);
   align-items: center;
-  padding: 0 15px;
+  /* padding: 0 15px; */
   margin: 20px 0;
   color: white;
 }

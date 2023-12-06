@@ -56,8 +56,8 @@ export default {
       })
     }
   },
-  put(id: string, user: User) {
-    return Api().patch(`user/update/${id}`, user, {
+  put(user: User) {
+    return Api().patch(`user/update`, user, {
       headers: {
         'Content-Type': 'application/json',
       },

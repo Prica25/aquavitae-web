@@ -143,7 +143,7 @@
             :rules="[
               (val: string) =>
                 (val && val.length >= 8) ||
-                'Password must be at least 8 characters',
+                'A password deve ter mais de 8 caracteres',
             ]"
             hide-bottom-space
             @change="formChanged = true"

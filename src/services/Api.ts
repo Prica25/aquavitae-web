@@ -24,7 +24,9 @@ export default () => {
 
       if (
         error.response?.data?.status_code === 401 &&
-        error.response?.data?.detail?.find((m: DetailError) => m.msg)
+        error.response?.data?.detail?.find(
+          (m: DetailError) => m.msg === 'Invalid credentials.'
+        ) === -1
       ) {
         router.push('/login')
       }

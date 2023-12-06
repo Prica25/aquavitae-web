@@ -1,5 +1,5 @@
 <template>
-  <div class="row number-meals box-default" style="width: 100%">
+  <div class="q-pa-md row number-meals box-default" style="width: 100%">
     <q-select
       outlined
       v-model="period"
@@ -10,9 +10,11 @@
       label="Tipo de Plano"
       emit-value
       map-options
-      style="width: 200px"
+      style="width: 150px"
+      dark
+      color="white"
     />
-    <q-separator vertical style="margin: 0 8px" />
+    <q-separator vertical style="margin: 0 8px" dark />
     <q-input
       outlined
       dense
@@ -20,6 +22,8 @@
       label="Validade"
       mask="##/##/####"
       style="width: 150px"
+      dark
+      color="white"
     >
       <q-popup-proxy
         transition-show="scale"
@@ -43,8 +47,32 @@
       dense
       emit-value
       map-options
-      style="width: 200px"
+      style="min-width: 120px"
+      dark
+      color="white"
     />
+    <q-separator vertical style="margin: 0 8px" dark />
+    <span style="font-size: 14px">
+      <q-icon
+        :color="dateIndex > 0 ? 'white' : 'secondary'"
+        name="fa-solid fa-chevron-left"
+        :style="{
+          marginRight: '8px',
+          cursor: dateIndex > 0 ? 'pointer' : 'not-allowed',
+        }"
+        @click="dateIndex > 0 ? prevDate() : undefined"
+      />
+      {{ date }}
+      <q-icon
+        :color="dateIndex < dates.length - 1 ? 'white' : 'secondary'"
+        name="fa-solid fa-chevron-right"
+        :style="{
+          marginRight: '8px',
+          cursor: dateIndex < dates.length - 1 ? 'pointer' : 'not-allowed',
+        }"
+        @click="dateIndex < dates.length - 1 ? nextDate() : undefined"
+      />
+    </span>
   </div>
 </template>
 <script lang="ts">
@@ -69,6 +97,7 @@ export default defineComponent({
       calendarSettings: {
         locale: CalendarLocale,
       },
+      dates: [],
     }
   },
   created() {
@@ -123,15 +152,15 @@ export default defineComponent({
 
 <style scoped>
 .number-meals {
-  height: 60px;
-  background: white;
+  /* height: 60px; */
+  background: var(--q-primary);
   align-items: center;
-  padding: 0 15px;
+  /* padding: 0 15px; */
   margin: 20px 0;
+  color: white;
 }
 
 .number-meals > span {
-  color: #646464;
   font-weight: bold;
   font-size: 16px;
 }
