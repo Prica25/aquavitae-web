@@ -32,6 +32,32 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/appointment-menu/biochemical-data/update/:id',
+      name: 'biochemical-data-update-form',
+      component: () =>
+        import('@/views/appointment/menu/forms/biochemicalData/update.vue'),
+      props: true,
+    },
+    {
+      path: '/appointment-menu/biochemical-data/new/:appointment_id',
+      name: 'biochemical-data-create-form',
+      component: () =>
+        import('@/views/appointment/menu/forms/biochemicalData/create.vue'),
+      props: true,
+    },
+    {
+      path: '/appointment-menu/biochemical-data/:appointment_id',
+      name: 'biochemical-data',
+      component: () => import('@/views/appointment/menu/biochemicalData.vue'),
+      props: true,
+    },
+    {
+      path: '/appointment-menu/:appointment_id',
+      name: 'appointment-menu',
+      component: () => import('@/views/appointment/menu/main.vue'),
+      props: true,
+    },
+    {
       path: '/patient/list',
       name: 'patient',
       component: () => import('@/views/patient/list.vue'),

@@ -21,7 +21,7 @@
           Completar Automaticamente
         </q-tooltip>
       </q-icon>
-      <q-icon
+      <!-- <q-icon
         v-if="nutritionalPlan"
         name="fa-solid fa-pen"
         color="primary"
@@ -35,7 +35,7 @@
         >
           Alterar
         </q-tooltip>
-      </q-icon>
+      </q-icon> -->
       <q-btn
         class="btn"
         color="primary"

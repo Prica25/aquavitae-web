@@ -64,9 +64,11 @@
       <template #actions="{ row }">
         <span style="font-size: 16px">
           <q-icon
+            v-if="row.status !== 'CANCELLED'"
             name="fa-solid fa-user-check"
             color="positive"
             style="cursor: pointer; margin: 0 8px"
+            @click="open(row)"
           >
             <q-tooltip
               transition-show="flip-right"
@@ -78,6 +80,7 @@
           </q-icon>
 
           <q-icon
+            v-if="row.status === 'SCHEDULED'"
             name="fa-solid fa-user-clock"
             color="warning"
             style="cursor: pointer; margin: 0 8px"
@@ -92,6 +95,7 @@
             </q-tooltip>
           </q-icon>
           <q-icon
+            v-if="row.status === 'SCHEDULED'"
             name="fa-solid fa-user-times"
             color="negative"
             style="cursor: pointer; margin: 0 2px 0 8px"
@@ -226,6 +230,12 @@ export default defineComponent({
         return `${age} anos`
       }
       return 'Sem informações'
+    },
+    open(row: any) {
+      this.$router.push({
+        name: 'appointment-menu',
+        params: { appointment_id: row.id },
+      })
     },
     async update(row: any) {
       this.$router.push({

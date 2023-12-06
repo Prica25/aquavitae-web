@@ -6,9 +6,8 @@ export default {
   index(
     page: number,
     itemsPerPage: number,
-    sort = 'total_cholesterol:ASC',
-    columns = 'total_cholesterol' as string | string[],
-    filter = null as string | null
+    appointment_id: string,
+    columns = ['total_proteins'] as string | string[]
   ) {
     const params = new URLSearchParams()
 
@@ -21,16 +20,8 @@ export default {
     }
     params.append('skip', page.toString())
     params.append('take', itemsPerPage.toString())
-    params.append('sort', sort)
-    if (filter) {
-      if (Array.isArray(filter)) {
-        for (const fil of filter) {
-          params.append('search', fil)
-        }
-      } else {
-        params.append('search', filter)
-      }
-    }
+    params.append('sort', 'total_proteins:DESC')
+    params.append('search', `appointment_id:${appointment_id}`)
 
     return Api().get(`biochemical-data/get`, {
       params,

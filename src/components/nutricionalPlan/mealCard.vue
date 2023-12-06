@@ -116,7 +116,6 @@ import CustomTable from '@/components/misc/CustomTable.vue'
 import ItemService from '@/services/ItemService'
 import TypeOfMealService from '@/services/TypeOfMealService'
 
-import type Food from '@/types/Food'
 import type TypeOfMeal from '@/types/TypeOfMeal'
 
 export default defineComponent({
