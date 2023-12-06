@@ -94,7 +94,8 @@
                   v-model="food.amount_grams"
                   label="Quantidade"
                   :rules="[
-                    (val) => (val && val.length > 0) || 'Campo Obrigatório',
+                    (val) =>
+                      (val && val.toString().length > 0) || 'Campo Obrigatório',
                   ]"
                   autocorrect="off"
                   autocapitalize="off"
@@ -119,6 +120,7 @@ import { defineComponent } from 'vue'
 import Autocomplete from '@/components/misc/autocompleteSearch.vue'
 
 import ItemService from '@/services/ItemService'
+import TypeOfMealService from '@/services/TypeOfMealService'
 
 export default defineComponent({
   components: {
@@ -144,11 +146,16 @@ export default defineComponent({
   async created() {
     const object = (await ItemService.show(this.id)).data
 
-    // this.object.description = object.description
-    // this.object.foods = object.foods.map((f) => ({
-    //   food: f.food.id,
-    //   amount_grams: f.amount_grams,
-    // }))
+    this.object.description = object.description
+    this.object.foods = object.foods.map((f) => ({
+      food: f.food.id,
+      amount_grams: f.amount_grams,
+    }))
+    let cea = []
+    for (const canEatAt of object.can_eat_at) {
+      cea.push((await TypeOfMealService.show(canEatAt.type_of_meal)).data)
+    }
+    this.object.can_eat_at = cea
     // this.object.can_eat_at = console.log(object)
   },
   methods: {
@@ -179,7 +186,7 @@ export default defineComponent({
     async save() {
       if (await this.$confirmation('save')) {
         try {
-          await ItemService.post({
+          await ItemService.put(this.id, {
             ...this.object,
             can_eat_at: this.object.can_eat_at.map((value) => value.id),
           })
