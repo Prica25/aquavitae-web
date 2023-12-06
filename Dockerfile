@@ -19,4 +19,4 @@ RUN npm run build
 
 # start app
 EXPOSE 49160
-CMD ["serve", "dist/", "-l", "49160"]
+CMD ["serve", "-s", "dist/", "-l", "49160"]
