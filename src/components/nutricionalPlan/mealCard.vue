@@ -124,14 +124,13 @@ export default defineComponent({
     CustomTable,
   },
   emits: ['update:modelValue'],
-  props: ['modelValue'],
+  props: ['modelValue', 'visibleDay'],
   data() {
     return {
       search: null as string | null,
       item_id: undefined as string | undefined,
       typeSelected: null as TypeOfMeal | null,
       typeOfMeals: [] as TypeOfMeal[],
-      items: [] as any[],
       date: null,
       columns: [
         {
@@ -215,10 +214,24 @@ export default defineComponent({
         return this.$emit('update:modelValue', val)
       },
     },
+    items: {
+      get() {
+        return this.mealOfPlan.mealsOptions[this.visibleDay] || []
+      },
+      set(value: any) {
+        this.mealOfPlan = {
+          ...this.mealOfPlan,
+          mealsOptions: {
+            ...this.mealOfPlan.mealsOptions,
+            [this.visibleDay]: value,
+          },
+        }
+      },
+    },
   },
   methods: {
     calculateAmount(row: any) {
-      const item = this.items.find((item) => item.id === row.parent_id)
+      const item = this.items.find((item: any) => item.id === row.parent_id)
       return (item?.amount || 0) * row.amount_grams
     },
     calculateGrams(row: any, key: string) {
@@ -228,14 +241,12 @@ export default defineComponent({
       const item = (await ItemService.show(id)).data
       this.items = [...this.items, { ...item, amount: 1 }]
       this.item_id = undefined
-      this.mealOfPlan = { ...this.mealOfPlan, mealsOptions: this.items }
     },
     view(id: string): void {
       alert('Mostrar dados do alimento')
     },
     remove(id: string): void {
-      this.items = this.items.filter((o) => o.id === id)
-      this.mealOfPlan = { ...this.mealOfPlan, mealsOptions: this.items }
+      this.items = this.items.filter((o: any) => o.id === id)
     },
   },
 })

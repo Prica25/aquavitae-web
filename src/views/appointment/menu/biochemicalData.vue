@@ -5,7 +5,7 @@
     vertical-alignment="center"
   >
     <template #right-header>
-      <q-icon
+      <!-- <q-icon
         name="fa-solid fa-pen"
         color="primary"
         size="18px"
@@ -19,7 +19,7 @@
         >
           Alterar
         </q-tooltip>
-      </q-icon>
+      </q-icon> -->
       <q-btn
         class="btn"
         color="primary"

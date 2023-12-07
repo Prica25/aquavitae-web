@@ -137,76 +137,83 @@ export default defineComponent({
       }
     )
 
-    const nutitionalPlan = (
-      await NutritionalPlanService.index(
-        1,
-        1,
-        'validate_date:DESC',
-        [
-          'validate_date',
-          'calories_limit',
-          'proteins_limit',
-          'lipids_limit',
-          'carbohydrates_limit',
-          'period_limit',
-          'active',
-        ],
-        `user_id:${this.user_id}`
-      )
-    ).data
-
-    this.nutritionalPlan = nutitionalPlan.data[0]
-    if (this.nutritionalPlan) {
-      this.maxDate = formatDate(this.nutritionalPlan.validate_date, {
-        showHour: false,
-      })
-      this.period = this.nutritionalPlan.period_limit
-
-      const nutritional_plan_id = nutitionalPlan.data[0].id
-
-      let meals = (
-        await NutritionalPlanHasMealService.index(
-          1,
-          1,
-          'meal_date:ASC',
-          ['meal_date', 'meals_of_plan'],
-          `nutritional_plan_id:${nutritional_plan_id}`
-        )
-      ).data
-
-      meals = (
-        await NutritionalPlanHasMealService.index(
-          1,
-          meals.count,
-          'meal_date:ASC',
-          ['meal_date', 'meals_of_plan'],
-          `nutritional_plan_id:${nutritional_plan_id}`
-        )
-      ).data
-
-      meals = meals.data.reduce((pv: any, cv: any) => {
-        if (this.availableDates.indexOf(cv.meal_date) === -1)
-          this.availableDates.push(cv.meal_date)
-
-        let obj = pv.find((v: any) => v.id === cv.meals_of_plan.id)
-        if (obj) {
-          obj.has_meals.push({ id: cv.id, meal_date: cv.meal_date })
-        } else {
-          pv.push({
-            ...cv.meals_of_plan,
-            has_meals: [{ id: cv.id, meal_date: cv.meal_date }],
-          })
-        }
-        return pv
-      }, [])
-
-      this.availableDates.sort()
-      this.visibleDay = this.availableDates[0]
-      this.meals = meals
-      this.numberOfMeals = this.meals.length
-    }
+    this.getData()
   },
   methods: {
+    async getData() {
+      const nutitionalPlan = (
+        await NutritionalPlanService.index(
+          1,
+          1,
+          'validate_date:DESC',
+          [
+            'validate_date',
+            'calories_limit',
+            'proteins_limit',
+            'lipids_limit',
+            'carbohydrates_limit',
+            'period_limit',
+            'active',
+          ],
+          `user_id:${this.user_id}`
+        )
+      ).data
+
+      this.nutritionalPlan = nutitionalPlan.data[0]
+      if (this.nutritionalPlan) {
+        this.maxDate = formatDate(this.nutritionalPlan.validate_date, {
+          showHour: false,
+        })
+        this.period = this.nutritionalPlan.period_limit
+
+        const nutritional_plan_id = nutitionalPlan.data[0].id
+
+        let meals = (
+          await NutritionalPlanHasMealService.index(
+            1,
+            1,
+            'meal_date:ASC',
+            ['meal_date', 'meals_of_plan'],
+            `nutritional_plan_id:${nutritional_plan_id}`
+          )
+        ).data
+
+        meals = (
+          await NutritionalPlanHasMealService.index(
+            1,
+            meals.count,
+            'meal_date:ASC',
+            ['meal_date', 'meals_of_plan'],
+            `nutritional_plan_id:${nutritional_plan_id}`
+          )
+        ).data
+
+        meals = meals.data.reduce((pv: any, cv: any) => {
+          if (this.availableDates.indexOf(cv.meal_date) === -1)
+            this.availableDates.push(cv.meal_date)
+
+          let obj = pv.find((v: any) => v.id === cv.meals_of_plan.id)
+          if (obj) {
+            obj.has_meals.push({ id: cv.id, meal_date: cv.meal_date })
+          } else {
+            pv.push({
+              ...cv.meals_of_plan,
+              has_meals: [{ id: cv.id, meal_date: cv.meal_date }],
+            })
+          }
+          return pv
+        }, [])
+
+        meals = meals.sort((a: any, b: any) =>
+          a.start_time.localeCompare(b.start_time)
+        )
+
+        this.availableDates.sort()
+        this.visibleDay = this.availableDates[0]
+        this.meals = meals
+        this.numberOfMeals = this.meals.length
+      }
+    },
     add() {
       this.$router.push({
         name: 'nutritional-plan-create-form',
@@ -216,10 +223,26 @@ export default defineComponent({
     async completeNutritionalPlan() {
       if (await this.$confirmation('complete')) {
         try {
+          const notif = this.$q.notify({
+            group: false,
+            spinner: true,
+            message: 'A completar...',
+            position: 'bottom',
+            timeout: 0,
+          })
           await RecommendationSystemService.complete(
             this.user_id,
             this.nutritionalPlan.id
           )
+          notif({
+            spinner: false,
+            color: 'positive',
+            icon: 'fa-solid fa-circle-check',
+            message: 'Concluído',
+            timeout: 500,
+          })
+
+          this.getData()
         } catch (err) {
           console.log(err)
         }

@@ -29,14 +29,20 @@
           :anthropometric-data="anthroData"
           :meals="meals"
           :personal-data="personalData"
+          :visible-day="visibleDay"
         />
         <NumberMeals
           v-model:type="period"
           v-model:meals="numberOfMeals"
           v-model:validate-date="maxDate"
+          v-model:visible-day="visibleDay"
           :recommended-meals="getRecommendedNumberMeals()"
         />
-        <MealCard v-model="meals[i]" v-for="(meal, i) in meals" />
+        <MealCard
+          v-model="meals[i]"
+          v-for="(meal, i) in meals"
+          :visible-day="visibleDay"
+        />
       </div>
     </template>
   </base-page>
@@ -82,9 +88,11 @@ export default defineComponent({
       anthroData: {} as AnthropometricData,
       mealData: [],
       itemList: [] as any[],
-      period: undefined as string | undefined,
-      maxDate: formatDate(new Date(Date.now() + 60 * 60 * 24 * 1000)),
-      visibleDay: new Date(Date.now() + 60 * 60 * 24 * 1000),
+      period: 'DAILY',
+      maxDate: formatDate(new Date(Date.now() + 60 * 60 * 24 * 1000), {
+        showHour: false,
+      }),
+      visibleDay: '',
       numberOfDays: 1,
       limits: {
         calories_limit: 0,
@@ -235,31 +243,28 @@ export default defineComponent({
           }
 
           let d = this.maxDate.split('/')
-          let firstDay = formatDate(this.visibleDay, { showHour: false }).split(
-            '/'
-          )
+
           nutritionalPlan = (
             await NutritionalPlanService.post({
               period_limit: this.period,
               ...this.limits,
               validate_date: `${d[2]}-${d[1]}-${d[0]}`,
               active: true,
-              meals_of_plan: this.meals.map((m) => ({
-                meals_of_plan: m.id,
-                meal_date: `${firstDay[2]}-${firstDay[1]}-${firstDay[0]}`,
-              })),
               user: this.user_id,
             })
           ).data
 
           for (let meal of this.meals) {
-            for (const option of meal.mealsOptions) {
-              await MealsOptionsService.post({
-                item: option.id,
-                amount: option.amount,
-                nutritional_plan: nutritionalPlan.id,
-                meals_of_plan: meal.id,
-              })
+            for (let date in meal.mealsOptions) {
+              for (const option of meal.mealsOptions[date]) {
+                await MealsOptionsService.post({
+                  item: option.id,
+                  amount: option.amount,
+                  nutritional_plan: nutritionalPlan.id,
+                  meals_of_plan: meal.id,
+                  meal_date: date.split('/').reverse().join('-'),
+                })
+              }
             }
           }
 

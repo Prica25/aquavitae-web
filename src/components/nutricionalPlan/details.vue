@@ -147,6 +147,9 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    visibleDay: {
+      type: String,
+    },
   },
   computed: {
     actualEnergyValue(): any {
@@ -262,13 +265,15 @@ export default defineComponent({
       let totalMin = 0
 
       this.meals.forEach((meal: any) => {
-        const sums = meal.mealsOptions.map((option: any) => {
-          const sum = option.foods.reduce((pv: number, food: any) => {
-            const multipliedAmount = (food.amount_grams * option.amount) / 100
-            return pv + food.food[key] * multipliedAmount
-          }, 0)
-          return sum
-        })
+        const sums = (meal.mealsOptions[this.visibleDay] || []).map(
+          (option: any) => {
+            const sum = option.foods.reduce((pv: number, food: any) => {
+              const multipliedAmount = (food.amount_grams * option.amount) / 100
+              return pv + food.food[key] * multipliedAmount
+            }, 0)
+            return sum
+          }
+        )
 
         const max = sums.length > 0 ? Math.max(...sums) : 0
         const min = sums.length > 0 ? Math.min(...sums) : 0
