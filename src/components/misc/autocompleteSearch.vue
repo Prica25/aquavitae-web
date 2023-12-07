@@ -85,6 +85,7 @@ export default defineComponent({
   },
   async mounted() {
     this.SERVICE = (await this.SERVICE).default
+
     let response = (
       await this.SERVICE.index(
         this.pagination.page,
@@ -100,6 +101,12 @@ export default defineComponent({
     this.pagination.rowsNumber = response.count
     this.pagination.pagesNumber = response.last_page
     this.options = Object.freeze(response.data)
+    if (this.modelValue && typeof this.modelValue === 'string') {
+      this.options = [
+        ...this.options,
+        (await this.SERVICE.show(this.modelValue)).data,
+      ]
+    }
     this.isLoading = false
   },
   computed: {

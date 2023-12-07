@@ -21,7 +21,7 @@
           style="min-width: 50vw"
         >
           <div class="row" style="width: 100%">
-            <div class="col mg">
+            <div class="col">
               <q-input
                 outlined
                 dense
@@ -69,8 +69,8 @@
                 </div>
               </div>
             </div>
-            <q-separator vertical />
-            <div class="col mg">
+            <q-separator vertical style="margin: 0 12px" />
+            <div class="col">
               <q-btn
                 flat
                 color="primary"
@@ -78,7 +78,11 @@
                 label="Adicionar alimentos"
                 @click="addFood"
               />
-              <div class="row" v-for="food in object.foods">
+              <div
+                class="row"
+                v-for="food in object.foods"
+                style="margin: 8px 0"
+              >
                 <autocomplete
                   v-model="food.food"
                   label="Alimento"
@@ -87,6 +91,7 @@
                   label-key="description"
                   multi
                   :rules="[() => !!food.food || 'Campo Obrigatório']"
+                  style="width: 300px"
                 />
                 <q-input
                   outlined
@@ -103,6 +108,7 @@
                   spellcheck="false"
                   @change="formChanged = true"
                   hide-bottom-space
+                  style="width: 75px; margin-left: 12px"
                 />
               </div>
             </div>
